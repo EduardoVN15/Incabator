@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- This tag makes the page responsive, meaning it will adjust its layout to look good on all devices. -->
 
-    <title>Registration Form (chnage 1)</title>
+    <title>Registration Form</title>
     <!-- The text inside <title> tags will appear as the name of the tab in the browser. -->
 
     <!-- Bootstrap CSS -->
