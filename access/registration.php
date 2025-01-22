@@ -32,7 +32,7 @@
             <!-- This <div> is for the registration form. 
                  It groups all the form elements together and applies the class 'registration-form' for styling. -->
 
-            <h2 class="registration-title">Create Account</h2>
+            <h2 class="registration-title">Create Account (chnage 1)</h2>
             <!-- This is a header (title) for the form. 
                  'class="registration-title"' can be used to style this specific header differently. -->
 
