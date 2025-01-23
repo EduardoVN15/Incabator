@@ -6,6 +6,6 @@
 </head>
 
 <body>
-	<p>Lily  1/22!!</p>
+	<p>Lily  1/22!</p>
 </body>
 </html>
