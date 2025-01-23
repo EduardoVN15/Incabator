@@ -12,6 +12,7 @@
         <p>Please choose an option below:</p>
         <a href="/access/registration.php" class="button">Register</a>
         <a href="/access/login.php" class="button">Login</a>
+<!--Sophia-->
     </div>
 </body>
 </html>
