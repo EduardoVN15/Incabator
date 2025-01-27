@@ -39,13 +39,24 @@ try {
         // Load saved data
         $studentData = isset($_SESSION['student_data']) ? $_SESSION['student_data'] : [];
     ?>
-    <style>
+     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header, footer {
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        main {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            line-height: 1.6;
         }
         h1 {
             text-align: center;
