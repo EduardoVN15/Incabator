@@ -14,7 +14,7 @@
         <a href="/access/login.php" class="button">Login</a>
 <!--Sophia-->
 <!--Lily-->
-<!--Eduardo-->
+<!--Eduardo 11/15-->
 <!--Danica-->
     </div>
 </body>
