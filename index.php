@@ -13,7 +13,7 @@
         <a href="/access/registration.php" class="button">Register</a>
         <a href="/access/login.php" class="button">Login</a>
 <!--Sophia-->
-<!--Lily-->
+<!--Lily-- 4/24>
 <!--Eduardo 11/15-->
 <!--Danica 12/05-->
     </div>
