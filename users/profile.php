@@ -151,10 +151,8 @@ try {
                     <td>Counselor Name</td>
                     <td><input type="text" name="student_data[counselor_name]" value="<?php echo htmlspecialchars($studentData['counselor_name'] ?? ''); ?>" <?php echo !$isEditMode ? 'disabled' : ''; ?>></td>
                 </tr>
-                <tr>
-                    <td>Semester</td>
-                    <td><input type="text" name="student_data[semester]" value="<?php echo htmlspecialchars($studentData['semester'] ?? ''); ?>" <?php echo !$isEditMode ? 'disabled' : ''; ?>></td>
-                </tr>
+				
+
             </table>
         </div>
 
