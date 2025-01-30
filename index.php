@@ -12,7 +12,7 @@
         <p>Please choose an option below:</p>
         <a href="/access/registration.php" class="button">Register</a>
         <a href="/access/login.php" class="button">Login</a>
-<!--Sophia-->
+<!--Sophia 05/24-->
 <!--Lily-- 4/24>
 <!--Eduardo 11/15-->
 <!--Danica 12/05-->
