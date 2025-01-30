@@ -127,27 +127,38 @@ if (!isset($_SESSION['user_id'])) {
         <div class="container">
             <h2 class="text-center mb-5">Our Key Features</h2>
             <div class="row">
-                <div class="col-md-4 mb-4">
+                
+				<div class="col-md-4 mb-4">
                     <div class="feature-card h-100 text-center">
-                        <div class="feature-icon">🚀</div>
-                        <h3>Map</h3>
-                        <p>learn to navigate</p>
+                        <div class="feature-icon">🔒</div>
+                        <h3>Registration</h3>
+                        <p>Begin Your Journey</p>
                     </div>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <div class="feature-card h-100 text-center">
-                        <div class="feature-icon">📊</div>
-                        <h3>Profile</h3>
-                        <p>input your schedule</p>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
+				
+				<div class="col-md-4 mb-4">
                     <div class="feature-card h-100 text-center">
                         <div class="feature-icon">🔒</div>
                         <h3>Login</h3>
                         <p>Access the land</p>
                     </div>
                 </div>
+				
+				 <div class="col-md-4 mb-4">
+                    <div class="feature-card h-100 text-center">
+                        <div class="feature-icon">📊</div>
+                        <h3>Profile</h3>
+                        <p>input your schedule</p>
+                    </div>
+                </div>
+				
+				<div class="col-md-4 mb-4">
+                    <div class="feature-card h-100 text-center">
+                        <div class="feature-icon">🚀</div>
+                        <h3>Map</h3>
+                        <p>learn to navigate</p>
+                    </div>
+				</div>
             </div>
         </div>
     </section>
