@@ -147,11 +147,13 @@ if (!isset($_SESSION['user_id'])) {
                 </div>
 				
 				 <div class="col-md-4 mb-4">
+					 <a href="/users/profile.php" class="text-decoration-none">
                     <div class="feature-card h-100 text-center">
                         <div class="feature-icon">📊</div>
                         <h3>Profile</h3>
                         <p>input your schedule</p>
                     </div>
+					 </a>
                 </div>
 				
 				<div class="col-md-4 mb-4">
