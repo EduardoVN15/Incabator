@@ -129,12 +129,14 @@ if (!isset($_SESSION['user_id'])) {
             <div class="row">
                 
 				<div class="col-md-4 mb-4">
+                <a href="/access/registration.php" class="text-decoration-none">
                     <div class="feature-card h-100 text-center">
                         <div class="feature-icon">🔒</div>
                         <h3>Registration</h3>
                         <p>Begin Your Journey</p>
                     </div>
-                </div>
+                </a>
+            </div>
 				
 				<div class="col-md-4 mb-4">
                     <div class="feature-card h-100 text-center">
