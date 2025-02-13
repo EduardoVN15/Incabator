@@ -167,6 +167,16 @@ if (!isset($_SESSION['user_id'])) {
                     </div>
 					</a>
 				</div>
+				
+				<div class="col-md-4 mb-4">
+					 <a href="/users/schedule.php" class="text-decoration-none">
+                    <div class="feature-card h-100 text-center">
+                        <div class="feature-icon">🚀</div>
+                        <h3>schedule</h3>
+                        <p>learn to navigate</p>
+                    </div>
+					</a>
+				</div>
             </div>
         </div>
     </section>
