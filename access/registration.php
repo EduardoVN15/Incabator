@@ -32,13 +32,22 @@
             <!-- This <div> is for the registration form. 
                  It groups all the form elements together and applies the class 'registration-form' for styling. -->
 
-            <h2 class="registration-title">Create Account (chnage 1)</h2>
+            <h2 class="registration-title">Create Account</h2>
             <!-- This is a header (title) for the form. 
                  'class="registration-title"' can be used to style this specific header differently. -->
 
            <form method="POST" action="/access/regHandler.php">
     <label for="username">Username:</label>
     <input type="text" name="username" id="username" required><br>
+			   
+	<label for="gradeLevel">Gradelevel:</label>
+    <input type="text" name="gradeLevel" id="gradeLevel" required><br>
+			   
+	 <label for="studentId">studentId:</label>
+    <input type="text" name="studentId" id="studentId" required><br>
+			   
+	 <label for="counselorName">counselorName:</label>
+    <input type="text" name="counselorName" id="counselorName" required><br>
 
     <label for="email">Email:</label>
     <input type="email" name="email" id="email" required><br>
