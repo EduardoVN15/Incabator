@@ -40,13 +40,13 @@
     <label for="username">Username:</label>
     <input type="text" name="username" id="username" required><br>
 			   
-	<label for="gradeLevel">Gradelevel:</label>
+	<label for="gradeLevel">Grade Level:</label>
     <input type="text" name="gradeLevel" id="gradeLevel" required><br>
 			   
-	 <label for="studentId">studentId:</label>
+	 <label for="studentId">Student Id:</label>
     <input type="text" name="studentId" id="studentId" required><br>
 			   
-	 <label for="counselorName">counselorName:</label>
+	 <label for="counselorName">Counselor Name:</label>
     <input type="text" name="counselorName" id="counselorName" required><br>
 
     <label for="email">Email:</label>
