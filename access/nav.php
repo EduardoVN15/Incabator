@@ -22,7 +22,7 @@ session_start();
 
     /* Basic styling for the navigation bar */
     nav {
-        background-color: #333;
+        background-color: #0F1158;
         padding: 1rem;
     }
     nav ul {

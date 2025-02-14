@@ -14,7 +14,7 @@ if (!isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campus Navigator - Home</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
 	<?php 
 		session_start();
 		include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
@@ -22,11 +22,11 @@ if (!isset($_SESSION['user_id'])) {
 
   <style>
         :root {
-            --primary-color: #6a0dad;
-            --secondary-color: #ff4500;
+            --primary-color: #003F88;
+            --secondary-color: #49E1FF;
             --accent-color: #1e88e5;
-            --gradient-start: #6a0dad;
-            --gradient-end: #ff4500;
+            --gradient-start: #001DD1;
+            --gradient-end: #FFB446;
         }
 
         body {
@@ -139,27 +139,43 @@ if (!isset($_SESSION['user_id'])) {
             </div>
 				
 				<div class="col-md-4 mb-4">
+					<a href="/access/login.php" class="text-decoration-none">
                     <div class="feature-card h-100 text-center">
                         <div class="feature-icon">🔒</div>
                         <h3>Login</h3>
                         <p>Access the land</p>
                     </div>
+					</a>
                 </div>
 				
 				 <div class="col-md-4 mb-4">
+					 <a href="/users/profile.php" class="text-decoration-none">
                     <div class="feature-card h-100 text-center">
                         <div class="feature-icon">📊</div>
                         <h3>Profile</h3>
                         <p>input your schedule</p>
                     </div>
+					 </a>
                 </div>
 				
 				<div class="col-md-4 mb-4">
+					 <a href="/map/map.php" class="text-decoration-none">
                     <div class="feature-card h-100 text-center">
                         <div class="feature-icon">🚀</div>
                         <h3>Map</h3>
                         <p>learn to navigate</p>
                     </div>
+					</a>
+				</div>
+				
+				<div class="col-md-4 mb-4">
+					 <a href="/users/schedule.php" class="text-decoration-none">
+                    <div class="feature-card h-100 text-center">
+                        <div class="feature-icon">🚀</div>
+                        <h3>schedule</h3>
+                        <p>learn to navigate</p>
+                    </div>
+					</a>
 				</div>
             </div>
         </div>
