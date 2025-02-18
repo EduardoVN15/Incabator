@@ -14,7 +14,7 @@ if (!isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campus Navigator - Home</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
 	<?php 
 		session_start();
 		include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
@@ -22,11 +22,11 @@ if (!isset($_SESSION['user_id'])) {
 
   <style>
         :root {
-            --primary-color: #6a0dad;
-            --secondary-color: #ff4500;
+            --primary-color: #003F88;
+            --secondary-color: #49E1FF;
             --accent-color: #1e88e5;
-            --gradient-start: #6a0dad;
-            --gradient-end: #ff4500;
+            --gradient-start: #001DD1;
+            --gradient-end: #FFB446;
         }
 
         body {
