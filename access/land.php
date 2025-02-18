@@ -128,25 +128,6 @@ if (!isset($_SESSION['user_id'])) {
             <h2 class="text-center mb-5">Our Key Features</h2>
             <div class="row">
                 
-				<div class="col-md-4 mb-4">
-                <a href="/access/registration.php" class="text-decoration-none">
-                    <div class="feature-card h-100 text-center">
-                        <div class="feature-icon">🔒</div>
-                        <h3>Registration</h3>
-                        <p>Begin Your Journey</p>
-                    </div>
-                </a>
-            </div>
-				
-				<div class="col-md-4 mb-4">
-					<a href="/access/login.php" class="text-decoration-none">
-                    <div class="feature-card h-100 text-center">
-                        <div class="feature-icon">🔒</div>
-                        <h3>Login</h3>
-                        <p>Access the land</p>
-                    </div>
-					</a>
-                </div>
 				
 				 <div class="col-md-4 mb-4">
 					 <a href="/users/profile.php" class="text-decoration-none">
