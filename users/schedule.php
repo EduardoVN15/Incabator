@@ -5,7 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Schedule Form</title>
     
+ <?php 
+	// Database configuration
+$host = 'auth-db1536.hstgr.io';
+$dbname = 'u237055794_schoolMaps';
+$dbUsername = 'u237055794_ghs_schoolMaps';
+$dbPassword = 'ZwbHRi^4';
 
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $dbUsername, $dbPassword);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+        session_start();
+        include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
+    ?>
   
 </head>
 <body>
