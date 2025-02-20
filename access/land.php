@@ -14,7 +14,7 @@ if (!isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campus Navigator - Home</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/styles.css" rel="stylesheet">
+<!--    <link href="/css/styles.css" rel="stylesheet">-->
 	<?php 
 		session_start();
 		include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
@@ -77,19 +77,6 @@ if (!isset($_SESSION['user_id'])) {
             box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         }
 
-        .testimonial-card {
-            background-color: #f4f4f4;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border-left: 5px solid var(--primary-color);
-            transition: all 0.3s ease;
-        }
-
-        .testimonial-card:hover {
-            transform: translateX(10px);
-        }
-
         #contact {
             background-color: #f9f9f9;
         }
@@ -106,10 +93,6 @@ if (!isset($_SESSION['user_id'])) {
             transform: translateY(-3px);
         }
 
-        .navbar {
-            background-color: rgba(255,255,255,0.95) !important;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-        }
     </style>
 </head>
 <body>
