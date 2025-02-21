@@ -21,13 +21,13 @@ try {
         session_start();
         include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
     ?>
-  test
+  
 </head>
 <body>
     <div class="container">
         <div class="schedule-form">
             <h2 class="schedule-title">Class Schedule</h2>
-            <form method="POST" action="/users/scheduleHandler.php">
+            <form method="POST" action="/access/land.php">
                 <table class="table table-bordered">
                     <thead>
                         <tr>

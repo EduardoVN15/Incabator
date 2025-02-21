@@ -40,17 +40,49 @@
     <label for="username">Username:</label>
     <input type="text" name="username" id="username" required><br>
 			   
-	<label for="gradeLevel">Gradelevel:</label>
-    <input type="text" name="gradeLevel" id="gradeLevel" required><br>
+	<label for="grade">Gradelevel:</label>
+	<select name="grade" id="grade" required>
+    <option value="">Select a grade</option>
+    <?php
+    for ($grade = 9; $grade <= 12; $grade++) {
+        echo "<option value=\"$grade\">$grade</option>";
+    }
+    ?>
+	</select><br>
 			   
-	 <label for="studentId">studentId:</label>
-    <input type="text" name="studentId" id="studentId" required><br>
-			   
-	 <label for="counselorName">counselorName:</label>
-    <input type="text" name="counselorName" id="counselorName" required><br>
+	<label for="studentId">studentId:</label>
+	<input type="text" name="studentId" id="studentId" 
+       pattern="[0-9]{6}" 
+       title="Student ID must be 6 digits (numbers only)" 
+       maxlength="6" 
+       oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+       value="<?php echo isset($_POST['studentId']) ? htmlspecialchars($_POST['studentId']) : ''; ?>"
+       required><br>
 
-    <label for="email">Email:</label>
-    <input type="email" name="email" id="email" required><br>
+   <label for="email">Email:</label>
+<input type="email" 
+       name="email" 
+       id="email" 
+       pattern="[a-zA-Z0-9._%+-]+@guhsd\.net$"
+       title="Please enter a valid @guhsd.net email address"
+       value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"
+       required><br>
+
+<?php
+// Server-side validation (place this in your form processing PHP file)
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    
+    // Validate email domain is guhsd.net
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !preg_match('/^[a-zA-Z0-9._%+-]+@guhsd\.net$/', $email)) {
+        $error = "Please enter a valid @guhsd.net email address";
+        // Handle the error (display message, redirect, etc.)
+    } else {
+        // Process valid email
+        // ...
+    }
+}
+?>
 
     <label for="password">Password:</label>
     <input type="password" name="password" id="password" required><br>
