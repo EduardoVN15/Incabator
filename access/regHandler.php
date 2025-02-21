@@ -13,12 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "</pre>";
 
     // Capture input
-    $username = trim($_POST['username'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $password = trim($_POST['password'] ?? '');
-    $confirmPassword = trim($_POST['confirmPassword'] ?? '');
-    $studentId = trim($_POST['studentId'] ?? '');
-    $grade = trim($_POST['grade'] ?? '');
+    // Capture input
+	$username = isset($_POST['username']) ? trim($_POST['username']) : '';
+	$email = isset($_POST['email']) ? trim($_POST['email']) : '';
+	$password = isset($_POST['password']) ? trim($_POST['password']) : '';
+	$confirmPassword = isset($_POST['confirmPassword']) ? trim($_POST['confirmPassword']) : '';
+	$studentId = isset($_POST['studentId']) ? trim($_POST['studentId']) : '';
+	$grade = isset($_POST['grade']) ? trim($_POST['grade']) : '';
 
     $errors = [];
 
@@ -52,13 +53,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             die("Failed to prepare statement.");
         }
 
-        // Debug: Hash password before storing
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        // Debug: password before storing
+        $Password = password($password, PASSWORD_DEFAULT);
 
         // Bind parameters
         $stmt->bindParam(':username', $username, PDO::PARAM_STR);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-        $stmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $Password, PDO::PARAM_STR);
         $stmt->bindParam(':studentId', $studentId, PDO::PARAM_INT);
         $stmt->bindParam(':grade', $grade, PDO::PARAM_INT);
 
