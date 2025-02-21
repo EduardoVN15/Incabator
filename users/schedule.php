@@ -27,7 +27,7 @@ try {
     <div class="container">
         <div class="schedule-form">
             <h2 class="schedule-title">Class Schedule</h2>
-            <form method="POST" action="/access/land.php">
+            <form method="POST" action="/users/scheduleHandler.php">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
