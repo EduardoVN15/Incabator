@@ -52,8 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             die("Failed to prepare statement.");
         }
 
-        // Debug: password before storing
-        $Password = password($password, PASSWORD_DEFAULT);
+       $Password = $password;
 
         // Bind parameters
         $stmt->bindParam(':username', $username, PDO::PARAM_STR);
