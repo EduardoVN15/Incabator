@@ -40,13 +40,8 @@
     <label for="username">Username:</label>
     <input type="text" name="username" id="username" required><br>
 			   
-
 	<label for="grade">Gradelevel:</label>
 	<select name="grade" id="grade" required>
-
-	<label for="gradeLevel">Gradelevel:</label>
-	<select name="gradeLevel" id="gradeLevel" required>
-
     <option value="">Select a grade</option>
     <?php
     for ($grade = 9; $grade <= 12; $grade++) {

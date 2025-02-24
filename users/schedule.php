@@ -18,7 +18,7 @@ try {
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
 }
-        session_start();
+
         include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
     ?>
   
@@ -28,6 +28,10 @@ try {
         <div class="schedule-form">
             <h2 class="schedule-title">Class Schedule</h2>
             <form method="POST" action="/users/scheduleHandler.php">
+				
+				  <!-- Pass the studentID as a hidden input -->
+				  <input type="hidden" name="studentID" value="12345">
+				
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -97,4 +101,3 @@ try {
     </div>
 </body>
 </html>
-
