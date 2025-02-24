@@ -33,9 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Debug: Display errors
     if (!empty($errors)) {
-        echo "<strong>Validation Errors:</strong><br>";
-        print_r($errors);
         $_SESSION['errors'] = $errors;
+        header("Location: /access/register.php");
         exit();
     }
 
@@ -65,10 +64,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Execute and check for errors
         if ($stmt->execute()) {
-            echo "Success: User registered!";
-        } else {
-            echo "Error: User not registered.";
-        }
+    $_SESSION['success'] = "Registration successful! Please log in.";
+    header("Location: /access/login.php");
+    exit();
+} else {
+    $_SESSION['errors'] = ["Failed to register user."];
+    header("Location: /access/register.php");
+    exit();
+}
     } catch (PDOException $e) {
         // Log the error
         error_log("Database error: " . $e->getMessage());
