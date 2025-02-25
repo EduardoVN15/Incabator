@@ -1,4 +1,8 @@
 <?php
+// Enable error reporting for debugging
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // Database configuration
 $host = 'auth-db1536.hstgr.io';
@@ -16,43 +20,49 @@ try {
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Dump the POST data to check the values
+    echo "<pre>";
     var_dump($_POST);
-
-    // Get studentID ID from session (assuming studentID is logged in)
-    // Since we're not using sessions now, you could manually check the studentID
-    $studentID = isset($_POST['studentID']) ? $_POST['studentID'] : null;
-
-    // Dump studentID to check if it's available
-    var_dump($studentID);
-
-    if (!$studentID) {
-        die("studentID not authenticated.");
-    }
-
+    echo "</pre>";
+    
+    // Extract student ID
+    $studentID = $_POST['studentID'];
+    
     // Prepare SQL statement
-    $stmt = $pdo->prepare("INSERT INTO schedules (studentID_id, period, class_name, teacher, room_number) VALUES (:studentID_id, :period, :class, :teacher, :room)");
-
-    // Loop through periods 1-7 and insert into the database
+    $stmt = $pdo->prepare("INSERT INTO schedules (studentID, period, class, teacher, room) 
+                           VALUES (:studentID, :period, :class, :teacher, :room)");
+    
+    // Loop through periods 1 to 7 and insert each class into the database
     for ($i = 1; $i <= 7; $i++) {
-        $class = isset($_POST["class$i"]) ? $_POST["class$i"] : '';
-        $teacher = isset($_POST["teacher$i"]) ? $_POST["teacher$i"] : '';
-        $room = isset($_POST["room$i"]) ? $_POST["room$i"] : '';
-
-        if (!empty($class) && !empty($teacher) && !empty($room)) {
-            $stmt->execute([
-                ':studentID_id' => $studentID,
+        $classKey = "class" . $i;
+        $teacherKey = "teacher" . $i;
+        $roomKey = "room" . $i;
+        
+        if (isset($_POST[$classKey], $_POST[$teacherKey], $_POST[$roomKey])) {
+            $class = $_POST[$classKey];
+            $teacher = $_POST[$teacherKey];
+            $room = $_POST[$roomKey];
+            
+            // Debugging: Output values before executing the query
+            echo "Inserting: Period $i | Class: $class | Teacher: $teacher | Room: $room <br>";
+            
+            // Execute the prepared statement
+            if (!$stmt->execute([
+                ':studentID' => $studentID,
                 ':period' => $i,
                 ':class' => $class,
                 ':teacher' => $teacher,
                 ':room' => $room
-            ]);
+            ])) {
+                die("Error inserting: " . implode(" | ", $stmt->errorInfo()));
+            }
         }
     }
-
-    // Redirect after successful submission
-    header("Location: /access/land.php?success=1");
-    exit();
+    
+    echo "Schedule saved successfully!";
+    // Redirect to land.php after successful save
+    header("Location: /access/land.php");
+    exit;
 } else {
-    die("Invalid request.");
+    echo "Invalid request!";
 }
 ?>

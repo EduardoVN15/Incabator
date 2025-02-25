@@ -30,7 +30,8 @@ try {
             <form method="POST" action="/users/scheduleHandler.php">
 				
 				  <!-- Pass the studentID as a hidden input -->
-				  <input type="hidden" name="studentID" value="12345">
+				 <!-- Change the hidden input name and value -->
+<input type="hidden" name="studentID" value="<?php echo $loggedInStudentId; ?>">
 				
                 <table class="table table-bordered">
                     <thead>
