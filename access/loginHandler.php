@@ -13,16 +13,13 @@ $stmt->bindParam(':password', $password);
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// If the user is found, start a session and redirect to the landing page
 if ($user) {
-    
-    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['user_id'] = $user['uid']; // Change from $user['id'] to $user['uid']
     $_SESSION['username'] = $user['uName'];
+
+    session_write_close();
     header("Location: /access/land.php");
     exit;
-} else {
-    // Redirect back to the login page with an error message
-    header("Location: /access/login.php?error=Invalid%20credentials");
-    exit;
 }
+
 ?>
