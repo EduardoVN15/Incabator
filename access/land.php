@@ -1,11 +1,8 @@
-<?php session_start();
-
-// Check if the user is logged in
-if (!isset($_SESSION['user_id'])) {
-    // If not logged in, redirect to the login page
-//    header("Location: login.php");
-//    exit;
-}
+<?php
+session_start();
+echo '<pre>';
+print_r($_SESSION);
+echo '</pre>';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,8 +13,10 @@ if (!isset($_SESSION['user_id'])) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
 <!--    <link href="/css/styles.css" rel="stylesheet">-->
 	<?php 
+	
 		session_start();
 		include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
+
 	?>
 
   <style>
@@ -105,6 +104,8 @@ if (!isset($_SESSION['user_id'])) {
        
     </section>
 
+		
+		
     <!-- Features Section -->
     <section id="features" class="py-5">
         <div class="container">
@@ -149,11 +150,15 @@ if (!isset($_SESSION['user_id'])) {
    
    
     <!-- Footer -->
+<!--
     <footer class="bg-dark text-white text-center py-4">
         <div class="container">
             <p class="mb-0">&copy; GHS Maps</p>
+			
+
         </div>
     </footer>
+-->
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
