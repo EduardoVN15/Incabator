@@ -5,14 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Schedule Form</title>
     
+ <?php 
+	// Database configuration
+$host = 'auth-db1536.hstgr.io';
+$dbname = 'u237055794_schoolMaps';
+$dbUsername = 'u237055794_ghs_schoolMaps';
+$dbPassword = 'ZwbHRi^4';
 
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $dbUsername, $dbPassword);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+        include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
+    ?>
   
 </head>
 <body>
     <div class="container">
         <div class="schedule-form">
             <h2 class="schedule-title">Class Schedule</h2>
-            <form method="POST" action="/access/land.php">
+            <form method="POST" action="/users/scheduleHandler.php">
+				
+				  <!-- Pass the studentID as a hidden input -->
+				  <input type="hidden" name="studentID" value="12345">
+				
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -82,4 +101,3 @@
     </div>
 </body>
 </html>
-
