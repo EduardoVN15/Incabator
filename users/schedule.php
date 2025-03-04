@@ -1,12 +1,14 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Schedule Form</title>
-    
- <?php 
-	// Database configuration
+<?php
+session_start(); // Start session at the top
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    die("User is not logged in."); // You can replace this with a redirect if preferred
+}
+
+$userId = $_SESSION['user_id']; // Get the logged-in user ID
+
+// Database configuration
 $host = 'auth-db1536.hstgr.io';
 $dbname = 'u237055794_schoolMaps';
 $dbUsername = 'u237055794_ghs_schoolMaps';
@@ -19,20 +21,25 @@ try {
     die("Database connection failed: " . $e->getMessage());
 }
 
-        include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
-    ?>
-  
+include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
+?>
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Schedule Form</title>
 </head>
 <body>
     <div class="container">
         <div class="schedule-form">
             <h2 class="schedule-title">Class Schedule</h2>
-            <form method="POST" action="/users/scheduleHandler.php">
-				
-				  <!-- Pass the studentID as a hidden input -->
-				 <!-- Change the hidden input name and value -->
-<input type="hidden" name="studentID" value="<?php echo $loggedInStudentId; ?>">
-				
+            <form method="POST" action="/users/scheduleHandler.php" id="scheduleForm">
+                
+                <!-- Pass the dynamically retrieved user ID -->
+                <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($userId); ?>">
+                
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -43,55 +50,14 @@ try {
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Period 1 -->
+                        <?php for ($period = 1; $period <= 7; $period++): ?>
                         <tr>
-                            <td>1</td>
-                            <td><input type="text" name="class1" id="class1" class="form-control" required></td>
-                            <td><input type="text" name="teacher1" id="teacher1" class="form-control" required></td>
-                            <td><input type="text" name="room1" id="room1" class="form-control" required></td>
+                            <td><?php echo $period; ?></td>
+                            <td><input type="text" name="class<?php echo $period; ?>" id="class<?php echo $period; ?>" class="form-control" required></td>
+                            <td><input type="text" name="teacher<?php echo $period; ?>" id="teacher<?php echo $period; ?>" class="form-control" required></td>
+                            <td><input type="text" name="room<?php echo $period; ?>" id="room<?php echo $period; ?>" class="form-control" required></td>
                         </tr>
-                        <!-- Period 2 -->
-                        <tr>
-                            <td>2</td>
-                            <td><input type="text" name="class2" id="class2" class="form-control" required></td>
-                            <td><input type="text" name="teacher2" id="teacher2" class="form-control" required></td>
-                            <td><input type="text" name="room2" id="room2" class="form-control" required></td>
-                        </tr>
-                        <!-- Period 3 -->
-                        <tr>
-                            <td>3</td>
-                            <td><input type="text" name="class3" id="class3" class="form-control" required></td>
-                            <td><input type="text" name="teacher3" id="teacher3" class="form-control" required></td>
-                            <td><input type="text" name="room3" id="room3" class="form-control" required></td>
-                        </tr>
-                        <!-- Period 4 -->
-                        <tr>
-                            <td>4</td>
-                            <td><input type="text" name="class4" id="class4" class="form-control" required></td>
-                            <td><input type="text" name="teacher4" id="teacher4" class="form-control" required></td>
-                            <td><input type="text" name="room4" id="room4" class="form-control" required></td>
-                        </tr>
-                        <!-- Period 5 -->
-                        <tr>
-                            <td>5</td>
-                            <td><input type="text" name="class5" id="class5" class="form-control" required></td>
-                            <td><input type="text" name="teacher5" id="teacher5" class="form-control" required></td>
-                            <td><input type="text" name="room5" id="room5" class="form-control" required></td>
-                        </tr>
-                        <!-- Period 6 -->
-                        <tr>
-                            <td>6</td>
-                            <td><input type="text" name="class6" id="class6" class="form-control" required></td>
-                            <td><input type="text" name="teacher6" id="teacher6" class="form-control" required></td>
-                            <td><input type="text" name="room6" id="room6" class="form-control" required></td>
-                        </tr>
-                        <!-- Period 7 -->
-                        <tr>
-                            <td>7</td>
-                            <td><input type="text" name="class7" id="class7" class="form-control" required></td>
-                            <td><input type="text" name="teacher7" id="teacher7" class="form-control" required></td>
-                            <td><input type="text" name="room7" id="room7" class="form-control" required></td>
-                        </tr>
+                        <?php endfor; ?>
                     </tbody>
                 </table>
                 <div class="text-center mt-3">
@@ -100,5 +66,33 @@ try {
             </form>
         </div>
     </div>
+
+    <script>
+        document.getElementById('scheduleForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent normal form submission
+
+            let scheduleData = {};
+            for (let period = 1; period <= 7; period++) {
+                let className = document.getElementById('class' + period).value;
+                let teacherName = document.getElementById('teacher' + period).value;
+                let roomNumber = document.getElementById('room' + period).value;
+                scheduleData[period] = {
+                    class: className,
+                    teacher: teacherName,
+                    room: roomNumber
+                };
+            }
+
+            let jsonSchedule = JSON.stringify(scheduleData);
+
+            let scheduleInput = document.createElement('input');
+            scheduleInput.type = 'hidden';
+            scheduleInput.name = 'schedule';
+            scheduleInput.value = jsonSchedule;
+            this.appendChild(scheduleInput);
+
+            this.submit();
+        });
+    </script>
 </body>
 </html>
