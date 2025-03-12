@@ -82,13 +82,13 @@
         <button id="sidebar-toggle" type="button">≡</button>
         <h5 class="mb-3">Options</h5>
         <button class="btn btn-primary mb-3" id="btn-buildings">
-            <i class="bi bi-building"></i> Buildings
+            <i class="bi bi-building"></i> English
         </button>
         <button class="btn btn-success mb-3" id="btn-classrooms">
-            <i class="bi bi-door-open"></i> Classrooms
+            <i class="bi bi-door-open"></i> Art/office
         </button>
         <button class="btn btn-info mb-3" id="btn-facilities">
-            <i class="bi bi-shop"></i> Facilities
+            <i class="bi bi-shop"></i> Bio/Science
         </button>
         
         <!-- You can add your location select dropdown here -->
