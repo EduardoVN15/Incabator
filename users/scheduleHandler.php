@@ -1,66 +1,87 @@
 <?php
-session_start(); // Start session to access user_id
+// Start the session at the very top of the file
+session_start();
 
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    die("User is not logged in."); // You can replace this with a redirect if preferred
-}
 
-$userId = $_SESSION['user_id']; // Get the logged-in user ID
 
-// Database connection (using MySQLi)
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Uncomment for session debugging
+
+//echo '<pre>';
+//print_r($_SESSION);
+//echo '</pre>';
+
+
+// Database configuration
 $host = 'auth-db1536.hstgr.io';
 $dbname = 'u237055794_schoolMaps';
 $dbUsername = 'u237055794_ghs_schoolMaps';
 $dbPassword = 'ZwbHRi^4';
 
-// Create a MySQLi connection
-$conn = new mysqli($host, $dbUsername, $dbPassword, $dbname);
-
-// Check for connection errors
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $dbUsername, $dbPassword);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
 }
 
-// Check if schedule data was submitted
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Ensure schedule data is received
-    if (!isset($_POST['schedule'])) {
-        die("No schedule data received.");
-    }
+// Check if the user is logged in by checking the session for uid
+if (isset($_SESSION['uid'])) {
+    $userId = $_SESSION['uid'];
+//} else {
+//    // Redirect to login page if not logged in
+//    header("Location: /access/login.php");
+//    exit;
+}
 
-    // Decode the JSON string into an associative array
-    $decodedSchedule = json_decode($_POST['schedule'], true);
+// Check if the form was submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Extract individual period 1 values
+    $p1c = $_POST['class1'] ?? '';
+    $p1t = $_POST['teacher1'] ?? '';
+    $p1r = $_POST['room1'] ?? '';
 
-    // Check if JSON decoding was successful
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        die("Invalid schedule format: " . json_last_error_msg());
-    }
-
-    // Re-encode the validated JSON data
-    $jsonSchedule = json_encode($decodedSchedule, JSON_UNESCAPED_UNICODE);
-
-    // Prepare the SQL statement
-    $stmt = $conn->prepare("INSERT INTO schedules (user_id, schedule) 
-                            VALUES (?, ?) 
-                            ON DUPLICATE KEY UPDATE schedule = ?");
+    // Check if user already has a schedule
+    $checkStmt = $pdo->prepare("SELECT COUNT(*) FROM schedules WHERE uid = :uid");
+    $checkStmt->bindParam(':uid', $userId, PDO::PARAM_INT);
+    $checkStmt->execute();
     
-    if (!$stmt) {
-        die("SQL Error: " . $conn->error);
-    }
-
-    // Bind parameters
-    $stmt->bind_param("iss", $userId, $jsonSchedule, $jsonSchedule);
-
-    // Execute the statement
-    if ($stmt->execute()) {
-        echo "Schedule saved successfully!";
+    if ($checkStmt->fetchColumn() > 0) {
+        // Update existing schedule
+        $stmt = $pdo->prepare("UPDATE schedules SET p1c = :p1c, p1t = :p1t, p1r = :p1r WHERE uid = :uid");
     } else {
-        echo "Error: " . $stmt->error;
+        // Insert new schedule
+        $stmt = $pdo->prepare("INSERT INTO schedules (uid, p1c, p1t, p1r) VALUES (:uid, :p1c, :p1t, :p1r)");
     }
 
-    // Close the statement and connection
-    $stmt->close();
-    $conn->close();
+    // Bind parameters and execute
+    $stmt->bindParam(':uid', $userId, PDO::PARAM_INT);
+    $stmt->bindParam(':p1c', $p1c, PDO::PARAM_STR);
+    $stmt->bindParam(':p1t', $p1t, PDO::PARAM_STR);
+    $stmt->bindParam(':p1r', $p1r, PDO::PARAM_STR);
+    
+    try {
+        if ($stmt->execute()) {
+            // Re-establish session before redirect to ensure persistence
+            session_write_close();
+            
+            // Redirect to land.php after successful save
+            header("Location: /access/land.php");
+            exit;
+        } else {
+            echo "Error saving schedule: " . implode(" | ", $stmt->errorInfo());
+        }
+    } catch (PDOException $e) {
+        // Display detailed error for debugging
+        echo "PDO Error: " . $e->getMessage() . "<br>";
+        echo "Error Code: " . $e->getCode() . "<br>";
+        echo "SQL Query: " . $stmt->queryString . "<br>";
+        echo "Please contact your administrator with this information.";
+    }
+} else {
+    echo "Invalid request!";
 }
 ?>
