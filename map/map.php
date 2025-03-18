@@ -132,7 +132,7 @@
                     Geo/800
                 </button>
                 <button class="btn btn-outline-primary location-btn" data-lat="32.782639" data-lng="-116.986667">
-                    yea
+                    Autoshop
                 </button>
             </div>
         </div>
