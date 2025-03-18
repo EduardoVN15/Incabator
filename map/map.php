@@ -34,21 +34,23 @@
             position: fixed;
             top: 80px; /* Adjust based on your navigation bar height */
             right: 0;
-            width: 250px;
+            width: 300px; /* Increased width for better button display */
             height: calc(100vh - 80px);
             background-color: rgba(255, 255, 255, 0.9);
             z-index: 1000;
             padding: 20px;
             box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
+            overflow-y: auto; /* Add scrolling for additional buttons */
         }
         #sidebar.collapsed {
-            right: -220px;
+            right: -270px; /* Adjusted for wider sidebar */
         }
         #sidebar .btn {
             width: 100%;
             margin-bottom: 10px;
             text-align: left;
+            white-space: normal; /* Allow text to wrap */
         }
         #sidebar-toggle {
             position: absolute;
@@ -58,6 +60,29 @@
             font-size: 20px;
             background: none;
             border: none;
+        }
+        .location-group {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        .category-button {
+            width: 100%;
+            text-align: left;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .category-button::after {
+            content: "▼";
+            position: absolute;
+            right: 15px;
+        }
+        .category-button.collapsed::after {
+            content: "►";
+        }
+        .location-list {
+            padding-left: 10px;
         }
     </style>
     
@@ -80,18 +105,89 @@
     <!-- Sidebar -->
     <div id="sidebar">
         <button id="sidebar-toggle" type="button">≡</button>
-        <h5 class="mb-3">Options</h5>
-        <button class="btn btn-primary mb-3" id="btn-buildings">
-            <i class="bi bi-building"></i> English
-        </button>
-        <button class="btn btn-success mb-3" id="btn-classrooms">
-            <i class="bi bi-door-open"></i> Art/office
-        </button>
-        <button class="btn btn-info mb-3" id="btn-facilities">
-            <i class="bi bi-shop"></i> Bio/Science
-        </button>
+        <h5 class="mb-3">Campus Locations</h5>
         
-        <!-- You can add your location select dropdown here -->
+        <!-- Academic Buildings Category -->
+        <div class="location-group">
+            <button class="btn btn-primary category-button" type="button" data-bs-toggle="collapse" data-bs-target="#academicBuildings" aria-expanded="true" aria-controls="academicBuildings">
+                Academic Buildings
+            </button>
+            <div class="collapse show location-list" id="academicBuildings">
+                <button class="btn btn-outline-primary location-btn" data-lat="32.782500" data-lng="-116.986300">
+                    English/1400
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.781111" data-lng="-116.987944">
+                    Art/Office/200
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.781750" data-lng="-116.987222">
+                    Bio/Science/1100
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.781139" data-lng="-116.986444">
+                    Math/Library/600
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.781556" data-lng="-116.986639">
+                    Math 2/700
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.781480" data-lng="-116.985197">
+                    Geo/800
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.782639" data-lng="-116.986667">
+                    Autoshop
+                </button>
+            </div>
+        </div>
+        
+        <!-- Athletic Facilities Category -->
+        <div class="location-group">
+            <button class="btn btn-success category-button" type="button" data-bs-toggle="collapse" data-bs-target="#athleticFacilities" aria-expanded="true" aria-controls="athleticFacilities">
+                Athletic Facilities
+            </button>
+            <div class="collapse show location-list" id="athleticFacilities">
+                <button class="btn btn-outline-success location-btn" data-lat="32.781611" data-lng="-116.988083">
+                    Field
+                </button>
+                <button class="btn btn-outline-success location-btn" data-lat="32.782142" data-lng="-116.987583">
+                    The New Gym/1300
+                </button>
+                <button class="btn btn-outline-success location-btn" data-lat="32.781222" data-lng="-116.987083">
+                    The Old Gym
+                </button>
+                <button class="btn btn-outline-success location-btn" data-lat="32.782333" data-lng="-116.987667">
+                    Pool
+                </button>
+                <button class="btn btn-outline-success location-btn" data-lat="32.780806" data-lng="-116.987139">
+                    The Locker Room/1000
+                </button>
+                <button class="btn btn-outline-success location-btn" data-lat="32.780667" data-lng="-116.987639">
+                    Dance
+                </button>
+            </div>
+        </div>
+        
+        <!-- Campus Services Category -->
+        <div class="location-group">
+            <button class="btn btn-info category-button" type="button" data-bs-toggle="collapse" data-bs-target="#campusServices" aria-expanded="true" aria-controls="campusServices">
+                Campus Services
+            </button>
+            <div class="collapse show location-list" id="campusServices">
+                <button class="btn btn-outline-info location-btn" data-lat="32.780806" data-lng=" -116.987139">
+				District Office</button>
+                <button class="btn btn-outline-info location-btn" data-lat="32.780806" data-lng="-116.987139">
+                    Daycare/900
+                </button>
+                <button class="btn btn-outline-info location-btn" data-lat="32.780500" data-lng="-116.987250">
+                    Theater
+                </button>
+                <button class="btn btn-outline-info location-btn" data-lat="32.781556" data-lng="-116.987417">
+                    Cafeteria/400
+                </button>
+                <button class="btn btn-outline-info location-btn" data-lat="32.782889" data-lng="-116.986750">
+                    Portables
+                </button>
+            </div>
+        </div>
+        
+        <!-- Location dropdown -->
         <div class="mt-4">
             <label for="location-select" class="form-label">Find Location:</label>
             <select id="location-select" class="form-select">
@@ -124,39 +220,171 @@
                 noWrap: true
             }).addTo(map);
 
+            // Create location markers
+            const locationMarkers = [
+                { name: "English/1400", lat: 32.782500, lng: -116.986300, type: "academic" },
+				{ name: "Art/Office/200", lat: 32.781111, lng: -116.987944, type: "academic" },
+				{ name: "Bio/Science/1100", lat: 32.781750, lng: -116.987222, type: "academic" },
+				{ name: "Field", lat: 32.781611, lng: -116.988083, type: "athletic" },
+				{ name: "Math/Library/600", lat: 32.781139, lng: -116.986444, type: "academic" },
+				{ name: "Portables", lat: 32.782889, lng: -116.986750, type: "service" },
+				{ name: "District Office", lat: 32.780806, lng: -116.987139, type: "service" },
+				{ name: "The Locker Room/1000", lat: 32.782333, lng: -116.987667, type: "athletic" },
+				{ name: "Pool", lat: 32.782139, lng: -116.987000, type: "athletic" },
+				{ name: "Daycare/900", lat: 32.781472, lng: -116.984750, type: "service" },
+				{ name: "Geo/800", lat: 32.781480, lng: -116.985197, type: "academic" }, // Converted from 32°46'54.1"N 116°59'08.7"W
+				{ name: "Math 2/700", lat: 32.781556, lng: -116.986639, type: "academic" },
+				{ name: "Autoshop", lat: 32.783072, lng: -116.986426, type: "academic" },
+				{ name: "The New Gym/1300", lat: 32.782417, lng: -116.987028, type: "athletic" },
+				{ name: "The Old Gym", lat: 32.781222, lng: -116.987083, type: "athletic" },
+				{ name: "Dance", lat: 32.780667, lng: -116.987833, type: "athletic" },
+				{ name: "Theater", lat: 32.780500, lng: -116.987250, type: "service" },
+				{ name: "Cafeteria/400", lat: 32.781556, lng: -116.987417, type: "service" }
+            ];
+
+            // Create map markers
+            const markers = {};
+            const academicMarkers = [];
+            const athleticMarkers = [];
+            const serviceMarkers = [];
+
+            // Create markers for all locations and add to appropriate arrays
+            locationMarkers.forEach(location => {
+                // Add marker to the map
+                const marker = L.marker([location.lat, location.lng])
+                    .bindPopup(`<strong>${location.name}</strong>`);
+                
+                // Store marker for later reference
+                markers[location.name] = marker;
+                
+                // Add to type-specific arrays
+                if (location.type === "academic") {
+                    academicMarkers.push(marker);
+                } else if (location.type === "athletic") {
+                    athleticMarkers.push(marker);
+                } else if (location.type === "service") {
+                    serviceMarkers.push(marker);
+                }
+                
+                // Add to dropdown
+                const option = document.createElement('option');
+                option.value = location.name;
+                option.textContent = location.name;
+                document.getElementById('location-select').appendChild(option);
+            });
+
+            // Add all markers to map initially
+            const allMarkers = [...academicMarkers, ...athleticMarkers, ...serviceMarkers];
+            allMarkers.forEach(marker => marker.addTo(map));
+
             // Toggle sidebar
             document.getElementById('sidebar-toggle').addEventListener('click', function() {
                 document.getElementById('sidebar').classList.toggle('collapsed');
             });
 
-            // Button event listeners
-            document.getElementById('btn-buildings').addEventListener('click', function() {
-                // Filter to show only buildings
-                console.log('Show buildings only');
-                // Implement your filter logic here
+            // Category buttons functionality
+            document.querySelectorAll('.category-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.classList.toggle('collapsed');
+                    
+                    // Toggle visibility of respective marker types when category is clicked
+                    const categoryType = this.textContent.trim();
+                    
+                    if (categoryType === "Academic Buildings") {
+                        if (this.classList.contains('collapsed')) {
+                            // Remove academic markers if collapsed
+                            academicMarkers.forEach(marker => map.removeLayer(marker));
+                        } else {
+                            // Add academic markers if expanded
+                            academicMarkers.forEach(marker => {
+                                if (!map.hasLayer(marker)) {
+                                    marker.addTo(map);
+                                }
+                            });
+                        }
+                    } else if (categoryType === "Athletic Facilities") {
+                        if (this.classList.contains('collapsed')) {
+                            // Remove athletic markers if collapsed
+                            athleticMarkers.forEach(marker => map.removeLayer(marker));
+                        } else {
+                            // Add athletic markers if expanded
+                            athleticMarkers.forEach(marker => {
+                                if (!map.hasLayer(marker)) {
+                                    marker.addTo(map);
+                                }
+                            });
+                        }
+                    } else if (categoryType === "Campus Services") {
+                        if (this.classList.contains('collapsed')) {
+                            // Remove service markers if collapsed
+                            serviceMarkers.forEach(marker => map.removeLayer(marker));
+                        } else {
+                            // Add service markers if expanded
+                            serviceMarkers.forEach(marker => {
+                                if (!map.hasLayer(marker)) {
+                                    marker.addTo(map);
+                                }
+                            });
+                        }
+                    }
+                });
             });
 
-            document.getElementById('btn-classrooms').addEventListener('click', function() {
-                // Filter to show only classrooms
-                console.log('Show classrooms only');
-                // Implement your filter logic here
+            // Location buttons event listeners
+            document.querySelectorAll('.location-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const lat = parseFloat(this.getAttribute('data-lat'));
+                    const lng = parseFloat(this.getAttribute('data-lng'));
+                    const locationName = this.textContent.trim();
+                    
+                    // Find corresponding marker
+                    const marker = markers[locationName];
+                    
+                    if (marker) {
+                        // Ensure marker is on map
+                        if (!map.hasLayer(marker)) {
+                            marker.addTo(map);
+                        }
+                        
+                        // Pan to location
+                        map.setView([lat, lng], 19);
+                        
+                        // Open popup
+                        marker.openPopup();
+                    } else {
+                        // If no marker exists, just pan to the location
+                        map.setView([lat, lng], 19);
+                    }
+                });
             });
 
-            document.getElementById('btn-facilities').addEventListener('click', function() {
-                // Filter to show only facilities
-                console.log('Show facilities only');
-                // Implement your filter logic here
+            // Location dropdown event listener
+            document.getElementById('location-select').addEventListener('change', function() {
+                const selectedName = this.value;
+                const locationInfo = locationMarkers.find(loc => loc.name === selectedName);
+                
+                if (locationInfo) {
+                    // Ensure marker is on map
+                    const marker = markers[selectedName];
+                    if (marker && !map.hasLayer(marker)) {
+                        marker.addTo(map);
+                    }
+                    
+                    // Pan to location
+                    map.setView([locationInfo.lat, locationInfo.lng], 19);
+                    
+                    // Open popup if marker exists
+                    if (marker) {
+                        marker.openPopup();
+                    }
+                }
             });
 
-            // Fetch locations from PHP
+            // Original fetch locations code (for buildings, classrooms, etc.)
             fetch('fetch_locations.php')
                 .then(response => response.json())
                 .then(data => {
-                    const selectBox = document.getElementById('location-select');
-                    const buildings = [];
-                    const classrooms = [];
-                    const facilities = [];
-
+                    // Process building polygons
                     data.forEach(location => {
                         if (location.type === "Building" && location.boundary) {
                             // Add polygons for buildings
@@ -165,8 +393,6 @@
                                 fillColor: 'lightblue',
                                 fillOpacity: 0.5
                             }).addTo(map);
-
-                            buildings.push(polygon);
 
                             // Add popup for the polygon
                             polygon.bindPopup(`<strong>${location.name}</strong><br>${location.type}`);
@@ -178,72 +404,12 @@
                             polygon.on('mouseout', function () {
                                 this.setStyle({ color: 'blue', fillColor: 'lightblue' });
                             });
-
-                            // Add to dropdown
-                            const option = document.createElement('option');
-                            option.value = location.name;
-                            option.textContent = location.name;
-                            selectBox.appendChild(option);
-
-                        } else {
-                            // Add markers for other types (e.g., classrooms)
-                            const marker = L.marker([location.latitude, location.longitude])
-                                .addTo(map)
-                                .bindPopup(`<strong>${location.name}</strong><br>${location.type}`);
-                            
-                            if (location.type === "Classroom") {
-                                classrooms.push(marker);
-                            } else {
-                                facilities.push(marker);
-                            }
-
-                            // Add to dropdown
-                            const option = document.createElement('option');
-                            option.value = location.name;
-                            option.textContent = location.name;
-                            selectBox.appendChild(option);
-                        }
-                    });
-
-                    // Filter button logic implementation
-                    document.getElementById('btn-buildings').addEventListener('click', function() {
-                        buildings.forEach(b => b.addTo(map));
-                        classrooms.forEach(c => map.removeLayer(c));
-                        facilities.forEach(f => map.removeLayer(f));
-                    });
-
-                    document.getElementById('btn-classrooms').addEventListener('click', function() {
-                        classrooms.forEach(c => c.addTo(map));
-                        buildings.forEach(b => map.removeLayer(b));
-                        facilities.forEach(f => map.removeLayer(f));
-                    });
-
-                    document.getElementById('btn-facilities').addEventListener('click', function() {
-                        facilities.forEach(f => f.addTo(map));
-                        buildings.forEach(b => map.removeLayer(b));
-                        classrooms.forEach(c => map.removeLayer(c));
-                    });
-
-                    // Add event listener for dropdown
-                    selectBox.addEventListener('change', function () {
-                        const selectedName = this.value;
-                        const selectedLocation = data.find(location => location.name === selectedName);
-
-                        if (selectedLocation) {
-                            if (selectedLocation.type === "Building" && selectedLocation.boundary) {
-                                // Zoom to the building's polygon
-                                const polygonBounds = L.polygon(selectedLocation.boundary).getBounds();
-                                map.fitBounds(polygonBounds);
-                            } else {
-                                // Zoom to the classroom marker
-                                map.setView([selectedLocation.latitude, selectedLocation.longitude], 19);
-                            }
                         }
                     });
                 })
                 .catch(error => console.error('Error fetching locations:', error));
 
-            console.log('Map initialized successfully');
+            console.log('Map initialized successfully with all campus locations');
         } catch (error) {
             console.error('Error initializing map:', error);
         }
