@@ -32,12 +32,14 @@ if ($loggedInStudentId) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <link rel="stylesheet" href="/css/styles.css"> 
     <title>Schedule Form</title>
+	
 </head>
 <body>
-    <div class="container">
+    <div class="container schedule-page">
         <div class="schedule-form">
-            <h2 class="schedule-title">Class Schedule</h2>
+            <h2 class="schedule-title">My Schedule</h2>
             <form method="POST" action="/users/scheduleHandler.php">
                 <input type="hidden" name="studentID" value="<?php echo $loggedInStudentId; ?>">
 
