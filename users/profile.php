@@ -117,7 +117,7 @@ $schedule = $stmt->fetch(PDO::FETCH_ASSOC);
 </head>
 <body>
     <div class="container schedule-page">
-        <h1 class="schedule-title">Your Schedule</h1>
+        <h1 class="schedule-title">Your Profile</h1>
         <div class="schedule-container">
             <table class="schedule-table">
                 <tr>
