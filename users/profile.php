@@ -18,7 +18,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
 
 // Check if the user is logged in
 if (!isset($_SESSION['uid'])) {
-    echo "<p class='error-message'>Please log in to view your schedule.</p>";
+    echo "<p class='error-message'>Please log in to view your profile.</p>";
     exit();
 }
 
@@ -41,19 +41,17 @@ try {
     die("User query failed: " . $e->getMessage());
 }
 
-// Fetch the schedule for the logged-in user
+// Fetch the schedule for the logged-in user (now optional)
+$schedule = null;
 try {
     $scheduleQuery = "SELECT * FROM schedules WHERE uid = :uid";
     $scheduleStmt = $pdo->prepare($scheduleQuery);
     $scheduleStmt->bindParam(':uid', $uid, PDO::PARAM_INT);
     $scheduleStmt->execute();
 
-    if ($scheduleStmt->rowCount() === 0) {
-        echo "<p class='error-message'>No schedule found.</p>";
-        exit();
+    if ($scheduleStmt->rowCount() > 0) {
+        $schedule = $scheduleStmt->fetch(PDO::FETCH_ASSOC);
     }
-
-    $schedule = $scheduleStmt->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Schedule query failed: " . $e->getMessage());
 }
@@ -115,6 +113,14 @@ try {
             color: #1F0E58;
             text-align: center;
         }
+		  .no-schedule-message {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 1rem;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
@@ -149,14 +155,22 @@ try {
                 <th>Teacher</th>
                 <th>Room</th>
             </tr>
-            <?php for ($i = 1; $i <= 7; $i++): ?>
+            <?php if ($schedule): ?>
+                <?php for ($i = 1; $i <= 7; $i++): ?>
+                    <tr>
+                        <td>Period <?= $i ?></td>
+                        <td><?= htmlspecialchars($schedule["p{$i}c"] ?? 'Not assigned') ?></td>
+                        <td><?= htmlspecialchars($schedule["p{$i}t"] ?? 'Not assigned') ?></td>
+                        <td><?= htmlspecialchars($schedule["p{$i}r"] ?? 'Not assigned') ?></td>
+                    </tr>
+                <?php endfor; ?>
+            <?php else: ?>
                 <tr>
-                    <td>Period <?= $i ?></td>
-                    <td><?= htmlspecialchars($schedule["p{$i}c"] ?? 'Not assigned') ?></td>
-                    <td><?= htmlspecialchars($schedule["p{$i}t"] ?? 'Not assigned') ?></td>
-                    <td><?= htmlspecialchars($schedule["p{$i}r"] ?? 'Not assigned') ?></td>
+                    <td colspan="4" class="no-schedule-message">
+                        No schedule has been assigned yet. Please input your schedule.
+                    </td>
                 </tr>
-            <?php endfor; ?>
+            <?php endif; ?>
         </table>
     </div>
 </body>
