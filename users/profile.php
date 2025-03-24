@@ -24,30 +24,49 @@ if (!isset($_SESSION['uid'])) {
 
 $uid = $_SESSION['uid']; // Get logged-in user's ID
 
-// Fetch the schedule for the logged-in user
-$query = "SELECT * FROM schedules WHERE uid = :uid";
-$stmt = $pdo->prepare($query);
-$stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
-$stmt->execute();
+// Fetch the user information
+try {
+    $userQuery = "SELECT uName, email, studentID, grade FROM users WHERE uid = :uid";
+    $userStmt = $pdo->prepare($userQuery);
+    $userStmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+    $userStmt->execute();
 
-// Check if a schedule exists
-if ($stmt->rowCount() === 0) {
-    echo "<p class='error-message'>No schedule found.</p>";
-    exit();
+    if ($userStmt->rowCount() === 0) {
+        echo "<p class='error-message'>No user information found.</p>";
+        exit();
+    }
+
+    $users = $userStmt->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("User query failed: " . $e->getMessage());
 }
 
-$schedule = $stmt->fetch(PDO::FETCH_ASSOC);
+// Fetch the schedule for the logged-in user
+try {
+    $scheduleQuery = "SELECT * FROM schedules WHERE uid = :uid";
+    $scheduleStmt = $pdo->prepare($scheduleQuery);
+    $scheduleStmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+    $scheduleStmt->execute();
+
+    if ($scheduleStmt->rowCount() === 0) {
+        echo "<p class='error-message'>No schedule found.</p>";
+        exit();
+    }
+
+    $schedule = $scheduleStmt->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Schedule query failed: " . $e->getMessage());
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Schedule</title>
-    <link rel="stylesheet" href="/css/styles.css"> <!-- Keep your existing CSS link -->
+    <title>Your Profile</title>
+    <link rel="stylesheet" href="/css/styles.css"> 
     <style>
-        /* Inline Schedule Styles */
-        .container.schedule-page {
+        .container.profile-page {
             width: min(90%, 650px);
             padding: 2rem;
             background: rgba(255, 255, 255, 0.95);
@@ -57,91 +76,88 @@ $schedule = $stmt->fetch(PDO::FETCH_ASSOC);
             margin: 1rem auto;
             box-sizing: border-box;
         }
-        
-        .schedule-container {
-            width: 100%;
-            margin-top: 1.5rem;
-            border: none;
-            padding: 0;
-            background: transparent;
-        }
-        
-        .schedule-table {
+        .profile-table, .schedule-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 0 auto;
+            margin-bottom: 1.5rem;
             background: white;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        
+        .profile-table th, .profile-table td, 
         .schedule-table th, .schedule-table td {
             padding: 0.8rem;
             text-align: left;
             border: 1px solid #e1e1e1;
             color: #333;
         }
-        
-        .schedule-table th {
+        .profile-table th, .schedule-table th {
             background: linear-gradient(45deg, #1F0E58, #004EA9);
             color: white;
             font-weight: 500;
         }
-        
-        .schedule-table tr:nth-child(even) {
+        .schedule-table tr:nth-child(even),
+        .profile-table tr:nth-child(even) {
             background-color: #f8f8f8;
         }
-        
-        .schedule-table tr:hover {
-            background-color: #f0f0f0;
-        }
-        
         .error-message {
             color: #d9534f;
             background-color: #f9eaea;
             border: 1px solid #d9534f;
             padding: 0.8rem;
             border-radius: 8px;
-            margin: 1rem 0;
             text-align: center;
         }
-        
-        h1.schedule-title {
+        h1.profile-title {
             font-size: 2rem;
-            margin: 0 0 1.5rem 0;
+            margin-bottom: 1.5rem;
             color: #1F0E58;
             text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="container schedule-page">
-        <h1 class="schedule-title">Your Profile</h1>
-        <div class="schedule-container">
-            <table class="schedule-table">
+    <div class="container profile-page">
+        <h1 class="profile-title">Your Profile</h1>
+
+        <!-- User Information Table -->
+        <table class="profile-table">
+            <tr>
+                <th>Name</th>
+                <td><?= htmlspecialchars($users['uName'] ?? 'Not available') ?></td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td><?= htmlspecialchars($users['email'] ?? 'Not available') ?></td>
+            </tr>
+            <tr>
+                <th>Student ID</th>
+                <td><?= htmlspecialchars($users['studentID'] ?? 'Not available') ?></td>
+            </tr>
+            <tr>
+                <th>Grade</th>
+                <td><?= htmlspecialchars($users['grade'] ?? 'Not available') ?></td>
+            </tr>
+        </table>
+
+        <!-- Schedule Table -->
+        <table class="schedule-table">
+            <tr>
+                <th>Period</th>
+                <th>Class</th>
+                <th>Teacher</th>
+                <th>Room</th>
+            </tr>
+            <?php for ($i = 1; $i <= 7; $i++): ?>
                 <tr>
-                    <th>Period</th>
-                    <th>Class</th>
-                    <th>Teacher</th>
-                    <th>Room</th>
+                    <td>Period <?= $i ?></td>
+                    <td><?= htmlspecialchars($schedule["p{$i}c"] ?? 'Not assigned') ?></td>
+                    <td><?= htmlspecialchars($schedule["p{$i}t"] ?? 'Not assigned') ?></td>
+                    <td><?= htmlspecialchars($schedule["p{$i}r"] ?? 'Not assigned') ?></td>
                 </tr>
-                <?php
-                // Loop through periods 1-7 dynamically
-                for ($i = 1; $i <= 7; $i++) {
-                    $class = $schedule["p{$i}c"] ?? 'Not assigned';
-                    $teacher = $schedule["p{$i}t"] ?? 'Not assigned';
-                    $room = $schedule["p{$i}r"] ?? 'Not assigned';
-                    echo "<tr>
-                            <td>Period $i</td>
-                            <td>$class</td>
-                            <td>$teacher</td>
-                            <td>$room</td>
-                          </tr>";
-                }
-                ?>
-            </table>
-        </div>
+            <?php endfor; ?>
+        </table>
     </div>
 </body>
 </html>
