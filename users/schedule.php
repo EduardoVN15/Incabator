@@ -1,12 +1,5 @@
 <?php
-session_start(); // Start session at the top
-
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    die("User is not logged in."); // You can replace this with a redirect if preferred
-}
-
-$userId = $_SESSION['user_id']; // Get the logged-in user ID
+session_start();
 
 // Database configuration
 $host = 'auth-db1536.hstgr.io';
@@ -22,24 +15,34 @@ try {
 }
 
 include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
-?>
 
+$loggedInStudentId = $_SESSION['uid'] ?? 0;
+$schedule = [];
+
+// Fetch the existing schedule
+if ($loggedInStudentId) {
+    $stmt = $pdo->prepare("SELECT * FROM schedules WHERE uid = :uid");
+    $stmt->bindParam(':uid', $loggedInStudentId, PDO::PARAM_INT);
+    $stmt->execute();
+    $schedule = $stmt->fetch(PDO::FETCH_ASSOC) ?? [];
+}
+?>
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <link rel="stylesheet" href="/css/styles.css"> 
     <title>Schedule Form</title>
+	
 </head>
 <body>
-    <div class="container">
+    <div class="container schedule-page">
         <div class="schedule-form">
-            <h2 class="schedule-title">Class Schedule</h2>
-            <form method="POST" action="/users/scheduleHandler.php" id="scheduleForm">
-                
-                <!-- Pass the dynamically retrieved user ID -->
-                <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($userId); ?>">
-                
+            <h2 class="schedule-title">My Schedule</h2>
+            <form method="POST" action="/users/scheduleHandler.php">
+                <input type="hidden" name="studentID" value="<?php echo $loggedInStudentId; ?>">
+
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -50,12 +53,12 @@ include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
                         </tr>
                     </thead>
                     <tbody>
-                        <?php for ($period = 1; $period <= 7; $period++): ?>
+                        <?php for ($i = 1; $i <= 7; $i++): ?>
                         <tr>
-                            <td><?php echo $period; ?></td>
-                            <td><input type="text" name="class<?php echo $period; ?>" id="class<?php echo $period; ?>" class="form-control" required></td>
-                            <td><input type="text" name="teacher<?php echo $period; ?>" id="teacher<?php echo $period; ?>" class="form-control" required></td>
-                            <td><input type="text" name="room<?php echo $period; ?>" id="room<?php echo $period; ?>" class="form-control" required></td>
+                            <td><?php echo $i; ?></td>
+                            <td><input type="text" name="class<?php echo $i; ?>" class="form-control" value="<?php echo htmlspecialchars($schedule["p{$i}c"] ?? ''); ?>" required></td>
+                            <td><input type="text" name="teacher<?php echo $i; ?>" class="form-control" value="<?php echo htmlspecialchars($schedule["p{$i}t"] ?? ''); ?>" required></td>
+                            <td><input type="text" name="room<?php echo $i; ?>" class="form-control" value="<?php echo htmlspecialchars($schedule["p{$i}r"] ?? ''); ?>" required></td>
                         </tr>
                         <?php endfor; ?>
                     </tbody>
@@ -66,33 +69,5 @@ include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
             </form>
         </div>
     </div>
-
-    <script>
-        document.getElementById('scheduleForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent normal form submission
-
-            let scheduleData = {};
-            for (let period = 1; period <= 7; period++) {
-                let className = document.getElementById('class' + period).value;
-                let teacherName = document.getElementById('teacher' + period).value;
-                let roomNumber = document.getElementById('room' + period).value;
-                scheduleData[period] = {
-                    class: className,
-                    teacher: teacherName,
-                    room: roomNumber
-                };
-            }
-
-            let jsonSchedule = JSON.stringify(scheduleData);
-
-            let scheduleInput = document.createElement('input');
-            scheduleInput.type = 'hidden';
-            scheduleInput.name = 'schedule';
-            scheduleInput.value = jsonSchedule;
-            this.appendChild(scheduleInput);
-
-            this.submit();
-        });
-    </script>
 </body>
 </html>

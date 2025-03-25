@@ -1,8 +1,8 @@
 <?php
 session_start();
-echo '<pre>';
-print_r($_SESSION);
-echo '</pre>';
+//echo '<pre>';
+//print_r($_SESSION);
+//echo '</pre>';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,13 +20,13 @@ echo '</pre>';
 	?>
 
   <style>
-        :root {
-            --primary-color: #003F88;
-            --secondary-color: #49E1FF;
-            --accent-color: #1e88e5;
-            --gradient-start: #001DD1;
-            --gradient-end: #FFB446;
-        }
+       :root {
+    --primary-color: #1F0E58;
+    --secondary-color: #004EA9;
+    --accent-color: #FFFFFF; /* White for contrast */
+    --gradient-start: #1F0E58;
+    --gradient-end: #004EA9;
+}
 
         body {
             font-family: 'Arial', sans-serif;
@@ -138,8 +138,8 @@ echo '</pre>';
 					 <a href="/users/schedule.php" class="text-decoration-none">
                     <div class="feature-card h-100 text-center">
                         <div class="feature-icon">🚀</div>
-                        <h3>schedule</h3>
-                        <p>learn to navigate</p>
+                        <h3>Schedule</h3>
+                        <p>Learn to navigate</p>
                     </div>
 					</a>
 				</div>

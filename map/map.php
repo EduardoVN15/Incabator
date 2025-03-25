@@ -107,6 +107,7 @@
     <!-- Sidebar -->
     <div id="sidebar">
         <button id="sidebar-toggle" type="button">≡</button>
+
         <h5 class="mb-3"> Campus Locations </h5>
         
 		 <!-- My Classes Category -->
@@ -119,6 +120,13 @@
        <!-- Academic Buildings Category -->
 <div class="location-group">
     <button class="btn btn-primary category-button" type="button" data-bs-toggle="collapse" data-bs-target="#academicBuildings" aria-expanded="false" aria-controls="academicBuildings"  style="background-color: #0D21A1;">
+
+        <h5 class="mb-3">Campus Locations</h5>
+        
+       <!-- Academic Buildings Category -->
+<div class="location-group">
+    <button class="btn btn-primary category-button" type="button" data-bs-toggle="collapse" data-bs-target="#academicBuildings" aria-expanded="false" aria-controls="academicBuildings">
+
         Academic Buildings
     </button>
     <div class="collapse location-list" id="academicBuildings">
@@ -148,7 +156,11 @@
 
 <!-- Athletic Facilities Category -->
 <div class="location-group">
+
     <button class="btn btn-success category-button" type="button" data-bs-toggle="collapse" data-bs-target="#athleticFacilities" aria-expanded="false" aria-controls="athleticFacilities" style="background-color: #EEC643;">
+
+    <button class="btn btn-success category-button" type="button" data-bs-toggle="collapse" data-bs-target="#athleticFacilities" aria-expanded="false" aria-controls="athleticFacilities">
+
         Athletic Facilities
     </button>
     <div class="collapse location-list" id="athleticFacilities">
@@ -175,9 +187,15 @@
 
 <!-- Campus Services Category -->
 <div class="location-group">
+
     <button class="btn btn-info category-button" type="button" data-bs-toggle="collapse" data-bs-target="#campusServices" aria-expanded="false" aria-controls="campusServices" style="background-color: #0D21A1; color: white;">
     Campus Services
 </button>
+
+    <button class="btn btn-info category-button" type="button" data-bs-toggle="collapse" data-bs-target="#campusServices" aria-expanded="false" aria-controls="campusServices">
+        Campus Services
+    </button>
+
     <div class="collapse location-list" id="campusServices">
         <button class="btn btn-outline-info location-btn" data-lat="32.780806" data-lng="-116.987139">
             District Office
@@ -196,6 +214,87 @@
         </button>
     </div>
 </div>
+
+        
+        <!-- Academic Buildings Category -->
+        <div class="location-group">
+            <button class="btn btn-primary category-button" type="button" data-bs-toggle="collapse" data-bs-target="#academicBuildings" aria-expanded="true" aria-controls="academicBuildings">
+                Academic Buildings
+            </button>
+            <div class="collapse show location-list" id="academicBuildings">
+                <button class="btn btn-outline-primary location-btn" data-lat="32.782500" data-lng="-116.986300">
+                    English/1400
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.781111" data-lng="-116.987944">
+                    Art/Office/200
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.781750" data-lng="-116.987222">
+                    Bio/Science/1100
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.781139" data-lng="-116.986444">
+                    Math/Library/600
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.781556" data-lng="-116.986639">
+                    Math 2/700
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.781480" data-lng="-116.985197">
+                    Geo/800
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.782639" data-lng="-116.986667">
+                    Autoshop
+                </button>
+            </div>
+        </div>
+        
+        <!-- Athletic Facilities Category -->
+        <div class="location-group">
+            <button class="btn btn-success category-button" type="button" data-bs-toggle="collapse" data-bs-target="#athleticFacilities" aria-expanded="true" aria-controls="athleticFacilities">
+                Athletic Facilities
+            </button>
+            <div class="collapse show location-list" id="athleticFacilities">
+                <button class="btn btn-outline-success location-btn" data-lat="32.781611" data-lng="-116.988083">
+                    Field
+                </button>
+                <button class="btn btn-outline-success location-btn" data-lat="32.782142" data-lng="-116.987583">
+                    The New Gym/1300
+                </button>
+                <button class="btn btn-outline-success location-btn" data-lat="32.781222" data-lng="-116.987083">
+                    The Old Gym
+                </button>
+                <button class="btn btn-outline-success location-btn" data-lat="32.782333" data-lng="-116.987667">
+                    Pool
+                </button>
+                <button class="btn btn-outline-success location-btn" data-lat="32.780806" data-lng="-116.987139">
+                    The Locker Room/1000
+                </button>
+                <button class="btn btn-outline-success location-btn" data-lat="32.780667" data-lng="-116.987639">
+                    Dance
+                </button>
+            </div>
+        </div>
+        
+        <!-- Campus Services Category -->
+        <div class="location-group">
+            <button class="btn btn-info category-button" type="button" data-bs-toggle="collapse" data-bs-target="#campusServices" aria-expanded="true" aria-controls="campusServices">
+                Campus Services
+            </button>
+            <div class="collapse show location-list" id="campusServices">
+                <button class="btn btn-outline-info location-btn" data-lat="32.780806" data-lng=" -116.987139">
+				District Office</button>
+                <button class="btn btn-outline-info location-btn" data-lat="32.780806" data-lng="-116.987139">
+                    Daycare/900
+                </button>
+                <button class="btn btn-outline-info location-btn" data-lat="32.780500" data-lng="-116.987250">
+                    Theater
+                </button>
+                <button class="btn btn-outline-info location-btn" data-lat="32.781556" data-lng="-116.987417">
+                    Cafeteria/400
+                </button>
+                <button class="btn btn-outline-info location-btn" data-lat="32.782889" data-lng="-116.986750">
+                    Portables
+                </button>
+            </div>
+        </div>
 
         
         <!-- Location dropdown -->
@@ -234,6 +333,7 @@
             // Create location markers
             const locationMarkers = [
                 { name: "English/1400", lat: 32.782500, lng: -116.986300, type: "academic" },
+
                 { name: "Art/Office/200", lat: 32.781111, lng: -116.987944, type: "academic" },
                 { name: "Bio/Science/1100", lat: 32.781750, lng: -116.987222, type: "academic" },
                 { name: "Field", lat: 32.781611, lng: -116.988083, type: "athletic" },
@@ -251,6 +351,26 @@
                 { name: "Dance", lat: 32.780667, lng: -116.987833, type: "athletic" },
                 { name: "Theater", lat: 32.780500, lng: -116.987250, type: "service" },
                 { name: "Cafeteria/400", lat: 32.781556, lng: -116.987417, type: "service" }
+
+				{ name: "Art/Office/200", lat: 32.781111, lng: -116.987944, type: "academic" },
+				{ name: "Bio/Science/1100", lat: 32.781750, lng: -116.987222, type: "academic" },
+				{ name: "Field", lat: 32.781611, lng: -116.988083, type: "athletic" },
+				{ name: "Math/Library/600", lat: 32.781139, lng: -116.986444, type: "academic" },
+				{ name: "Portables", lat: 32.782889, lng: -116.986750, type: "service" },
+				{ name: "District Office", lat: 32.780806, lng: -116.987139, type: "service" },
+				{ name: "The Locker Room/1000", lat: 32.782333, lng: -116.987667, type: "athletic" },
+				{ name: "Pool", lat: 32.782139, lng: -116.987000, type: "athletic" },
+				{ name: "Daycare/900", lat: 32.781472, lng: -116.984750, type: "service" },
+				{ name: "Geo/800", lat: 32.781480, lng: -116.985197, type: "academic" }, // Converted from 32°46'54.1"N 116°59'08.7"W
+				{ name: "Math 2/700", lat: 32.781556, lng: -116.986639, type: "academic" },
+				{ name: "Autoshop", lat: 32.783072, lng: -116.986426, type: "academic" },
+				{ name: "The New Gym/1300", lat: 32.782417, lng: -116.987028, type: "athletic" },
+				{ name: "The Old Gym", lat: 32.781222, lng: -116.987083, type: "athletic" },
+				{ name: "Dance", lat: 32.780667, lng: -116.987833, type: "athletic" },
+				{ name: "Theater", lat: 32.780500, lng: -116.987250, type: "service" },
+				{ name: "Cafeteria/400", lat: 32.781556, lng: -116.987417, type: "service" }
+
+
             ];
 
             // Create map markers
@@ -258,6 +378,7 @@
             const academicMarkers = [];
             const athleticMarkers = [];
             const serviceMarkers = [];
+
             
             // Track the currently visible marker
             let currentMarker = null;
@@ -265,6 +386,13 @@
             // Create markers for all locations and add to appropriate arrays
             locationMarkers.forEach(location => {
                 // Create marker but DO NOT add to the map initially
+
+
+
+            // Create markers for all locations and add to appropriate arrays
+            locationMarkers.forEach(location => {
+                // Add marker to the map
+
                 const marker = L.marker([location.lat, location.lng])
                     .bindPopup(`<strong>${location.name}</strong>`);
                 
@@ -287,6 +415,7 @@
                 document.getElementById('location-select').appendChild(option);
             });
 
+
             // Function to remove current marker and display a new one
             function showMarker(markerName) {
                 // Remove current marker if there is one
@@ -304,6 +433,13 @@
                 markers[markerName].openPopup();
             }
 
+
+
+            // Add all markers to map initially
+            const allMarkers = [...academicMarkers, ...athleticMarkers, ...serviceMarkers];
+            allMarkers.forEach(marker => marker.addTo(map));
+
+
             // Toggle sidebar
             document.getElementById('sidebar-toggle').addEventListener('click', function() {
                 document.getElementById('sidebar').classList.toggle('collapsed');
@@ -313,7 +449,55 @@
             document.querySelectorAll('.category-button').forEach(button => {
                 button.addEventListener('click', function() {
                     this.classList.toggle('collapsed');
+
                     // This now just expands/collapses the location list
+
+
+                    // This now just expands/collapses the location list
+
+                    
+                    // Toggle visibility of respective marker types when category is clicked
+                    const categoryType = this.textContent.trim();
+                    
+                    if (categoryType === "Academic Buildings") {
+                        if (this.classList.contains('collapsed')) {
+                            // Remove academic markers if collapsed
+                            academicMarkers.forEach(marker => map.removeLayer(marker));
+                        } else {
+                            // Add academic markers if expanded
+                            academicMarkers.forEach(marker => {
+                                if (!map.hasLayer(marker)) {
+                                    marker.addTo(map);
+                                }
+                            });
+                        }
+                    } else if (categoryType === "Athletic Facilities") {
+                        if (this.classList.contains('collapsed')) {
+                            // Remove athletic markers if collapsed
+                            athleticMarkers.forEach(marker => map.removeLayer(marker));
+                        } else {
+                            // Add athletic markers if expanded
+                            athleticMarkers.forEach(marker => {
+                                if (!map.hasLayer(marker)) {
+                                    marker.addTo(map);
+                                }
+                            });
+                        }
+                    } else if (categoryType === "Campus Services") {
+                        if (this.classList.contains('collapsed')) {
+                            // Remove service markers if collapsed
+                            serviceMarkers.forEach(marker => map.removeLayer(marker));
+                        } else {
+                            // Add service markers if expanded
+                            serviceMarkers.forEach(marker => {
+                                if (!map.hasLayer(marker)) {
+                                    marker.addTo(map);
+                                }
+                            });
+                        }
+                    }
+
+
                 });
             });
 
@@ -329,6 +513,28 @@
                     
                     // Show the marker
                     showMarker(locationName);
+
+
+                    // Find corresponding marker
+                    const marker = markers[locationName];
+                    
+                    if (marker) {
+                        // Ensure marker is on map
+                        if (!map.hasLayer(marker)) {
+                            marker.addTo(map);
+                        }
+                        
+                        // Pan to location
+                        map.setView([lat, lng], 19);
+                        
+                        // Open popup
+                        marker.openPopup();
+                    } else {
+                        // If no marker exists, just pan to the location
+                        map.setView([lat, lng], 19);
+                    }
+
+
                 });
             });
 
@@ -349,6 +555,26 @@
                     
                     // Reset dropdown to default option after action
                     this.value = "";
+
+    
+              const locationInfo = locationMarkers.find(loc => loc.name === selectedName);
+                
+                if (locationInfo) {
+                    // Ensure marker is on map
+                    const marker = markers[selectedName];
+                    if (marker && !map.hasLayer(marker)) {
+                        marker.addTo(map);
+                    }
+                    
+                    // Pan to location
+                    map.setView([locationInfo.lat, locationInfo.lng], 19);
+                    
+                    // Open popup if marker exists
+                    if (marker) {
+                        marker.openPopup();
+                    }
+
+
                 }
             });
 
@@ -381,7 +607,15 @@
                 })
                 .catch(error => console.error('Error fetching locations:', error));
 
+
             console.log('Map initialized successfully with pins hidden until clicked');
+
+
+            console.log('Map initialized successfully with pins hidden until clicked');
+
+            console.log('Map initialized successfully with all campus locations');
+
+
         } catch (error) {
             console.error('Error initializing map:', error);
         }

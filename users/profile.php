@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>High School Student Profile</title>
-    <?php 
-	// Database configuration
+<?php
+session_start();
+
+// Database configuration
 $host = 'auth-db1536.hstgr.io';
 $dbname = 'u237055794_schoolMaps';
 $dbUsername = 'u237055794_ghs_schoolMaps';
@@ -16,165 +13,165 @@ try {
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
 }
-        session_start();
-        include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
 
-        // Check if the user is in edit mode
-        $isEditMode = isset($_SESSION['edit_mode']) && $_SESSION['edit_mode'] === true;
+include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
 
-        // Handle edit mode toggle
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_edit'])) {
-            $_SESSION['edit_mode'] = !$isEditMode;
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit;
-        }
+// Check if the user is logged in
+if (!isset($_SESSION['uid'])) {
+    echo "<p class='error-message'>Please log in to view your profile.</p>";
+    exit();
+}
 
-        // Save form data
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_data'])) {
-            $_SESSION['student_data'] = $_POST['student_data'];
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit;
-        }
+$uid = $_SESSION['uid']; // Get logged-in user's ID
 
-        // Load saved data
-        $studentData = isset($_SESSION['student_data']) ? $_SESSION['student_data'] : [];
-    ?>
-     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-        header, footer {
-            width: 100%;
-            background-color: #007BFF;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-        }
-        main {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
+// Fetch the user information
+try {
+    $userQuery = "SELECT uName, email, studentID, grade FROM users WHERE uid = :uid";
+    $userStmt = $pdo->prepare($userQuery);
+    $userStmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+    $userStmt->execute();
+
+    if ($userStmt->rowCount() === 0) {
+        echo "<p class='error-message'>No user information found.</p>";
+        exit();
+    }
+
+    $users = $userStmt->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("User query failed: " . $e->getMessage());
+}
+
+// Fetch the schedule for the logged-in user (now optional)
+$schedule = null;
+try {
+    $scheduleQuery = "SELECT * FROM schedules WHERE uid = :uid";
+    $scheduleStmt = $pdo->prepare($scheduleQuery);
+    $scheduleStmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+    $scheduleStmt->execute();
+
+    if ($scheduleStmt->rowCount() > 0) {
+        $schedule = $scheduleStmt->fetch(PDO::FETCH_ASSOC);
+    }
+} catch (PDOException $e) {
+    die("Schedule query failed: " . $e->getMessage());
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Profile</title>
+    <link rel="stylesheet" href="/css/styles.css"> 
+    <style>
+        .container.profile-page {
+            width: min(90%, 650px);
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             color: #333;
+            margin: 1rem auto;
+            box-sizing: border-box;
         }
-        .section {
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 5px;
-        }
-        table {
+        .profile-table, .schedule-table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
+        .profile-table th, .profile-table td, 
+        .schedule-table th, .schedule-table td {
+            padding: 0.8rem;
             text-align: left;
+            border: 1px solid #e1e1e1;
+            color: #333;
         }
-        th {
+        .profile-table th, .schedule-table th {
+            background: linear-gradient(45deg, #1F0E58, #004EA9);
+            color: white;
+            font-weight: 500;
+        }
+        .schedule-table tr:nth-child(even),
+        .profile-table tr:nth-child(even) {
+            background-color: #f8f8f8;
+        }
+        .error-message {
+            color: #d9534f;
+            background-color: #f9eaea;
+            border: 1px solid #d9534f;
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        h1.profile-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #1F0E58;
+            text-align: center;
+        }
+		  .no-schedule-message {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 1rem;
             background-color: #f4f4f4;
-            font-weight: bold;
-        }
-        input[disabled], textarea[disabled] {
-            background-color: #f9f9f9;
-            color: #999;
-            cursor: not-allowed;
-        }
-        .edit-button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-        }
-        .edit-button:hover {
-            background-color: #0056b3;
-        }
-        .save-button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-        }
-        .save-button:hover {
-            background-color: #218838;
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
-    <h1>High School Student Profile</h1>
+    <div class="container profile-page">
+        <h1 class="profile-title">Your Profile</h1>
 
-    <form method="POST">
-        <button type="submit" name="toggle_edit" class="edit-button">
-            <?php echo $isEditMode ? "Disable Edit Mode" : "Enable Edit Mode"; ?>
-        </button>
+        <!-- User Information Table -->
+        <table class="profile-table">
+            <tr>
+                <th>Name</th>
+                <td><?= htmlspecialchars($users['uName'] ?? 'Not available') ?></td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td><?= htmlspecialchars($users['email'] ?? 'Not available') ?></td>
+            </tr>
+            <tr>
+                <th>Student ID</th>
+                <td><?= htmlspecialchars($users['studentID'] ?? 'Not available') ?></td>
+            </tr>
+            <tr>
+                <th>Grade</th>
+                <td><?= htmlspecialchars($users['grade'] ?? 'Not available') ?></td>
+            </tr>
+        </table>
 
-        <?php if ($isEditMode): ?>
-            <button type="submit" name="save_data" class="save-button">Save Data</button>
-        <?php endif; ?>
-
-        <div class="section">
-            <h2>Personal Information</h2>
-            <table>
-                <tr>
-                    <th>Detail</th>
-                    <th>Information</th>
-                </tr>
-                <tr>
-                    <td>user Name</td>
-                    <td><input type="text" name="student_data[user_name]" value="<?php echo htmlspecialchars($studentData['user_name'] ?? ''); ?>" <?php echo !$isEditMode ? 'disabled' : ''; ?>></td>
-                </tr>
-                <tr>
-                    <td>Grade Level</td>
-                    <td><input type="text" name="student_data[grade_level]" value="<?php echo htmlspecialchars($studentData['grade_level'] ?? ''); ?>" <?php echo !$isEditMode ? 'disabled' : ''; ?>></td>
-                </tr>
-                <tr>
-                    <td>Student ID</td>
-                    <td><input type="text" name="student_data[student_id]" value="<?php echo htmlspecialchars($studentData['student_id'] ?? ''); ?>" <?php echo !$isEditMode ? 'disabled' : ''; ?>></td>
-                </tr>
-                <tr>
-                    <td>Counselor Name</td>
-                    <td><input type="text" name="student_data[counselor_name]" value="<?php echo htmlspecialchars($studentData['counselor_name'] ?? ''); ?>" <?php echo !$isEditMode ? 'disabled' : ''; ?>></td>
-                </tr>
-				
-
-            </table>
-        </div>
-
-        <div class="section">
-            <h2>Daily Schedule</h2>
-            <table>
-                <tr>
-                    <th>Period</th>
-                    <th>Course Name</th>
-                    <th>Teacher</th>
-                    <th>Room</th>
-                </tr>
+        <!-- Schedule Table -->
+        <table class="schedule-table">
+            <tr>
+                <th>Period</th>
+                <th>Class</th>
+                <th>Teacher</th>
+                <th>Room</th>
+            </tr>
+            <?php if ($schedule): ?>
                 <?php for ($i = 1; $i <= 7; $i++): ?>
                     <tr>
-                        <td>Period <?php echo $i; ?></td>
-                        <td><input type="text" name="student_data[period_<?php echo $i; ?>_course]" value="<?php echo htmlspecialchars($studentData['period_' . $i . '_course'] ?? ''); ?>" <?php echo !$isEditMode ? 'disabled' : ''; ?>></td>
-                        <td><input type="text" name="student_data[period_<?php echo $i; ?>_teacher]" value="<?php echo htmlspecialchars($studentData['period_' . $i . '_teacher'] ?? ''); ?>" <?php echo !$isEditMode ? 'disabled' : ''; ?>></td>
-                        <td><input type="text" name="student_data[period_<?php echo $i; ?>_room]" value="<?php echo htmlspecialchars($studentData['period_' . $i . '_room'] ?? ''); ?>" <?php echo !$isEditMode ? 'disabled' : ''; ?>></td>
+                        <td>Period <?= $i ?></td>
+                        <td><?= htmlspecialchars($schedule["p{$i}c"] ?? 'Not assigned') ?></td>
+                        <td><?= htmlspecialchars($schedule["p{$i}t"] ?? 'Not assigned') ?></td>
+                        <td><?= htmlspecialchars($schedule["p{$i}r"] ?? 'Not assigned') ?></td>
                     </tr>
                 <?php endfor; ?>
-            </table>
-        </div>
-    </form>
+            <?php else: ?>
+                <tr>
+                    <td colspan="4" class="no-schedule-message">
+                        No schedule has been assigned yet. Please input your schedule.
+                    </td>
+                </tr>
+            <?php endif; ?>
+        </table>
+    </div>
 </body>
 </html>
