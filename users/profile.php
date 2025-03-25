@@ -26,7 +26,7 @@ $uid = $_SESSION['uid']; // Get logged-in user's ID
 
 // Fetch the user information
 try {
-    $userQuery = "SELECT uName, email, studentID, grade FROM users WHERE uid = :uid";
+    $userQuery = "SELECT uName, fullName, email, studentID, grade FROM users WHERE uid = :uid";
     $userStmt = $pdo->prepare($userQuery);
     $userStmt->bindParam(':uid', $uid, PDO::PARAM_INT);
     $userStmt->execute();
@@ -129,8 +129,15 @@ try {
 
         <!-- User Information Table -->
         <table class="profile-table">
+			
+			
+			<tr>
+    <th>Full Name</th>
+    <td><?= htmlspecialchars($users['fullName'] ?? 'Not available') ?></td>
+</tr>
+			
             <tr>
-                <th>Name</th>
+                <th>User Name</th>
                 <td><?= htmlspecialchars($users['uName'] ?? 'Not available') ?></td>
             </tr>
             <tr>
