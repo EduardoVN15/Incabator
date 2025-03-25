@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Navigator - Home</title>
+    <title> Campus Navigator - Home</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
@@ -107,11 +107,26 @@
     <!-- Sidebar -->
     <div id="sidebar">
         <button id="sidebar-toggle" type="button">≡</button>
+
+        <h5 class="mb-3"> Campus Locations </h5>
+        
+		 <!-- My Classes Category -->
+	<div class="location-group">
+    <button class="btn btn-success category-button" type="button" data-bs-toggle="collapse" data-bs-target="#myClasses" aria-expanded="false" aria-controls="myClasses" style="background-color: #EEC643;">
+       My Classes
+    </button>
+</div>
+		
+       <!-- Academic Buildings Category -->
+<div class="location-group">
+    <button class="btn btn-primary category-button" type="button" data-bs-toggle="collapse" data-bs-target="#academicBuildings" aria-expanded="false" aria-controls="academicBuildings"  style="background-color: #0D21A1;">
+
         <h5 class="mb-3">Campus Locations</h5>
         
        <!-- Academic Buildings Category -->
 <div class="location-group">
     <button class="btn btn-primary category-button" type="button" data-bs-toggle="collapse" data-bs-target="#academicBuildings" aria-expanded="false" aria-controls="academicBuildings">
+
         Academic Buildings
     </button>
     <div class="collapse location-list" id="academicBuildings">
@@ -141,7 +156,11 @@
 
 <!-- Athletic Facilities Category -->
 <div class="location-group">
+
+    <button class="btn btn-success category-button" type="button" data-bs-toggle="collapse" data-bs-target="#athleticFacilities" aria-expanded="false" aria-controls="athleticFacilities" style="background-color: #EEC643;">
+
     <button class="btn btn-success category-button" type="button" data-bs-toggle="collapse" data-bs-target="#athleticFacilities" aria-expanded="false" aria-controls="athleticFacilities">
+
         Athletic Facilities
     </button>
     <div class="collapse location-list" id="athleticFacilities">
@@ -168,9 +187,15 @@
 
 <!-- Campus Services Category -->
 <div class="location-group">
+
+    <button class="btn btn-info category-button" type="button" data-bs-toggle="collapse" data-bs-target="#campusServices" aria-expanded="false" aria-controls="campusServices" style="background-color: #0D21A1; color: white;">
+    Campus Services
+</button>
+
     <button class="btn btn-info category-button" type="button" data-bs-toggle="collapse" data-bs-target="#campusServices" aria-expanded="false" aria-controls="campusServices">
         Campus Services
     </button>
+
     <div class="collapse location-list" id="campusServices">
         <button class="btn btn-outline-info location-btn" data-lat="32.780806" data-lng="-116.987139">
             District Office
@@ -189,6 +214,7 @@
         </button>
     </div>
 </div>
+
         
         <!-- Academic Buildings Category -->
         <div class="location-group">
@@ -269,6 +295,7 @@
                 </button>
             </div>
         </div>
+
         
         <!-- Location dropdown -->
         <div class="mt-4">
@@ -343,6 +370,7 @@
 				{ name: "Theater", lat: 32.780500, lng: -116.987250, type: "service" },
 				{ name: "Cafeteria/400", lat: 32.781556, lng: -116.987417, type: "service" }
 
+
             ];
 
             // Create map markers
@@ -358,6 +386,7 @@
             // Create markers for all locations and add to appropriate arrays
             locationMarkers.forEach(location => {
                 // Create marker but DO NOT add to the map initially
+
 
 
             // Create markers for all locations and add to appropriate arrays
@@ -404,9 +433,12 @@
                 markers[markerName].openPopup();
             }
 
+
+
             // Add all markers to map initially
             const allMarkers = [...academicMarkers, ...athleticMarkers, ...serviceMarkers];
             allMarkers.forEach(marker => marker.addTo(map));
+
 
             // Toggle sidebar
             document.getElementById('sidebar-toggle').addEventListener('click', function() {
@@ -417,6 +449,9 @@
             document.querySelectorAll('.category-button').forEach(button => {
                 button.addEventListener('click', function() {
                     this.classList.toggle('collapsed');
+
+                    // This now just expands/collapses the location list
+
 
                     // This now just expands/collapses the location list
 
@@ -462,6 +497,7 @@
                         }
                     }
 
+
                 });
             });
 
@@ -477,6 +513,7 @@
                     
                     // Show the marker
                     showMarker(locationName);
+
 
                     // Find corresponding marker
                     const marker = markers[locationName];
@@ -496,6 +533,7 @@
                         // If no marker exists, just pan to the location
                         map.setView([lat, lng], 19);
                     }
+
 
                 });
             });
@@ -517,7 +555,8 @@
                     
                     // Reset dropdown to default option after action
                     this.value = "";
-       
+
+    
               const locationInfo = locationMarkers.find(loc => loc.name === selectedName);
                 
                 if (locationInfo) {
@@ -534,6 +573,7 @@
                     if (marker) {
                         marker.openPopup();
                     }
+
 
                 }
             });
@@ -570,7 +610,11 @@
 
             console.log('Map initialized successfully with pins hidden until clicked');
 
+
+            console.log('Map initialized successfully with pins hidden until clicked');
+
             console.log('Map initialized successfully with all campus locations');
+
 
         } catch (error) {
             console.error('Error initializing map:', error);
