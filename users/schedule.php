@@ -35,6 +35,26 @@ if ($loggedInStudentId) {
 	  <link rel="stylesheet" href="/css/styles.css"> 
     <title>Schedule Form</title>
 	
+	
+	
+	
+	
+	<script>
+    function confirmUpdate(event) {
+        var hasExistingSchedule = <?php echo !empty($schedule) ? 'true' : 'false'; ?>;
+        if (hasExistingSchedule) {
+            var confirmUpdate = confirm("You already have a schedule saved. Are you sure you want to update it?");
+            if (!confirmUpdate) {
+                event.preventDefault(); // Stop form submission if the user cancels
+            }
+        }
+    }
+</script>
+	
+	
+	
+	
+	
 </head>
 <body>
     <div class="container schedule-page">
@@ -64,7 +84,7 @@ if ($loggedInStudentId) {
                     </tbody>
                 </table>
                 <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-primary">Submit Schedule</button>
+                    <button type="submit" class="btn btn-primary" onclick="confirmUpdate(event)">Submit Schedule</button>
                 </div>
             </form>
         </div>
