@@ -117,7 +117,7 @@ session_start();
 				 <div class="col-md-4 mb-4">
 					 <a href="/users/profile.php" class="text-decoration-none">
                     <div class="feature-card h-100 text-center">
-                        <div class="feature-icon">📊</div>
+                        <div class="feature-icon">🪪</div>
                         <h3>Profile</h3>
                         <p>input your schedule</p>
                     </div>
@@ -127,7 +127,7 @@ session_start();
 				<div class="col-md-4 mb-4">
 					 <a href="/map/map.php" class="text-decoration-none">
                     <div class="feature-card h-100 text-center">
-                        <div class="feature-icon">🚀</div>
+                        <div class="feature-icon">🗺️</div>
                         <h3>Map</h3>
                         <p>learn to navigate</p>
                     </div>
@@ -137,7 +137,7 @@ session_start();
 				<div class="col-md-4 mb-4">
 					 <a href="/users/schedule.php" class="text-decoration-none">
                     <div class="feature-card h-100 text-center">
-                        <div class="feature-icon">🚀</div>
+                        <div class="feature-icon">📓</div>
                         <h3>Schedule</h3>
                         <p>Learn to navigate</p>
                     </div>
