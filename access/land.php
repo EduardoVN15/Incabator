@@ -119,7 +119,7 @@ session_start();
                     <div class="feature-card h-100 text-center">
                         <div class="feature-icon">🪪</div>
                         <h3>Profile</h3>
-                        <p>input your schedule</p>
+                        <p>View your information!</p>
                     </div>
 					 </a>
                 </div>
@@ -129,7 +129,7 @@ session_start();
                     <div class="feature-card h-100 text-center">
                         <div class="feature-icon">🗺️</div>
                         <h3>Map</h3>
-                        <p>learn to navigate</p>
+                        <p>Learn to navigate!</p>
                     </div>
 					</a>
 				</div>
@@ -139,7 +139,7 @@ session_start();
                     <div class="feature-card h-100 text-center">
                         <div class="feature-icon">📓</div>
                         <h3>Schedule</h3>
-                        <p>View your Classes</p>
+                        <p>View your classes!</p>
                     </div>
 					</a>
 				</div>
