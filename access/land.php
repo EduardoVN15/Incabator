@@ -139,7 +139,7 @@ session_start();
                     <div class="feature-card h-100 text-center">
                         <div class="feature-icon">📓</div>
                         <h3>Schedule</h3>
-                        <p>Learn to navigate</p>
+                        <p>View your Classes</p>
                     </div>
 					</a>
 				</div>
