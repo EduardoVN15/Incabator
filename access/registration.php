@@ -39,8 +39,8 @@
 
            <form method="POST" action="/access/regHandler.php">
 			   
-			   <label for="fullName">Full Name:</label>
-<input type="text" name="fullName" id="fullName" required><br>
+			   <label for="fullname">Full Name:</label>
+<input type="text" name="fullname" id="fullname" required><br>
 			   
     <label for="username">Username:</label>
     <input type="text" name="username" id="username" required><br>
