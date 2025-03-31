@@ -150,6 +150,7 @@ input:focus {
 
 .table, .schedule-table {
     width: 100%;
+    max-width: 900px;
     border-collapse: collapse;
     margin: 0 auto;
     background: white;
@@ -163,6 +164,8 @@ input:focus {
     text-align: left;
     border: 1px solid #e1e1e1;
     color: #333;
+    min-width: 150px; /* Adjust based on column content */
+    white-space: nowrap;
 }
 
 .table-bordered th, .schedule-table th {
@@ -183,6 +186,22 @@ input:focus {
     background-color: #f0f0f0;
 }
 
+/* Period Column Specific Styles */
+.schedule-table th:first-child,
+.schedule-table td:first-child {
+    width: 80px; /* Fixed width for Period column */
+    text-align: center;
+    white-space: nowrap;
+}
+
+.schedule-table th:not(:first-child),
+.schedule-table td:not(:first-child) {
+    min-width: 200px; /* Ensure other columns expand */
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+/* Form Control */
 .form-control {
     width: 100%;
     padding: 0.6rem;
@@ -253,10 +272,16 @@ input:focus {
     
     .container.schedule-page {
         padding: 1.5rem;
+        width: min(95%, 900px);
     }
     
     .form-control {
         padding: 0.5rem;
         font-size: 0.9rem;
+    }
+
+    .table-bordered td, .schedule-table td {
+        white-space: normal;
+        word-wrap: break-word;
     }
 }

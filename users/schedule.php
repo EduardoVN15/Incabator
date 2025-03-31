@@ -26,6 +26,14 @@ if ($loggedInStudentId) {
     $stmt->execute();
     $schedule = $stmt->fetch(PDO::FETCH_ASSOC) ?? [];
 }
+
+// Fetch period times
+$stmt = $pdo->query("SELECT * FROM period_times ORDER BY period_number");
+$periodTimes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$periodTimeMap = [];
+foreach ($periodTimes as $row) {
+    $periodTimeMap[$row['period_number']] = date("g:i A", strtotime($row['start_time'])) . " - " . date("g:i A", strtotime($row['end_time']));
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -62,27 +70,30 @@ if ($loggedInStudentId) {
             <h2 class="schedule-title">My Schedule</h2>
             <form method="POST" action="/users/scheduleHandler.php">
                 <input type="hidden" name="studentID" value="<?php echo $loggedInStudentId; ?>">
+				
 
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Period</th>
-                            <th>Class</th>
-                            <th>Teacher</th>
-                            <th>Room Number</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php for ($i = 1; $i <= 7; $i++): ?>
-                        <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><input type="text" name="class<?php echo $i; ?>" class="form-control" value="<?php echo htmlspecialchars($schedule["p{$i}c"] ?? ''); ?>" required></td>
-                            <td><input type="text" name="teacher<?php echo $i; ?>" class="form-control" value="<?php echo htmlspecialchars($schedule["p{$i}t"] ?? ''); ?>" required></td>
-                            <td><input type="text" name="room<?php echo $i; ?>" class="form-control" value="<?php echo htmlspecialchars($schedule["p{$i}r"] ?? ''); ?>" required></td>
-                        </tr>
-                        <?php endfor; ?>
-                    </tbody>
-                </table>
+               <table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Period</th>
+            <th>Time</th>
+            <th>Class</th>
+            <th>Teacher</th>
+            <th>Room Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php for ($i = 1; $i <= 7; $i++): ?>
+        <tr>
+            <td><?php echo $i; ?></td>
+            <td><?php echo $periodTimeMap[$i] ?? 'N/A'; ?></td>
+            <td><input type="text" name="class<?php echo $i; ?>" class="form-control" value="<?php echo htmlspecialchars($schedule["p{$i}c"] ?? ''); ?>" required></td>
+            <td><input type="text" name="teacher<?php echo $i; ?>" class="form-control" value="<?php echo htmlspecialchars($schedule["p{$i}t"] ?? ''); ?>" required></td>
+            <td><input type="text" name="room<?php echo $i; ?>" class="form-control" value="<?php echo htmlspecialchars($schedule["p{$i}r"] ?? ''); ?>" required></td>
+        </tr>
+        <?php endfor; ?>
+    </tbody>
+</table>
                 <div class="text-center mt-3">
                     <button type="submit" class="btn btn-primary" onclick="confirmUpdate(event)">Submit Schedule</button>
                 </div>
