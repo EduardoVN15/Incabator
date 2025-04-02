@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -110,6 +108,74 @@
 
         <h5 class="mb-3"> Campus Locations </h5>
         
+<<<<<<< HEAD
+        <!-- My Classes Category -->
+        <div class="location-group">
+            <button class="btn btn-success category-button" type="button" data-bs-toggle="collapse" data-bs-target="#myClasses" aria-expanded="false" aria-controls="myClasses" style="background-color: #EEC643;">
+               My Classes
+            </button>
+            <div class="collapse location-list" id="myClasses">
+                <!-- Class buttons will be added here by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Academic Buildings Category -->
+        <div class="location-group">
+            <button class="btn btn-primary category-button" type="button" data-bs-toggle="collapse" data-bs-target="#academicBuildings" aria-expanded="false" aria-controls="academicBuildings"  style="background-color: #0D21A1;">
+                Academic Buildings
+            </button>
+            <div class="collapse location-list" id="academicBuildings">
+                <button class="btn btn-outline-primary location-btn" data-lat="32.782500" data-lng="-116.986300">
+                    English/1400
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.781111" data-lng="-116.987944">
+                    Art/Office/200
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.781750" data-lng="-116.987222">
+                    Bio/Science/1100
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.781139" data-lng="-116.986444">
+                    Math/Library/600
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.781556" data-lng="-116.986639">
+                    Math 2/700
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.781480" data-lng="-116.985197">
+                    Geo/800
+                </button>
+                <button class="btn btn-outline-primary location-btn" data-lat="32.782639" data-lng="-116.986667">
+                    Autoshop
+                </button>
+            </div>
+        </div>
+
+        <!-- Athletic Facilities Category -->
+        <div class="location-group">
+            <button class="btn btn-success category-button" type="button" data-bs-toggle="collapse" data-bs-target="#athleticFacilities" aria-expanded="false" aria-controls="athleticFacilities" style="background-color: #EEC643;">
+                Athletic Facilities
+            </button>
+            <div class="collapse location-list" id="athleticFacilities">
+                <button class="btn btn-outline-success location-btn" data-lat="32.781611" data-lng="-116.988083">
+                    Field
+                </button>
+                <button class="btn btn-outline-success location-btn" data-lat="32.782142" data-lng="-116.987583">
+                    The New Gym/1300
+                </button>
+                <button class="btn btn-outline-success location-btn" data-lat="32.781222" data-lng="-116.987083">
+                    The Old Gym
+                </button>
+                <button class="btn btn-outline-success location-btn" data-lat="32.782333" data-lng="-116.987667">
+                    Pool
+                </button>
+                <button class="btn btn-outline-success location-btn" data-lat="32.780806" data-lng="-116.987139">
+                    The Locker Room/1000
+                </button>
+                <button class="btn btn-outline-success location-btn" data-lat="32.780667" data-lng="-116.987639">
+                    Dance
+                </button>
+            </div>
+        </div>
+=======
 		 <!-- My Classes Category -->
 	<div class="location-group">
     <button class="btn btn-success category-button" type="button" data-bs-toggle="collapse" data-bs-target="#myClasses" aria-expanded="false" aria-controls="myClasses" style="background-color: #EEC643;">
@@ -214,7 +280,31 @@
         </button>
     </div>
 </div>
+>>>>>>> 1d1cf00922124fd02eb0978afc3f7d2bc96e362e
 
+        <!-- Campus Services Category -->
+        <div class="location-group">
+            <button class="btn btn-info category-button" type="button" data-bs-toggle="collapse" data-bs-target="#campusServices" aria-expanded="false" aria-controls="campusServices" style="background-color: #0D21A1; color: white;">
+                Campus Services
+            </button>
+            <div class="collapse location-list" id="campusServices">
+                <button class="btn btn-outline-info location-btn" data-lat="32.780806" data-lng="-116.987139">
+                    District Office
+                </button>
+                <button class="btn btn-outline-info location-btn" data-lat="32.780806" data-lng="-116.987139">
+                    Daycare/900
+                </button>
+                <button class="btn btn-outline-info location-btn" data-lat="32.780500" data-lng="-116.987250">
+                    Theater
+                </button>
+                <button class="btn btn-outline-info location-btn" data-lat="32.781556" data-lng="-116.987417">
+                    Cafeteria/400
+                </button>
+                <button class="btn btn-outline-info location-btn" data-lat="32.782889" data-lng="-116.986750">
+                    Portables
+                </button>
+            </div>
+        </div>
         
         <!-- Academic Buildings Category -->
         <div class="location-group">
@@ -303,6 +393,12 @@
             <select id="location-select" class="form-select">
                 <option value="">Select a location...</option>
             </select>
+            
+            <!-- Connection Mode Button -->
+            <button id="connection-mode" class="btn btn-danger mt-3">Connect Two Locations</button>
+            
+            <!-- Clear Line Button -->
+            <button id="clear-line" class="btn btn-secondary mt-2">Clear Line</button>
         </div>
     </div>
 
@@ -382,6 +478,15 @@
             
             // Track the currently visible marker
             let currentMarker = null;
+            
+            // Variables for connection mode
+            let connectionMode = {
+                active: false,
+                firstPoint: null
+            };
+            
+            // Variable to store the route line
+            let routeLine = null;
 
             // Create markers for all locations and add to appropriate arrays
             locationMarkers.forEach(location => {
@@ -432,6 +537,38 @@
                 // Open popup
                 markers[markerName].openPopup();
             }
+            
+            // Function to draw a line between two points
+            function drawLineBetweenPoints(point1, point2) {
+                // Remove any existing route line if there is one
+                if (routeLine && map.hasLayer(routeLine)) {
+                    map.removeLayer(routeLine);
+                }
+                
+                // Create a polyline with the two points
+                routeLine = L.polyline([
+                    [point1.lat, point1.lng],
+                    [point2.lat, point2.lng]
+                ], {
+                    color: 'red',
+                    weight: 4,
+                    opacity: 0.7,
+                    dashArray: '10, 10', // Creates a dashed line
+                    lineJoin: 'round'
+                }).addTo(map);
+                
+                // Fit the map to show the complete line
+                map.fitBounds(routeLine.getBounds(), {
+                    padding: [50, 50] // Add some padding around the line
+                });
+            }
+            
+            // Clear line button functionality
+            document.getElementById('clear-line').addEventListener('click', function() {
+                if (routeLine && map.hasLayer(routeLine)) {
+                    map.removeLayer(routeLine);
+                }
+            });
 
 
 
@@ -443,6 +580,21 @@
             // Toggle sidebar
             document.getElementById('sidebar-toggle').addEventListener('click', function() {
                 document.getElementById('sidebar').classList.toggle('collapsed');
+            });
+            
+            // Connection mode button functionality
+            document.getElementById('connection-mode').addEventListener('click', function() {
+                connectionMode.active = !connectionMode.active;
+                connectionMode.firstPoint = null;
+                
+                if (connectionMode.active) {
+                    this.textContent = 'Cancel Connection';
+                    this.classList.add('active');
+                    alert('Select the first location to connect');
+                } else {
+                    this.textContent = 'Connect Two Locations';
+                    this.classList.remove('active');
+                }
             });
 
             // Category buttons functionality
@@ -508,6 +660,43 @@
                     const lng = parseFloat(this.getAttribute('data-lng'));
                     const locationName = this.textContent.trim();
                     
+<<<<<<< HEAD
+                    // Check if we're in connection mode
+                    if (connectionMode.active) {
+                        if (!connectionMode.firstPoint) {
+                            // This is the first point
+                            connectionMode.firstPoint = { lat, lng, name: locationName };
+                            alert(`Selected "${locationName}" as first point. Now select the second point to connect.`);
+                        } else {
+                            // This is the second point, draw the line
+                            drawLineBetweenPoints(
+                                connectionMode.firstPoint,
+                                { lat, lng, name: locationName }
+                            );
+                            
+                            // Show both markers
+                            if (map.hasLayer(markers[connectionMode.firstPoint.name])) {
+                                map.removeLayer(markers[connectionMode.firstPoint.name]);
+                            }
+                            if (map.hasLayer(markers[locationName])) {
+                                map.removeLayer(markers[locationName]);
+                            }
+                            
+                            markers[connectionMode.firstPoint.name].addTo(map);
+                            markers[locationName].addTo(map).openPopup();
+                            
+                            // Reset connection mode
+                            connectionMode.active = false;
+                            connectionMode.firstPoint = null;
+                            document.getElementById('connection-mode').textContent = 'Connect Two Locations';
+                            document.getElementById('connection-mode').classList.remove('active');
+                        }
+                    } else {
+                        // Regular behavior - pan to location
+                        map.setView([lat, lng], 19);
+                        showMarker(locationName);
+                    }
+=======
                     // Pan to location
                     map.setView([lat, lng], 19);
                     
@@ -535,6 +724,7 @@
                     }
 
 
+>>>>>>> 1d1cf00922124fd02eb0978afc3f7d2bc96e362e
                 });
             });
 
@@ -547,11 +737,45 @@
                 const locationInfo = locationMarkers.find(loc => loc.name === selectedName);
                 
                 if (locationInfo) {
-                    // Pan to location
-                    map.setView([locationInfo.lat, locationInfo.lng], 19);
-                    
-                    // Show the marker
-                    showMarker(selectedName);
+                    // Check if we're in connection mode
+                    if (connectionMode.active) {
+                        if (!connectionMode.firstPoint) {
+                            // This is the first point
+                            connectionMode.firstPoint = { 
+                                lat: locationInfo.lat, 
+                                lng: locationInfo.lng, 
+                                name: selectedName 
+                            };
+                            alert(`Selected "${selectedName}" as first point. Now select the second point to connect.`);
+                        } else {
+                            // This is the second point, draw the line
+                            drawLineBetweenPoints(
+                                connectionMode.firstPoint,
+                                { lat: locationInfo.lat, lng: locationInfo.lng, name: selectedName }
+                            );
+                            
+                            // Show both markers
+                            if (map.hasLayer(markers[connectionMode.firstPoint.name])) {
+                                map.removeLayer(markers[connectionMode.firstPoint.name]);
+                            }
+                            if (map.hasLayer(markers[selectedName])) {
+                                map.removeLayer(markers[selectedName]);
+                            }
+                            
+                            markers[connectionMode.firstPoint.name].addTo(map);
+                            markers[selectedName].addTo(map).openPopup();
+                            
+                            // Reset connection mode
+                            connectionMode.active = false;
+                            connectionMode.firstPoint = null;
+                            document.getElementById('connection-mode').textContent = 'Connect Two Locations';
+                            document.getElementById('connection-mode').classList.remove('active');
+                        }
+                    } else {
+                        // Regular behavior
+                        map.setView([locationInfo.lat, locationInfo.lng], 19);
+                        showMarker(selectedName);
+                    }
                     
                     // Reset dropdown to default option after action
                     this.value = "";
@@ -575,6 +799,117 @@
                     }
 
 
+                }
+            });
+
+            // Class data from the profile page
+            const classSchedule = [
+                { period: 1, class: "English", room: "100", building: "English/1400" },
+                { period: 2, class: "Math", room: "200", building: "Art/Office/200" },
+                { period: 3, class: "Dance", room: "300", building: "Dance" },
+                { period: 4, class: "Theater", room: "400", building: "Theater" },
+                { period: 5, class: "Autoshop", room: "500", building: "Autoshop" },
+                { period: 6, class: "Bio", room: "600", building: "Bio/Science/1100" },
+                { period: 7, class: "Geo", room: "700", building: "Geo/800" }
+            ];
+            
+            // Find the My Classes div
+            const myClassesDiv = document.querySelector('#myClasses');
+            
+            // Add class buttons with "Path to Next Class" feature
+            classSchedule.forEach((item, index) => {
+                const buildingInfo = locationMarkers.find(loc => loc.name === item.building);
+                
+                if (buildingInfo) {
+                    // Create container for the button group
+                    const buttonContainer = document.createElement('div');
+                    buttonContainer.className = 'd-flex flex-column mb-2';
+                    
+                    // Create the main class button
+                    const button = document.createElement('button');
+                    button.className = 'btn btn-outline-warning location-btn';
+                    button.setAttribute('data-lat', buildingInfo.lat);
+                    button.setAttribute('data-lng', buildingInfo.lng);
+                    button.textContent = `Period ${item.period}: ${item.class} (Room ${item.room})`;
+                    
+                    button.addEventListener('click', function() {
+                        if (!connectionMode.active) {
+                            map.setView([buildingInfo.lat, buildingInfo.lng], 19);
+                            showMarker(item.building);
+                        } else {
+                            // Handle connection mode click
+                            if (!connectionMode.firstPoint) {
+                                connectionMode.firstPoint = { 
+                                    lat: buildingInfo.lat, 
+                                    lng: buildingInfo.lng, 
+                                    name: item.building 
+                                };
+                                alert(`Selected "${item.building}" as first point. Now select the second point to connect.`);
+                            } else {
+                                drawLineBetweenPoints(
+                                    connectionMode.firstPoint,
+                                    { lat: buildingInfo.lat, lng: buildingInfo.lng, name: item.building }
+                                );
+                                
+                                // Show both markers
+                                if (map.hasLayer(markers[connectionMode.firstPoint.name])) {
+                                    map.removeLayer(markers[connectionMode.firstPoint.name]);
+                                }
+                                if (map.hasLayer(markers[item.building])) {
+                                    map.removeLayer(markers[item.building]);
+                                }
+                                
+                                markers[connectionMode.firstPoint.name].addTo(map);
+                                markers[item.building].addTo(map).openPopup();
+                                
+                                // Reset connection mode
+                                connectionMode.active = false;
+                                connectionMode.firstPoint = null;
+                                document.getElementById('connection-mode').textContent = 'Connect Two Locations';
+                                document.getElementById('connection-mode').classList.remove('active');
+                            }
+                        }
+                    });
+                    
+                    buttonContainer.appendChild(button);
+                    
+                    // If there's a next class, add a "show path" button
+                    if (index < classSchedule.length - 1) {
+                        const nextClass = classSchedule[index + 1];
+                        const nextBuildingInfo = locationMarkers.find(loc => loc.name === nextClass.building);
+                        
+                        if (nextBuildingInfo) {
+                            const pathButton = document.createElement('button');
+                            pathButton.className = 'btn btn-sm btn-outline-danger mt-1 mb-2';
+                            pathButton.innerHTML = `→ Show path to Period ${nextClass.period}`;
+                            pathButton.title = `Show path to Period ${nextClass.period}: ${nextClass.class}`;
+                            
+                            pathButton.addEventListener('click', function(e) {
+                                e.stopPropagation(); // Prevent triggering the parent button
+                                
+                                // Draw line between current and next class
+                                drawLineBetweenPoints(
+                                    { lat: buildingInfo.lat, lng: buildingInfo.lng, name: item.building },
+                                    { lat: nextBuildingInfo.lat, lng: nextBuildingInfo.lng, name: nextClass.building }
+                                );
+                                
+                                // Show both markers
+                                if (map.hasLayer(markers[item.building])) {
+                                    map.removeLayer(markers[item.building]);
+                                }
+                                if (map.hasLayer(markers[nextClass.building])) {
+                                    map.removeLayer(markers[nextClass.building]);
+                                }
+                                
+                                markers[item.building].addTo(map);
+                                markers[nextClass.building].addTo(map).openPopup();
+                            });
+                            
+                            buttonContainer.appendChild(pathButton);
+                        }
+                    }
+                    
+                    myClassesDiv.appendChild(buttonContainer);
                 }
             });
 
