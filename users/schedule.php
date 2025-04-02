@@ -40,7 +40,7 @@ foreach ($periodTimes as $row) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	  <link rel="stylesheet" href="/css/styles.css"> 
+	  <link rel="stylesheet" href="/css2/styles.css"> 
     <title>Schedule Form</title>
 	
 	
@@ -72,7 +72,7 @@ foreach ($periodTimes as $row) {
                 <input type="hidden" name="studentID" value="<?php echo $loggedInStudentId; ?>">
 				
 
-               <table class="table table-bordered">
+             <table class="table table-bordered">
     <thead>
         <tr>
             <th>Period</th>
