@@ -1,5 +1,4 @@
 <?php
-// Start the session
 session_start();
 ?>
 
@@ -15,33 +14,41 @@ session_start();
 </nav>
 
 <style>
-    /* Remove default margin and padding from the page */
-    body, html {
-        margin: 0;
-        padding: 0;
-    }
+   nav {
+    background-color: #0F1158;
+    padding: 1rem;
+    width: 100%;
+    position: fixed; /* Keeps it at the top */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Ensures it's above other elements */
+}
 
-    /* Basic styling for the navigation bar */
-    nav {
-        background-color: #0F1158;
-        padding: 1rem;
-    }
-    nav ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        gap: 1rem;
-    }
-    nav ul li {
-        display: inline;
-    }
-    nav ul li a {
-        color: white;
-        text-decoration: none;
-        font-weight: bold;
-    }
-    nav ul li a:hover {
-        text-decoration: underline;
-    }
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Push content down so it does not get hidden behind the fixed navbar */
+body {
+    padding-top: 60px; /* Adjust according to nav height */
+}
+
 </style>
