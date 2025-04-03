@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -107,121 +105,24 @@
     <!-- Sidebar -->
     <div id="sidebar">
         <button id="sidebar-toggle" type="button">≡</button>
-
         <h5 class="mb-3"> Campus Locations </h5>
         
-		 <!-- My Classes Category -->
-	<div class="location-group">
-    <button class="btn btn-success category-button" type="button" data-bs-toggle="collapse" data-bs-target="#myClasses" aria-expanded="false" aria-controls="myClasses" style="background-color: #EEC643;">
-       My Classes
-    </button>
-</div>
-		
-       <!-- Academic Buildings Category -->
-<div class="location-group">
-    <button class="btn btn-primary category-button" type="button" data-bs-toggle="collapse" data-bs-target="#academicBuildings" aria-expanded="false" aria-controls="academicBuildings"  style="background-color: #0D21A1;">
-
-        <h5 class="mb-3">Campus Locations</h5>
-        
-       <!-- Academic Buildings Category -->
-<div class="location-group">
-    <button class="btn btn-primary category-button" type="button" data-bs-toggle="collapse" data-bs-target="#academicBuildings" aria-expanded="false" aria-controls="academicBuildings">
-
-        Academic Buildings
-    </button>
-    <div class="collapse location-list" id="academicBuildings">
-        <button class="btn btn-outline-primary location-btn" data-lat="32.782500" data-lng="-116.986300">
-            English/1400
-        </button>
-        <button class="btn btn-outline-primary location-btn" data-lat="32.781111" data-lng="-116.987944">
-            Art/Office/200
-        </button>
-        <button class="btn btn-outline-primary location-btn" data-lat="32.781750" data-lng="-116.987222">
-            Bio/Science/1100
-        </button>
-        <button class="btn btn-outline-primary location-btn" data-lat="32.781139" data-lng="-116.986444">
-            Math/Library/600
-        </button>
-        <button class="btn btn-outline-primary location-btn" data-lat="32.781556" data-lng="-116.986639">
-            Math 2/700
-        </button>
-        <button class="btn btn-outline-primary location-btn" data-lat="32.781480" data-lng="-116.985197">
-            Geo/800
-        </button>
-        <button class="btn btn-outline-primary location-btn" data-lat="32.782639" data-lng="-116.986667">
-            Autoshop
-        </button>
-    </div>
-</div>
-
-<!-- Athletic Facilities Category -->
-<div class="location-group">
-
-    <button class="btn btn-success category-button" type="button" data-bs-toggle="collapse" data-bs-target="#athleticFacilities" aria-expanded="false" aria-controls="athleticFacilities" style="background-color: #EEC643;">
-
-    <button class="btn btn-success category-button" type="button" data-bs-toggle="collapse" data-bs-target="#athleticFacilities" aria-expanded="false" aria-controls="athleticFacilities">
-
-        Athletic Facilities
-    </button>
-    <div class="collapse location-list" id="athleticFacilities">
-        <button class="btn btn-outline-success location-btn" data-lat="32.781611" data-lng="-116.988083">
-            Field
-        </button>
-        <button class="btn btn-outline-success location-btn" data-lat="32.782142" data-lng="-116.987583">
-            The New Gym/1300
-        </button>
-        <button class="btn btn-outline-success location-btn" data-lat="32.781222" data-lng="-116.987083">
-            The Old Gym
-        </button>
-        <button class="btn btn-outline-success location-btn" data-lat="32.782333" data-lng="-116.987667">
-            Pool
-        </button>
-        <button class="btn btn-outline-success location-btn" data-lat="32.780806" data-lng="-116.987139">
-            The Locker Room/1000
-        </button>
-        <button class="btn btn-outline-success location-btn" data-lat="32.780667" data-lng="-116.987639">
-            Dance
-        </button>
-    </div>
-</div>
-
-<!-- Campus Services Category -->
-<div class="location-group">
-
-    <button class="btn btn-info category-button" type="button" data-bs-toggle="collapse" data-bs-target="#campusServices" aria-expanded="false" aria-controls="campusServices" style="background-color: #0D21A1; color: white;">
-    Campus Services
-</button>
-
-    <button class="btn btn-info category-button" type="button" data-bs-toggle="collapse" data-bs-target="#campusServices" aria-expanded="false" aria-controls="campusServices">
-        Campus Services
-    </button>
-
-    <div class="collapse location-list" id="campusServices">
-        <button class="btn btn-outline-info location-btn" data-lat="32.780806" data-lng="-116.987139">
-            District Office
-        </button>
-        <button class="btn btn-outline-info location-btn" data-lat="32.780806" data-lng="-116.987139">
-            Daycare/900
-        </button>
-        <button class="btn btn-outline-info location-btn" data-lat="32.780500" data-lng="-116.987250">
-            Theater
-        </button>
-        <button class="btn btn-outline-info location-btn" data-lat="32.781556" data-lng="-116.987417">
-            Cafeteria/400
-        </button>
-        <button class="btn btn-outline-info location-btn" data-lat="32.782889" data-lng="-116.986750">
-            Portables
-        </button>
-    </div>
-</div>
-
+         <!-- My Classes Category -->
+        <div class="location-group">
+            <button class="btn btn-success category-button" type="button" id="myClassesBtn" style="background-color: #EEC643;" data-bs-toggle="collapse" data-bs-target="#myClasses" aria-expanded="false" aria-controls="myClasses">
+                My Classes
+            </button>
+            <div class="collapse location-list" id="myClasses">
+                <!-- Class buttons will be dynamically added here -->
+            </div>
+        </div>
         
         <!-- Academic Buildings Category -->
         <div class="location-group">
-            <button class="btn btn-primary category-button" type="button" data-bs-toggle="collapse" data-bs-target="#academicBuildings" aria-expanded="true" aria-controls="academicBuildings">
+            <button class="btn btn-primary category-button" type="button" data-bs-toggle="collapse" data-bs-target="#academicBuildings" aria-expanded="false" aria-controls="academicBuildings"  style="background-color: #0D21A1;">
                 Academic Buildings
             </button>
-            <div class="collapse show location-list" id="academicBuildings">
+            <div class="collapse location-list" id="academicBuildings">
                 <button class="btn btn-outline-primary location-btn" data-lat="32.782500" data-lng="-116.986300">
                     English/1400
                 </button>
@@ -245,13 +146,13 @@
                 </button>
             </div>
         </div>
-        
+
         <!-- Athletic Facilities Category -->
         <div class="location-group">
-            <button class="btn btn-success category-button" type="button" data-bs-toggle="collapse" data-bs-target="#athleticFacilities" aria-expanded="true" aria-controls="athleticFacilities">
+            <button class="btn btn-success category-button" type="button" data-bs-toggle="collapse" data-bs-target="#athleticFacilities" aria-expanded="false" aria-controls="athleticFacilities" style="background-color: #EEC643;">
                 Athletic Facilities
             </button>
-            <div class="collapse show location-list" id="athleticFacilities">
+            <div class="collapse location-list" id="athleticFacilities">
                 <button class="btn btn-outline-success location-btn" data-lat="32.781611" data-lng="-116.988083">
                     Field
                 </button>
@@ -272,15 +173,16 @@
                 </button>
             </div>
         </div>
-        
+
         <!-- Campus Services Category -->
         <div class="location-group">
-            <button class="btn btn-info category-button" type="button" data-bs-toggle="collapse" data-bs-target="#campusServices" aria-expanded="true" aria-controls="campusServices">
+            <button class="btn btn-info category-button" type="button" data-bs-toggle="collapse" data-bs-target="#campusServices" aria-expanded="false" aria-controls="campusServices" style="background-color: #0D21A1; color: white;">
                 Campus Services
             </button>
-            <div class="collapse show location-list" id="campusServices">
-                <button class="btn btn-outline-info location-btn" data-lat="32.780806" data-lng=" -116.987139">
-				District Office</button>
+            <div class="collapse location-list" id="campusServices">
+                <button class="btn btn-outline-info location-btn" data-lat="32.780806" data-lng="-116.987139">
+                    District Office
+                </button>
                 <button class="btn btn-outline-info location-btn" data-lat="32.780806" data-lng="-116.987139">
                     Daycare/900
                 </button>
@@ -295,7 +197,6 @@
                 </button>
             </div>
         </div>
-
         
         <!-- Location dropdown -->
         <div class="mt-4">
@@ -333,7 +234,6 @@
             // Create location markers
             const locationMarkers = [
                 { name: "English/1400", lat: 32.782500, lng: -116.986300, type: "academic" },
-
                 { name: "Art/Office/200", lat: 32.781111, lng: -116.987944, type: "academic" },
                 { name: "Bio/Science/1100", lat: 32.781750, lng: -116.987222, type: "academic" },
                 { name: "Field", lat: 32.781611, lng: -116.988083, type: "athletic" },
@@ -351,26 +251,6 @@
                 { name: "Dance", lat: 32.780667, lng: -116.987833, type: "athletic" },
                 { name: "Theater", lat: 32.780500, lng: -116.987250, type: "service" },
                 { name: "Cafeteria/400", lat: 32.781556, lng: -116.987417, type: "service" }
-
-				{ name: "Art/Office/200", lat: 32.781111, lng: -116.987944, type: "academic" },
-				{ name: "Bio/Science/1100", lat: 32.781750, lng: -116.987222, type: "academic" },
-				{ name: "Field", lat: 32.781611, lng: -116.988083, type: "athletic" },
-				{ name: "Math/Library/600", lat: 32.781139, lng: -116.986444, type: "academic" },
-				{ name: "Portables", lat: 32.782889, lng: -116.986750, type: "service" },
-				{ name: "District Office", lat: 32.780806, lng: -116.987139, type: "service" },
-				{ name: "The Locker Room/1000", lat: 32.782333, lng: -116.987667, type: "athletic" },
-				{ name: "Pool", lat: 32.782139, lng: -116.987000, type: "athletic" },
-				{ name: "Daycare/900", lat: 32.781472, lng: -116.984750, type: "service" },
-				{ name: "Geo/800", lat: 32.781480, lng: -116.985197, type: "academic" }, // Converted from 32°46'54.1"N 116°59'08.7"W
-				{ name: "Math 2/700", lat: 32.781556, lng: -116.986639, type: "academic" },
-				{ name: "Autoshop", lat: 32.783072, lng: -116.986426, type: "academic" },
-				{ name: "The New Gym/1300", lat: 32.782417, lng: -116.987028, type: "athletic" },
-				{ name: "The Old Gym", lat: 32.781222, lng: -116.987083, type: "athletic" },
-				{ name: "Dance", lat: 32.780667, lng: -116.987833, type: "athletic" },
-				{ name: "Theater", lat: 32.780500, lng: -116.987250, type: "service" },
-				{ name: "Cafeteria/400", lat: 32.781556, lng: -116.987417, type: "service" }
-
-
             ];
 
             // Create map markers
@@ -378,21 +258,34 @@
             const academicMarkers = [];
             const athleticMarkers = [];
             const serviceMarkers = [];
-
             
-            // Track the currently visible marker
-            let currentMarker = null;
+            // Track current points and path
+            let startPoint = null;
+            let endPoint = null;
+            let pathLine = null;
+            
+            // Define custom marker icons for start and end points
+            const startIcon = L.icon({
+                iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+            
+            const endIcon = L.icon({
+                iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
 
             // Create markers for all locations and add to appropriate arrays
             locationMarkers.forEach(location => {
                 // Create marker but DO NOT add to the map initially
-
-
-
-            // Create markers for all locations and add to appropriate arrays
-            locationMarkers.forEach(location => {
-                // Add marker to the map
-
                 const marker = L.marker([location.lat, location.lng])
                     .bindPopup(`<strong>${location.name}</strong>`);
                 
@@ -415,30 +308,188 @@
                 document.getElementById('location-select').appendChild(option);
             });
 
-
-            // Function to remove current marker and display a new one
-            function showMarker(markerName) {
-                // Remove current marker if there is one
-                if (currentMarker && map.hasLayer(markers[currentMarker])) {
-                    map.removeLayer(markers[currentMarker]);
+            // Add navigation UI to sidebar
+            const sidebarHeader = document.querySelector('#sidebar h5');
+            const navigationDiv = document.createElement('div');
+            navigationDiv.className = 'location-group mt-4';
+            navigationDiv.innerHTML = `
+                <h6>Navigation</h6>
+                <div class="mb-2">
+                    <button id="set-start" class="btn btn-success mb-2">Set as Start</button>
+                    <button id="set-end" class="btn btn-danger mb-2">Set as End</button>
+                    <button id="clear-route" class="btn btn-secondary">Clear Route</button>
+                </div>
+                <div id="selected-location" class="alert alert-info" style="display:none;">
+                    <strong>Selected:</strong> <span id="location-name"></span>
+                </div>
+            `;
+            sidebarHeader.parentNode.insertBefore(navigationDiv, sidebarHeader.nextSibling);
+            
+            // Variable to track the currently selected location
+            let selectedLocation = null;
+            
+            // Function to update selected location info
+            function updateSelectedLocation(location) {
+                selectedLocation = location;
+                const locationNameElement = document.getElementById('location-name');
+                const selectedLocationDiv = document.getElementById('selected-location');
+                
+                if (location) {
+                    locationNameElement.textContent = location.name;
+                    selectedLocationDiv.style.display = 'block';
+                } else {
+                    selectedLocationDiv.style.display = 'none';
                 }
-                
-                // Update current marker
-                currentMarker = markerName;
-                
-                // Add new marker to map
-                markers[markerName].addTo(map);
-                
-                // Open popup
-                markers[markerName].openPopup();
             }
 
+            // Function to draw or update the path between points
+            function updatePath() {
+                // Remove existing path if it exists
+                if (pathLine && map.hasLayer(pathLine)) {
+                    map.removeLayer(pathLine);
+                }
+                
+                // Draw new path if both points exist
+                if (startPoint && endPoint) {
+                    const pointA = [startPoint.lat, startPoint.lng];
+                    const pointB = [endPoint.lat, endPoint.lng];
+                    
+                    // Create a new polyline
+                    pathLine = L.polyline([pointA, pointB], {
+                        color: 'blue',
+                        weight: 5,
+                        opacity: 0.7,
+                        dashArray: '10, 10',
+                        lineJoin: 'round'
+                    }).addTo(map);
+                    
+                    // Fit map to show the entire path
+                    map.fitBounds(pathLine.getBounds(), {
+                        padding: [50, 50]
+                    });
+                }
+            }
+            
+            // Function to set or update the start point
+            function setStartPoint(location) {
+                // Remove existing start marker if it exists
+                if (startPoint && startPoint.marker && map.hasLayer(startPoint.marker)) {
+                    map.removeLayer(startPoint.marker);
+                }
+                
+                // Create new start marker
+                const marker = L.marker([location.lat, location.lng], {icon: startIcon})
+                    .bindPopup(`<strong>Start: ${location.name}</strong>`)
+                    .addTo(map)
+                    .openPopup();
+                    
+                // Update start point
+                startPoint = {
+                    name: location.name,
+                    lat: location.lat,
+                    lng: location.lng,
+                    marker: marker
+                };
+                
+                // Update path if end point also exists
+                if (endPoint) {
+                    updatePath();
+                }
+            }
+            
+            // Function to set or update the end point
+            function setEndPoint(location) {
+                // Remove existing end marker if it exists
+                if (endPoint && endPoint.marker && map.hasLayer(endPoint.marker)) {
+                    map.removeLayer(endPoint.marker);
+                }
+                
+                // Create new end marker
+                const marker = L.marker([location.lat, location.lng], {icon: endIcon})
+                    .bindPopup(`<strong>End: ${location.name}</strong>`)
+                    .addTo(map)
+                    .openPopup();
+                    
+                // Update end point
+                endPoint = {
+                    name: location.name,
+                    lat: location.lat,
+                    lng: location.lng,
+                    marker: marker
+                };
+                
+                // Update path if start point also exists
+                if (startPoint) {
+                    updatePath();
+                }
+            }
+            
+            // Function to handle location button clicks
+            function handleLocationClick(locationName) {
+                const location = locationMarkers.find(loc => loc.name === locationName);
+                
+                if (location) {
+                    // Pan to location
+                    map.setView([location.lat, location.lng], 19);
+                    
+                    // Update selected location
+                    updateSelectedLocation(location);
+                    
+                    // Show the regular marker temporarily
+                    const marker = markers[locationName];
+                    marker.addTo(map).openPopup();
+                    
+                    // Remove the regular marker after a short delay
+                    setTimeout(() => {
+                        if (map.hasLayer(marker)) {
+                            map.removeLayer(marker);
+                        }
+                    }, 100);
+                }
+            }
 
-
-            // Add all markers to map initially
-            const allMarkers = [...academicMarkers, ...athleticMarkers, ...serviceMarkers];
-            allMarkers.forEach(marker => marker.addTo(map));
-
+            // Event listeners for the navigation buttons
+            document.getElementById('set-start').addEventListener('click', function() {
+                if (selectedLocation) {
+                    setStartPoint(selectedLocation);
+                } else {
+                    alert('Please select a location first');
+                }
+            });
+            
+            document.getElementById('set-end').addEventListener('click', function() {
+                if (selectedLocation) {
+                    setEndPoint(selectedLocation);
+                } else {
+                    alert('Please select a location first');
+                }
+            });
+            
+            document.getElementById('clear-route').addEventListener('click', function() {
+                // Remove start marker
+                if (startPoint && startPoint.marker && map.hasLayer(startPoint.marker)) {
+                    map.removeLayer(startPoint.marker);
+                }
+                
+                // Remove end marker
+                if (endPoint && endPoint.marker && map.hasLayer(endPoint.marker)) {
+                    map.removeLayer(endPoint.marker);
+                }
+                
+                // Remove path
+                if (pathLine && map.hasLayer(pathLine)) {
+                    map.removeLayer(pathLine);
+                }
+                
+                // Reset variables
+                startPoint = null;
+                endPoint = null;
+                pathLine = null;
+                selectedLocation = null;
+                
+                // Hide selected location info
+                document.getElementById('selected-location').style.display = 'none';
+            });
 
             // Toggle sidebar
             document.getElementById('sidebar-toggle').addEventListener('click', function() {
@@ -449,92 +500,14 @@
             document.querySelectorAll('.category-button').forEach(button => {
                 button.addEventListener('click', function() {
                     this.classList.toggle('collapsed');
-
-                    // This now just expands/collapses the location list
-
-
-                    // This now just expands/collapses the location list
-
-                    
-                    // Toggle visibility of respective marker types when category is clicked
-                    const categoryType = this.textContent.trim();
-                    
-                    if (categoryType === "Academic Buildings") {
-                        if (this.classList.contains('collapsed')) {
-                            // Remove academic markers if collapsed
-                            academicMarkers.forEach(marker => map.removeLayer(marker));
-                        } else {
-                            // Add academic markers if expanded
-                            academicMarkers.forEach(marker => {
-                                if (!map.hasLayer(marker)) {
-                                    marker.addTo(map);
-                                }
-                            });
-                        }
-                    } else if (categoryType === "Athletic Facilities") {
-                        if (this.classList.contains('collapsed')) {
-                            // Remove athletic markers if collapsed
-                            athleticMarkers.forEach(marker => map.removeLayer(marker));
-                        } else {
-                            // Add athletic markers if expanded
-                            athleticMarkers.forEach(marker => {
-                                if (!map.hasLayer(marker)) {
-                                    marker.addTo(map);
-                                }
-                            });
-                        }
-                    } else if (categoryType === "Campus Services") {
-                        if (this.classList.contains('collapsed')) {
-                            // Remove service markers if collapsed
-                            serviceMarkers.forEach(marker => map.removeLayer(marker));
-                        } else {
-                            // Add service markers if expanded
-                            serviceMarkers.forEach(marker => {
-                                if (!map.hasLayer(marker)) {
-                                    marker.addTo(map);
-                                }
-                            });
-                        }
-                    }
-
-
                 });
             });
 
             // Location buttons event listeners
             document.querySelectorAll('.location-btn').forEach(button => {
                 button.addEventListener('click', function() {
-                    const lat = parseFloat(this.getAttribute('data-lat'));
-                    const lng = parseFloat(this.getAttribute('data-lng'));
                     const locationName = this.textContent.trim();
-                    
-                    // Pan to location
-                    map.setView([lat, lng], 19);
-                    
-                    // Show the marker
-                    showMarker(locationName);
-
-
-                    // Find corresponding marker
-                    const marker = markers[locationName];
-                    
-                    if (marker) {
-                        // Ensure marker is on map
-                        if (!map.hasLayer(marker)) {
-                            marker.addTo(map);
-                        }
-                        
-                        // Pan to location
-                        map.setView([lat, lng], 19);
-                        
-                        // Open popup
-                        marker.openPopup();
-                    } else {
-                        // If no marker exists, just pan to the location
-                        map.setView([lat, lng], 19);
-                    }
-
-
+                    handleLocationClick(locationName);
                 });
             });
 
@@ -544,37 +517,42 @@
                 
                 if (!selectedName) return; // Do nothing if default option is selected
                 
-                const locationInfo = locationMarkers.find(loc => loc.name === selectedName);
+                handleLocationClick(selectedName);
                 
-                if (locationInfo) {
-                    // Pan to location
-                    map.setView([locationInfo.lat, locationInfo.lng], 19);
-                    
-                    // Show the marker
-                    showMarker(selectedName);
-                    
-                    // Reset dropdown to default option after action
-                    this.value = "";
+                // Reset dropdown to default option after action
+                this.value = "";
+            });
 
-    
-              const locationInfo = locationMarkers.find(loc => loc.name === selectedName);
+            // Class data from the profile page
+            const classSchedule = [
+                { period: 1, class: "English", room: "100", building: "English/1400" },
+                { period: 2, class: "Math", room: "200", building: "Art/Office/200" },
+                { period: 3, class: "Dance", room: "300", building: "Dance" },
+                { period: 4, class: "Theater", room: "400", building: "Theater" },
+                { period: 5, class: "Autoshop", room: "500", building: "Autoshop" },
+                { period: 6, class: "Bio", room: "600", building: "Bio/Science/1100" },
+                { period: 7, class: "Geo", room: "700", building: "Geo/800" }
+            ];
+            
+            // Find the My Classes div
+            const myClassesDiv = document.querySelector('#myClasses');
+            
+            // Add class buttons
+            classSchedule.forEach(item => {
+                // Find the building coordinates
+                const buildingInfo = locationMarkers.find(loc => loc.name === item.building);
                 
-                if (locationInfo) {
-                    // Ensure marker is on map
-                    const marker = markers[selectedName];
-                    if (marker && !map.hasLayer(marker)) {
-                        marker.addTo(map);
-                    }
+                if (buildingInfo) {
+                    const button = document.createElement('button');
+                    button.className = 'btn btn-outline-warning location-btn';
+                    button.textContent = `Period ${item.period}: ${item.class} (Room ${item.room})`;
                     
-                    // Pan to location
-                    map.setView([locationInfo.lat, locationInfo.lng], 19);
+                    // Add click event to navigate to the location
+                    button.addEventListener('click', function() {
+                        handleLocationClick(item.building);
+                    });
                     
-                    // Open popup if marker exists
-                    if (marker) {
-                        marker.openPopup();
-                    }
-
-
+                    myClassesDiv.appendChild(button);
                 }
             });
 
@@ -607,19 +585,11 @@
                 })
                 .catch(error => console.error('Error fetching locations:', error));
 
-
-            console.log('Map initialized successfully with pins hidden until clicked');
-
-
-            console.log('Map initialized successfully with pins hidden until clicked');
-
-            console.log('Map initialized successfully with all campus locations');
-
-
+            console.log('Map initialized successfully with navigation features');
         } catch (error) {
             console.error('Error initializing map:', error);
         }
     });
-</script>
+    </script>
 </body>
 </html>
