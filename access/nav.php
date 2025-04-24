@@ -9,6 +9,7 @@ session_start();
         <!-- Always display these links -->
         <li><a href="../users/profile.php">Profile</a></li>
 		<li><a href="../users/schedule.php">Schedule</a></li>
+		<li><a href="../search/searchpage.php">Class Search</a></li>
         <li><a href="../map/map.php">Map</a></li>
     </ul>
 </nav>
