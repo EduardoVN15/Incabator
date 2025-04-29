@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 ?>
@@ -11,19 +10,171 @@ session_start();
   <link rel="stylesheet" href="/css2/styles.css">
   <?php 
         include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
-    ?>
+  ?>
+  <style>
+    /* Additional Styling to Match CSS Theme */
+
+    .search-container {
+      display: flex;
+      width: 100%;
+      margin: 0.5rem 0;
+    }
+
+    #searchInput {
+      flex-grow: 1;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 10px 0 0 10px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    #searchButton {
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(45deg, #1F0E58, #004EA9);
+      color: white;
+      border: none;
+      border-radius: 0 10px 10px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #searchButton:hover {
+      background: linear-gradient(45deg, #004EA9, #1F0E58);
+    }
+
+    .filter-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+
+    .filter-container select {
+      flex-grow: 1;
+      min-width: 150px;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+
+    #clearButton {
+      margin: 1rem auto;
+      display: block;
+    }
+
+    .teacher-card {
+      background-color: #f9f9f9;
+      color: #333;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+
+    .highlight {
+      background-color: yellow;
+      font-weight: bold;
+    }
+
+    #teacherList {
+      margin-top: 1rem;
+    }
+
+    .sort-options {
+      display: flex;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+
+    .sort-button {
+      padding: 0.5rem 1rem;
+      background: linear-gradient(45deg, #1F0E58, #004EA9);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      margin: 0 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .sort-button:hover {
+      background: linear-gradient(45deg, #004EA9, #1F0E58);
+      transform: translateY(-2px);
+    }
+
+    .sort-button.active {
+      box-shadow: 0 0 0 3px rgba(31, 14, 88, 0.3);
+    }
+
+    /* Subject grouping styles */
+    .subject-group {
+      margin-bottom: 2rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      overflow: hidden;
+      background-color: #ffffff;
+    }
+
+    .subject-header {
+      background: linear-gradient(45deg, #1F0E58, #004EA9);
+      color: white;
+      padding: 0.75rem 1rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .subject-content {
+      padding: 1rem;
+    }
+
+    .subject-content .teacher-card {
+      box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+      border-left: 3px solid #1F0E58;
+    }
+
+    .subject-content .teacher-card:last-child {
+      margin-bottom: 0;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container schedule-page">
     <h1>Teacher Directory</h1>
-    <input type="text" id="searchInput" placeholder="Search by name, room, or subject...">
+    
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search for teachers...">
+      <button id="searchButton">Search</button>
+    </div>
+
+    <div class="filter-container">
+      <select id="filterType">
+        <option value="all">Search All</option>
+        <option value="name">Search by Name</option>
+        <option value="subject">Search by Subject</option>
+      </select>
+      
+      <select id="subjectFilter">
+        <option value="">All Subjects</option>
+      </select>
+    </div>
+
+    <div class="sort-options">
+      <button id="sortAlphabetically" class="sort-button active">View Alphabetically</button>
+      <button id="sortBySubject" class="sort-button">View By Subject</button>
+    </div>
+
+    <button id="clearButton" class="button">Clear All Filters</button>
+    
     <div id="teacherList"></div>
   </div>
 
   <script>
-    const classes = [
+    const teachers = [
       { name: "Alley, Christina", room: "Room 855", subject: "Social Science" },
-      { name: "Alvarado, Marisa", room: "Room1125", subject: "Biology/APES" },
+      { name: "Alvarado, Marisa", room: "Room 1125", subject: "Biology/APES" },
       { name: "Arellano, Kristopher", room: "Room 1130", subject: "Chemistry" },
       { name: "Baer, Kevin", room: "Room 820", subject: "Math" },
       { name: "Barela, Kaitlin", room: "Room 510", subject: "Sp Ed Mod/Sev" },
@@ -72,36 +223,193 @@ session_start();
 
     const teacherList = document.getElementById('teacherList');
     const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+    const clearButton = document.getElementById('clearButton');
+    const subjectFilter = document.getElementById('subjectFilter');
+    const filterType = document.getElementById('filterType');
+    const sortAlphabetically = document.getElementById('sortAlphabetically');
+    const sortBySubject = document.getElementById('sortBySubject');
+
+    // Populate subject filter dropdown
+    const uniqueSubjects = [...new Set(teachers.map(t => t.subject).filter(s => s))].sort();
+    uniqueSubjects.forEach(subj => {
+      const option = document.createElement('option');
+      option.value = subj;
+      option.textContent = subj;
+      subjectFilter.appendChild(option);
+    });
 
     function highlightMatch(text, query) {
-      const re = new RegExp(`(${query})`, 'gi');
-      return text.replace(re, '<span class="highlight">$1</span>');
+      if (!query || !text) return text || '';
+      const regex = new RegExp(`(${query})`, 'gi');
+      return text.replace(regex, '<span class="highlight">$1</span>');
     }
 
-    function displayTeachers(teachers, query = '') {
+    function createTeacherCard(teacher, query = '') {
+      let { name, room, subject } = teacher;
+      if (query) {
+        name = highlightMatch(name, query);
+        room = highlightMatch(room, query);
+        subject = highlightMatch(subject, query);
+      }
+      
+      const div = document.createElement('div');
+      div.className = 'teacher-card';
+      div.innerHTML = `<strong>${name}</strong><br>${room}<br>${subject}`;
+      return div;
+    }
+
+    function displayTeachers(teachersToDisplay, query = '') {
       teacherList.innerHTML = '';
-      teachers.forEach(teacher => {
-        const div = document.createElement('div');
-        div.className = 'teacher-card';
-        const name = query ? highlightMatch(teacher.name, query) : teacher.name;
-        const room = query ? highlightMatch(teacher.room, query) : teacher.room;
-        const subject = query ? highlightMatch(teacher.subject, query) : teacher.subject;
-        div.innerHTML = `<strong>${name}</strong><br>${room}<br>${subject}`;
-        teacherList.appendChild(div);
+      
+      if (teachersToDisplay.length === 0) {
+        teacherList.innerHTML = '<div class="teacher-card">No teachers found matching your criteria.</div>';
+        return;
+      }
+      
+      // Check if we're in subject view
+      if (sortBySubject.classList.contains('active')) {
+        displayTeachersBySubject(teachersToDisplay, query);
+      } 
+      // Default alphabetical view
+      else {
+        teachersToDisplay.forEach(teacher => {
+          teacherList.appendChild(createTeacherCard(teacher, query));
+        });
+      }
+    }
+
+    function displayTeachersBySubject(teachersToDisplay, query = '') {
+      // Group teachers by subject
+      const subjectGroups = {};
+      
+      teachersToDisplay.forEach(teacher => {
+        const subject = teacher.subject || "Unspecified";
+        if (!subjectGroups[subject]) {
+          subjectGroups[subject] = [];
+        }
+        subjectGroups[subject].push(teacher);
+      });
+      
+      // Create subject groups in DOM
+      Object.keys(subjectGroups).sort().forEach(subject => {
+        const subjectGroup = document.createElement('div');
+        subjectGroup.className = 'subject-group';
+        
+        const subjectHeader = document.createElement('div');
+        subjectHeader.className = 'subject-header';
+        subjectHeader.textContent = subject || "Unspecified Subject";
+        
+        const subjectContent = document.createElement('div');
+        subjectContent.className = 'subject-content';
+        
+        // Add teacher cards to this subject
+        subjectGroups[subject].sort((a, b) => a.name.localeCompare(b.name)).forEach(teacher => {
+          subjectContent.appendChild(createTeacherCard(teacher, query));
+        });
+        
+        subjectGroup.appendChild(subjectHeader);
+        subjectGroup.appendChild(subjectContent);
+        teacherList.appendChild(subjectGroup);
       });
     }
 
-    searchInput.addEventListener('input', () => {
+    function filterTeachers() {
       const query = searchInput.value.toLowerCase();
-      const filtered = classes.filter(t =>
-        t.name.toLowerCase().includes(query) ||
-        t.room.toLowerCase().includes(query) ||
-        t.subject.toLowerCase().includes(query)
-      );
-      displayTeachers(filtered, query);
+      const subjectValue = subjectFilter.value;
+      const searchType = filterType.value;
+      
+      const filtered = teachers.filter(teacher => {
+        // Handle subject filter
+        const matchesSubject = !subjectValue || teacher.subject === subjectValue;
+        
+        // If no search query, just check subject
+        if (!query) return matchesSubject;
+        
+        // Otherwise apply search query based on filter type
+        let matchesSearch = false;
+        
+        switch (searchType) {
+          case 'name':
+            matchesSearch = teacher.name.toLowerCase().includes(query);
+            break;
+          case 'room':
+            matchesSearch = teacher.room.toLowerCase().includes(query);
+            break;
+          case 'subject':
+            matchesSearch = teacher.subject.toLowerCase().includes(query);
+            break;
+          case 'all':
+          default:
+            matchesSearch = teacher.name.toLowerCase().includes(query) ||
+                            teacher.room.toLowerCase().includes(query) ||
+                            teacher.subject.toLowerCase().includes(query);
+        }
+        
+        return matchesSearch && matchesSubject;
+      });
+      
+      return filtered;
+    }
+
+    function applyFiltersAndSort() {
+      let filtered = filterTeachers();
+      
+      // Default alphabetical sort if not in subject view
+      if (!sortBySubject.classList.contains('active')) {
+        filtered.sort((a, b) => a.name.localeCompare(b.name));
+      }
+      
+      displayTeachers(filtered, searchInput.value.toLowerCase());
+    }
+
+    // Event listeners
+    searchButton.addEventListener('click', applyFiltersAndSort);
+    
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        applyFiltersAndSort();
+      }
+    });
+    
+    subjectFilter.addEventListener('change', applyFiltersAndSort);
+    filterType.addEventListener('change', applyFiltersAndSort);
+    
+    clearButton.addEventListener('click', () => {
+      searchInput.value = '';
+      subjectFilter.value = '';
+      filterType.value = 'all';
+      
+      // Reset to alphabetical sorting
+      setActiveSort(sortAlphabetically);
+      
+      // Display all teachers alphabetically
+      const sorted = [...teachers].sort((a, b) => a.name.localeCompare(b.name));
+      displayTeachers(sorted);
     });
 
-    displayTeachers(classes);
+    function setActiveSort(button) {
+      // Remove active class from all sort buttons
+      sortAlphabetically.classList.remove('active');
+      sortBySubject.classList.remove('active');
+      
+      // Add active class to clicked button
+      button.classList.add('active');
+    }
+
+    sortAlphabetically.addEventListener('click', () => {
+      setActiveSort(sortAlphabetically);
+      applyFiltersAndSort();
+    });
+
+    sortBySubject.addEventListener('click', () => {
+      setActiveSort(sortBySubject);
+      applyFiltersAndSort();
+    });
+
+    // Initial display - alphabetically sorted
+    const initialDisplay = [...teachers].sort((a, b) => a.name.localeCompare(b.name));
+    displayTeachers(initialDisplay);
   </script>
 </body>
 </html>
