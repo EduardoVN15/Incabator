@@ -62,7 +62,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Profile</title>
-    <link rel="stylesheet" href="/css/styles.css"> 
+    <link rel="stylesheet" href="/css2/styles.css"> 
     <style>
         .container.profile-page {
             width: min(90%, 650px);

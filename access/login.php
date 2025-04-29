@@ -1,7 +1,7 @@
 <?php session_start();?>
 <html>
 <head>
-    <link href="/css/styles.css" rel="stylesheet">
+    <link href="/css2/styles.css" rel="stylesheet">
     <meta charset="UTF-8">
     <title>Login Form</title>
 </head>

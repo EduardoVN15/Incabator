@@ -1,7 +1,7 @@
 <?php session_start();?>
 <!doctype html>
 <html lang="en">
-<link href="/css/styles.css" rel="stylesheet">
+<link href="/css2/styles.css" rel="stylesheet">
 <!-- This line declares the type of document, telling the browser that this is an HTML5 document. 
      'lang="en"' specifies that the language of the document is English. -->
 <head>
@@ -39,8 +39,8 @@
 
            <form method="POST" action="/access/regHandler.php">
 			   
-			   <label for="fullname">Full Name:</label>
-<input type="text" name="fullname" id="fullname" required><br>
+			   <label for="fullName">Full Name:</label>
+<input type="text" name="fullName" id="fullName" required><br>
 			   
     <label for="username">Username:</label>
     <input type="text" name="username" id="username" required><br>
