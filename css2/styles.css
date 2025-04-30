@@ -20,9 +20,10 @@ body {
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     color: #333;
-    width: min(90%, 400px);
+    width: min(95%, 650px); /* wider box */
     margin: 1rem auto;
     box-sizing: border-box;
+
 }
 
 h1 {
@@ -175,7 +176,7 @@ input:focus {
 }
 /* Form Control */
 
-}
+
 .text-center {
     text-align: center;
 }
@@ -215,4 +216,8 @@ input:focus {
     margin: 1rem 0;
     text-align: center;
 }
+.container.search-page {
+  width: min(95%, 900px);
+  padding: 2rem;
 }
+
