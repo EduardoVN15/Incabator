@@ -1,9 +1,149 @@
+<?php
+session_start();
+
+// Database configuration
+$host = 'auth-db1536.hstgr.io';
+$dbname = 'u237055794_schoolMaps';
+$dbUsername = 'u237055794_ghs_schoolMaps';
+$dbPassword = 'ZwbHRi^4';
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $dbUsername, $dbPassword);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+// Fetch the logged-in user's schedule
+$userSchedule = [];
+if (isset($_SESSION['uid'])) {
+    $stmt = $pdo->prepare("SELECT * FROM schedules WHERE uid = :uid");
+    $stmt->bindParam(':uid', $_SESSION['uid'], PDO::PARAM_INT);
+    $stmt->execute();
+    $schedule = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($schedule) {
+    // Define a mapping of rooms to buildings
+    $roomToBuilding = [
+        // English building rooms
+        '1401' => 'English/1400',
+        '1402' => 'English/1400',
+        '1403' => 'English/1400',
+        '1404' => 'English/1400',
+        '1405' => 'English/1400',
+        '1406' => 'English/1400',
+        
+        // Art/Office building rooms
+        '201' => 'Art/Office/200',
+        '202' => 'Art/Office/200',
+        '203' => 'Art/Office/200',
+        '204' => 'Art/Office/200',
+        '205' => 'Art/Office/200',
+        
+        // Bio/Science building rooms
+        '1101' => 'Bio/Science/1100',
+        '1102' => 'Bio/Science/1100',
+        '1103' => 'Bio/Science/1100',
+        '1104' => 'Bio/Science/1100',
+        '1105' => 'Bio/Science/1100',
+        
+        // Math/Library building rooms
+        '601' => 'Math/Library/600',
+        '602' => 'Math/Library/600',
+        '603' => 'Math/Library/600',
+        '604' => 'Math/Library/600',
+        '605' => 'Math/Library/600',
+        
+        // Math 2 building rooms
+        '701' => 'Math 2/700',
+        '702' => 'Math 2/700',
+        '703' => 'Math 2/700',
+        '704' => 'Math 2/700',
+        '705' => 'Math 2/700',
+        
+        // Geo building rooms
+        '801' => 'Geo/800',
+        '802' => 'Geo/800',
+        '803' => 'Geo/800',
+        '804' => 'Geo/800',
+        '805' => 'Geo/800',
+        
+        // Autoshop building rooms
+        '101' => 'Autoshop',
+
+        
+        // Athletic Facilities
+		
+        // The New Gym building rooms
+        '1301' => 'The New Gym/1300',
+        
+        // The Old Gym building rooms
+        '1302' => 'The Old Gym',
+        
+        // Field and Pool rooms removed as requested
+        
+        // The Locker Room
+        'LR01' => 'The Locker Room/1000',
+        'LR02' => 'The Locker Room/1000',
+        
+        // Dance
+        '301' => 'Dance',
+        '302' => 'Dance',
+        
+        // Campus Services
+        // District Office and Daycare removed as requested
+        
+        // Theater
+        '303' => 'Theater',
+        '304' => 'Theater',
+        
+        // Cafeteria
+        '401' => 'Cafeteria/400',
+        
+        // Portables
+        'P101' => 'Portables',
+        'P102' => 'Portables',
+        'P103' => 'Portables',
+		
+		// Web Design
+        '540' => 'Web Design',
+        
+        // Default to Math/Library if room can't be matched
+        'default' => 'Math/Library/600'
+    ];
+
+        // Create the user schedule array for JavaScript
+        for ($i = 1; $i <= 7; $i++) {
+            $periodClass = $schedule["p{$i}c"] ?? '';
+            $periodRoom = $schedule["p{$i}r"] ?? '';
+            
+            if (!empty($periodClass) && !empty($periodRoom)) {
+                // Determine which building this room is in
+                $building = $roomToBuilding[$periodRoom] ?? $roomToBuilding['default'];
+                
+                $userSchedule[] = [
+                    'period' => $i,
+                    'class' => $periodClass,
+                    'room' => $periodRoom,
+                    'building' => $building
+                ];
+            }
+        }
+    }
+}
+
+// Convert user schedule to JSON for JavaScript
+$userScheduleJSON = json_encode($userSchedule);
+
+include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Campus Navigator - Home</title>
+    <title>Campus Navigator - Home</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
@@ -93,10 +233,7 @@
 </head>
 <body>
     <div id="navigation">
-        <?php
-        session_start();
-        include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
-        ?>
+        <!-- Navigation is included above via PHP -->
     </div>
    
     <!-- Map -->
@@ -105,7 +242,7 @@
     <!-- Sidebar -->
     <div id="sidebar">
         <button id="sidebar-toggle" type="button">≡</button>
-        <h5 class="mb-3"> Campus Locations </h5>
+        <h5 class="mb-3">Campus Locations</h5>
         
          <!-- My Classes Category -->
         <div class="location-group">
@@ -113,7 +250,17 @@
                 My Classes
             </button>
             <div class="collapse location-list" id="myClasses">
-                <!-- Class buttons will be dynamically added here -->
+                <?php if (!isset($_SESSION['uid'])): ?>
+                <div class="alert alert-info">
+                    Please <a href="/user_pages/login.php">log in</a> to view your class schedule.
+                </div>
+                <?php elseif (empty($userSchedule)): ?>
+                <div class="alert alert-info">
+                    No classes found. <a href="/schedule.php">Add your schedule here</a>.
+                </div>
+                <?php endif; ?>
+                <!-- Will be populated by JavaScript -->
+                <div id="class-buttons-container"></div>
             </div>
         </div>
         
@@ -143,6 +290,9 @@
                 </button>
                 <button class="btn btn-outline-primary location-btn" data-lat="32.782639" data-lng="-116.986667">
                     Autoshop
+                </button>
+				<button class="btn btn-outline-success location-btn" data-lat="32.781138" data-lng="-116.986443">
+                    Web Design
                 </button>
             </div>
         </div>
@@ -211,6 +361,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
     
     <script>
+    // Get user schedule from PHP
+    const userSchedule = <?php echo $userScheduleJSON ?: '[]'; ?>;
+    
     document.addEventListener('DOMContentLoaded', function () {
         try {
             // Define map bounds
@@ -250,7 +403,8 @@
                 { name: "The Old Gym", lat: 32.781222, lng: -116.987083, type: "athletic" },
                 { name: "Dance", lat: 32.780667, lng: -116.987833, type: "athletic" },
                 { name: "Theater", lat: 32.780500, lng: -116.987250, type: "service" },
-                { name: "Cafeteria/400", lat: 32.781556, lng: -116.987417, type: "service" }
+                { name: "Cafeteria/400", lat: 32.781556, lng: -116.987417, type: "service" },
+				{ name: "Web Design", lat: 32.781138, lng: -116.986443 , type: "service" }
             ];
 
             // Create map markers
@@ -263,6 +417,9 @@
             let startPoint = null;
             let endPoint = null;
             let pathLine = null;
+            
+            // Track displayed markers
+            let displayedMarkers = [];
             
             // Define custom marker icons for start and end points
             const startIcon = L.icon({
@@ -424,27 +581,54 @@
                 }
             }
             
-            // Function to handle location button clicks
+            // Function to clear all displayed regular markers
+            function clearDisplayedMarkers() {
+                displayedMarkers.forEach(marker => {
+                    if (map.hasLayer(marker)) {
+                        map.removeLayer(marker);
+                    }
+                });
+                displayedMarkers = [];
+            }
+            
+            // Function to handle location button clicks - MODIFIED to improve location finding
             function handleLocationClick(locationName) {
-                const location = locationMarkers.find(loc => loc.name === locationName);
+                console.log("Handling click for:", locationName);
+                
+                // Clear all previously displayed markers first
+                clearDisplayedMarkers();
+                
+                // Try to find an exact match first
+                let location = locationMarkers.find(loc => loc.name === locationName);
+                
+                // If no exact match, try to find a partial match
+                if (!location) {
+                    // For buildings with numbers, try matching just the name part
+                    const buildingName = locationName.split('/')[0].trim();
+                    console.log("Trying to match building name:", buildingName);
+                    
+                    location = locationMarkers.find(loc => 
+                        loc.name.includes(buildingName) || 
+                        buildingName.includes(loc.name.split('/')[0].trim())
+                    );
+                }
                 
                 if (location) {
+                    console.log("Found location:", location);
                     // Pan to location
                     map.setView([location.lat, location.lng], 19);
                     
                     // Update selected location
                     updateSelectedLocation(location);
                     
-                    // Show the regular marker temporarily
-                    const marker = markers[locationName];
-                    marker.addTo(map).openPopup();
-                    
-                    // Remove the regular marker after a short delay
-                    setTimeout(() => {
-                        if (map.hasLayer(marker)) {
-                            map.removeLayer(marker);
-                        }
-                    }, 100);
+                    // Show the marker
+                    const marker = markers[location.name];
+                    if (marker) {
+                        marker.addTo(map).openPopup();
+                        displayedMarkers.push(marker); // Track this marker
+                    }
+                } else {
+                    console.warn(`Location not found: ${locationName}`);
                 }
             }
 
@@ -481,6 +665,9 @@
                     map.removeLayer(pathLine);
                 }
                 
+                // Remove all regular markers too
+                clearDisplayedMarkers();
+                
                 // Reset variables
                 startPoint = null;
                 endPoint = null;
@@ -503,13 +690,47 @@
                 });
             });
 
-            // Location buttons event listeners
-            document.querySelectorAll('.location-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const locationName = this.textContent.trim();
+            // Location buttons event listeners - adding event delegation
+            document.addEventListener('click', function(event) {
+                // Check if clicked element is a location button
+                if (event.target.classList.contains('location-btn')) {
+                    const locationName = event.target.textContent.trim();
                     handleLocationClick(locationName);
-                });
+                }
+                
+                // Check if clicked element is a class button
+                if (event.target.classList.contains('class-btn')) {
+                    const buildingName = event.target.getAttribute('data-building');
+                    if (buildingName) {
+                        handleLocationClick(buildingName);
+                    }
+                }
             });
+
+            // Add user's class buttons to the "My Classes" section - Completely revised approach
+            const classButtonsContainer = document.getElementById('class-buttons-container');
+            if (userSchedule && userSchedule.length > 0 && classButtonsContainer) {
+                // Clear any existing buttons
+                classButtonsContainer.innerHTML = '';
+                
+                // Create buttons for each class
+                userSchedule.forEach(item => {
+                    const button = document.createElement('button');
+                    button.className = 'btn btn-outline-warning class-btn';
+                    button.setAttribute('data-building', item.building);
+                    button.innerHTML = `Period ${item.period}: ${item.class} (Room ${item.room})`;
+                    classButtonsContainer.appendChild(button);
+                    
+                    // Direct event listener for each button to ensure it works
+                    button.onclick = function() {
+                        console.log("Class button clicked for building:", item.building);
+                        handleLocationClick(item.building);
+                    };
+                });
+                
+                // Log for debugging
+                console.log(`Added ${userSchedule.length} class buttons`);
+            }
 
             // Location dropdown event listener
             document.getElementById('location-select').addEventListener('change', function() {
@@ -521,39 +742,6 @@
                 
                 // Reset dropdown to default option after action
                 this.value = "";
-            });
-
-            // Class data from the profile page
-            const classSchedule = [
-                { period: 1, class: "English", room: "100", building: "English/1400" },
-                { period: 2, class: "Math", room: "200", building: "Art/Office/200" },
-                { period: 3, class: "Dance", room: "300", building: "Dance" },
-                { period: 4, class: "Theater", room: "400", building: "Theater" },
-                { period: 5, class: "Autoshop", room: "500", building: "Autoshop" },
-                { period: 6, class: "Bio", room: "600", building: "Bio/Science/1100" },
-                { period: 7, class: "Geo", room: "700", building: "Geo/800" }
-            ];
-            
-            // Find the My Classes div
-            const myClassesDiv = document.querySelector('#myClasses');
-            
-            // Add class buttons
-            classSchedule.forEach(item => {
-                // Find the building coordinates
-                const buildingInfo = locationMarkers.find(loc => loc.name === item.building);
-                
-                if (buildingInfo) {
-                    const button = document.createElement('button');
-                    button.className = 'btn btn-outline-warning location-btn';
-                    button.textContent = `Period ${item.period}: ${item.class} (Room ${item.room})`;
-                    
-                    // Add click event to navigate to the location
-                    button.addEventListener('click', function() {
-                        handleLocationClick(item.building);
-                    });
-                    
-                    myClassesDiv.appendChild(button);
-                }
             });
 
             // Original fetch locations code (for buildings, classrooms, etc.)
