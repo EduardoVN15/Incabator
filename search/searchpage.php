@@ -4,16 +4,12 @@ session_start();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Teacher Directory</title>
-  <link rel="stylesheet" href="/css2/styles.css">
-  <?php 
-        include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
-  ?>
+  <link rel="stylesheet" href="/css2/styles.css" />
+  <?php include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php'; ?>
   <style>
-    /* Additional Styling to Match CSS Theme */
-
     .search-container {
       display: flex;
       width: 100%;
@@ -70,7 +66,6 @@ session_start();
       padding: 1rem;
       border-radius: 12px;
       box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-      margin-bottom: 1rem;
       text-align: left;
     }
 
@@ -109,7 +104,6 @@ session_start();
       box-shadow: 0 0 0 3px rgba(31, 14, 88, 0.3);
     }
 
-    /* Subject grouping styles */
     .subject-group {
       margin-bottom: 2rem;
       border: 1px solid #e0e0e0;
@@ -128,24 +122,106 @@ session_start();
 
     .subject-content {
       padding: 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
     }
 
     .subject-content .teacher-card {
-      box-shadow: 0 3px 6px rgba(0,0,0,0.08);
       border-left: 3px solid #1F0E58;
     }
+	  /* Add these styles to your existing CSS */
 
-    .subject-content .teacher-card:last-child {
-      margin-bottom: 0;
-    }
+/* Add these styles to your existing CSS */
+
+/* Alphabetical view styling to match subject view */
+.letter-group {
+  margin-bottom: 3rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.letter-header {
+  background: linear-gradient(45deg, #1F0E58, #004EA9);
+  color: white;
+  padding: 0.75rem 1rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.letter-content {
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.letter-content .teacher-card {
+  border-left: 3px solid #1F0E58;
+  margin-bottom: 0.5rem;
+}
+
+/* Search results styling */
+.search-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+}
+
+.search-results .teacher-card {
+  border-left: 3px solid #1F0E58;
+}
+
+/* Enhanced teacher card styling for all views */
+.teacher-card {
+  background-color: #f9f9f9;
+  color: #333;
+  padding: 1.25rem;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  margin: 0.25rem;
+}
+
+.teacher-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Class information styling */
+.class-info {
+  margin-top: 0.75rem;
+  font-style: italic;
+  color: #555;
+}
+
+/* Additional spacing for subject groups to match letter groups */
+.subject-group {
+  margin-bottom: 3rem;
+}
+
+.subject-content {
+  padding: 1.5rem;
+  gap: 1.5rem;
+}
+
+/* Consistent spacing between sections */
+#teacherList > div {
+  margin-bottom: 2.5rem;
+}
   </style>
 </head>
+
 <body>
   <div class="container schedule-page">
     <h1>Teacher Directory</h1>
-    
+
     <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Search for teachers...">
+      <input type="text" id="searchInput" placeholder="Search for teachers..." />
       <button id="searchButton">Search</button>
     </div>
 
@@ -167,249 +243,144 @@ session_start();
     </div>
 
     <button id="clearButton" class="button">Clear All Filters</button>
-    
+
     <div id="teacherList"></div>
   </div>
 
   <script>
-    const teachers = [
-      { name: "Alley, Christina", room: "Room 855", subject: "Social Science" },
-      { name: "Alvarado, Marisa", room: "Room 1125", subject: "Biology/APES" },
-      { name: "Arellano, Kristopher", room: "Room 1130", subject: "Chemistry" },
-      { name: "Baer, Kevin", room: "Room 820", subject: "Math" },
-      { name: "Barela, Kaitlin", room: "Room 510", subject: "Sp Ed Mod/Sev" },
-      { name: "Bartell, Ross", room: "Room 1406", subject: "Learning Center" },
-      { name: "Beckhard, Kathryn", room: "Room 815", subject: "Math" },
-      { name: "Beckman, Tana", room: "Room 555", subject: "Social Science" },
-      { name: "Bell, Todd", room: "Room 1452", subject: "English" },
-      { name: "Benrud, Todd", room: "Room 540", subject: "Tech and Web Design" },
-      { name: "Boeger, Jodie", room: "Library", subject: "DC" },
-      { name: "Bradel, Kara", room: "Room 1416/1456", subject: "MH Transition" },
-      { name: "Bradley, Kevin", room: "Room 845", subject: "Social Science" },
-      { name: "Brinkerhoff, Dwight", room: "Auto", subject: "DC" },
-      { name: "Carlino, Kimberly", room: "Room 1454", subject: "English" },
-      { name: "Carpenter, Brian", room: "Room 775", subject: "Math" },
-      { name: "Chestnut, Katie", room: "Room P4", subject: "EL/ELA Teacher" },
-      { name: "Cooke, Jeremy", room: "Room P1/1310", subject: "Math/Guitar" },
-      { name: "Cox, Jennifer", room: "Room 1110", subject: "Science/CEIS" },
-      { name: "Di Carlo Wagner, Jesse", room: "Room 730", subject: "SLP" },
-      { name: "Earley, James", room: "PE", subject: "DC" },
-      { name: "Eaton, Jennifer", room: "Room 550", subject: "Math" },
-      { name: "Ecker, Amity", room: "Drama 370", subject: "Drama" },
-      { name: "Espley, Kristina", room: "Room 1451", subject: "" },
-      { name: "Fanning, Michele", room: "Room 1457", subject: "English" },
-      { name: "Flisher, Matt", room: "Room 750", subject: "Alg/DC" },
-      { name: "Freeland, Bryan", room: "Off-Site", subject: "Transition/Spec Ed" },
-      { name: "French, Aaron", room: "Room 750/715/810/780", subject: "Traveling/LH" },
-      { name: "Garrett, Amber", room: "Room 1408", subject: "English" },
-      { name: "Ginn, Donald", room: "Room 825", subject: "Soc Sci/GATE" },
-      { name: "Ginn, LeAnne", room: "Room 1466", subject: "English" },
-      { name: "Giovengo, Patrick", room: "Room 535", subject: "Comp Tech/Giovengo" },
-      { name: "Goodrich, Danny", room: "PE", subject: "" },
-      { name: "Goycoochea, Gabe", room: "Room 1105", subject: "Science" },
-      { name: "Hersch, Jeremy", room: "Room 200", subject: "Soc Sci/ASB" },
-      { name: "Heubach, Phlyn", room: "Room 720", subject: "Math" },
-      { name: "Hoeben, Trinity", room: "Room 755", subject: "Math" },
-      { name: "Hourigan, Melissa", room: "Room 1416", subject: "SpedEd" },
-      { name: "Hull, Melissa (Odom)", room: "PE", subject: "Weights" },
-      { name: "Ipapo-Glass, Caryn", room: "Room 300", subject: "Dance/REC/DC" },
-      { name: "Jacobs, Anna", room: "Room 1414", subject: "Spanish" },
-      { name: "Jensen, Laurie", room: "Room 1462", subject: "English" },
-      { name: "Jerabek, Alyssa", room: "Room P2/1130", subject: "SpEd" },
-      { name: "Jones, Sean", room: "Room 545", subject: "Social Science" },
-      { name: "Joyce, Mercedes", room: "Room 1411", subject: "Spanish" },
-      { name: "Jungman, Carolyn", room: "Room 225", subject: "Photo/Digital Arts" }
-    ];
+   const teachers = [
+  { name: "Alley, Christina", room: "Room 855", subject: "Social Science", class: "World History, US History" },
+  { name: "Alvarado, Marisa", room: "Room 1125", subject: "Science", class: "Biology, AP Environmental Science, Space and Earth Science" },
+  { name: "Arellano, Kristopher", room: "Room 1130", subject: "Science", class: "Chemistry"},
+  { name: "Baer, Kevin", room: "Room 820", subject: "Math" },
+  { name: "Barela, Kaitlin", room: "Room 510", subject: "Special Education Moderate/Severe" },
+  { name: "Bartell, Ross", room: "Room 1406", subject: "Learning Center" },
+  { name: "Beckhard, Kathryn", room: "Room 815", subject: "Math", class: "IM 1" },
+  { name: "Beckman, Tana", room: "Room 555", subject: "Social Science" },
+  { name: "Bell, Todd", room: "Room 1452", subject: "English", class: "Film Lit, AP English Literature" },
+  { name: "Benrud, Todd", room: "Room 540", subject: "Technology", class: "Web Development, Global IT, Personal Finance" },
+  { name: "Bradel, Kara", room: "Room 1416/1456", subject: "MH Transition" },
+  { name: "Bradley, Kevin", room: "Room 845", subject: "Social Science", class: "AP European History, AP Psychology, Geography, World History" },
+  { name: "Brinkerhoff, Dwight", room: "Auto", subject: "Auto Shop" },
+  { name: "Carlino, Kimberly", room: "Room 1454", subject: "English" },
+  { name: "Carpenter, Brian", room: "Room 775", subject: "Math" },
+  { name: "Chestnut, Katie", room: "Room P4", subject: "EL/ELA Teacher" },
+  { name: "Cooke, Jeremy", room: "Room P1", subject: "Math", class: "IM 3" },  
+  { name: "Cooke, Jeremy", room: "Room 1310", subject: "Guitar", class: "Beginning Guitar, Advanced/Intermediate Guitar" },
+  { name: "Cox, Jennifer", room: "Room 1110", subject: "Science" },
+  { name: "Di Carlo Wagner, Jesse", room: "Room 730", subject: "SLP" },
+  { name: "Earley, James", room: "Locker Room", subject: "Physical Education", class: "PE" },
+  { name: "Eaton, Jennifer", room: "Room 550", subject: "Math" },
+  { name: "Ecker, Amity", room: "Room 370", subject: "Theater Arts", class: "Beginning Theater, Intermediate/Advanced Theater, Technical Theater" },
+  { name: "Fanning, Michele", room: "Room 1457", subject: "English", class: "English 1-2C, English 7-8C" },
+  { name: "Flisher, Matt", room: "Room 750", subject: "Math", class: "IM3-PreCalculus, Financial Literacy, IM1, IM2, AP Calc" },
+  { name: "Garrett, Amber", room: "Room 1408", subject: "English", class: "Sophomore English" },
+  { name: "Ginn, Donald", room: "Room 825", subject: "Social Science", class: "AP United States History, US History" },
+  { name: "Ginn, LeAnne", room: "Room 1466", subject: "English", class: "English For Business, AP English Language, AP English Literature" },
+  { name: "Giovengo, Patrick", room: "Room 535", subject: "Technology", class: "AP Computer Science Principles, Technical Discoveries, Yearbook" },
+  { name: "Goodrich, Danny", room: "Locker Room", subject: "Physical Education", class: "PE" },
+  { name: "Goycoochea, Gabe", room: "Room 1105", subject: "Science", class: "Biology" },
+  { name: "Hersch, Jeremy", room: "Room 200", subject: "Social Science", class: "US History" },
+  { name: "Hersch, Jeremy", room: "Room 200", subject: "Associated Student Body", class: "ASB" },
+  { name: "Heubach, Phlyn", room: "Room 720", subject: "Math", class: "IM2, IM3" },
+  { name: "Hoeben, Trinity", room: "Room 755", subject: "Math", class: "IM3-Precalc, Financial Literacy" },
+  { name: "Hourigan, Melissa", room: "Room 1416", subject: "Special Education" },
+  { name: "Hull, Melissa (Odom)", room: "Locker Room", subject: "Weights" },
+  { name: "Ipapo-Glass, Caryn", room: "Room 300", subject: "Dance", class: "Beginning Dance, Intermediate/Advanced Dance" },
+  { name: "Jacobs, Anna", room: "Room 1414", subject: "Spanish" },
+  { name: "Jensen, Laurie", room: "Room 1462", subject: "English" },
+  { name: "Jerabek, Alyssa", room: "Room P2/1130", subject: "Special Education" },
+  { name: "Jones, Sean", room: "Room 545", subject: "Social Science" },
+  { name: "Joyce, Mercedes", room: "Room 1411", subject: "Spanish" },
+  { name: "Jungman, Carolyn", room: "Room 225", subject: "Art", class: "AME Pathway, Photography, Digital Arts, AP 2D Design" },
+  { name: "La-Berge, Stephanie", room: "Room 1120", subject: "Science", class: "Physiology, Excel Biology" },
+  { name: "Leathers, Laura", room: "Room 1463", subject: "English", class: "Child Development" },
+  { name: "Lee, Jeffrey", room: "Room 1135", subject: "Science", class: "Chemistry" },
+  { name: "Lee, Jeffrey", room: "Room 1140", subject: "Science", class: "Engineering" },
+  { name: "Lindsay, Peyton", room: "Room 530", subject: "Social Science" },
+  { name: "Long, Megan", room: "Room 805", subject: "Social Science", class: "Excel Geography, PRIDE" },
+  { name: "LoPrell, Kristen", room: "Room 745", subject: "Math", class: "IM1, AP Calculus AB" },
+  { name: "McLaughin, Marcy", room: "Room 760", subject: "Math", class: "IM3, AP Statistics" },
+  { name: "Miller, Lara", room: "Room 1403", subject: "English" },
+  { name: "Morrison, Grace", room: "Room 350", subject: "Choir", class: "Chamber Choir, Bella Voce Choir, Vox Forte, Beginning Choir" },
+  { name: "Ortiz, Sara", room: "Room 1458", subject: "English", class: "English 2H" }, 
+  { name: "Pagarigan, Gwenne", room: "Room 210", subject: "Art", class: "3D Design, Advanced 3D Design" },
+  { name: "Pantoja, Carmelina", room: "Room 1407", subject: "Spanish" }, 
+  { name: "Park, Hillary", room: "Room 1413", subject: "Spanish" }, 
+  { name: "Payne, Yvonne", room: "Room 1453", subject: "English" }, 
+  { name: "Phillips, Susan", room: "Room 230", subject: "Art", class: "Art 1/2, Art 3/4, AP Studio Art" }, 
+  { name: "Price, Tom", room: "Room 1150", subject: "Science", class: "Chemistry" }, 
+  { name: "Ray, Chris", room: "Room 901", subject: "Sports Medicine" }, 
+  { name: "Raymond, Jennifer", room: "Room 835", subject: "Geography" }, 
+  { name: "Ross, Micela", room: "Locker Room", subject: "Physical Education", class: "PE" }, 
+  { name: "Rutherford, Justin", room: "Room 865", subject: "Social Science", class: "World History" },
+  { name: "Schlaht, Shelby", room: "Room P3", subject: "English" },
+  { name: "Schultz, Heidi", room: "Room 1467", subject: "English" },
+  { name: "Sheahan, Donald", room: "Room 1145", subject: "Science", class: "Physics" },
+  { name: "Shrestha, Devon", room: "Room 810", subject: "Math", class: "IM2" },
+  { name: "Smith, Mike", room: "Room 860", subject: "Social Science", class: "Economics, Geography, Government" },
+  { name: "Stellin, Bill", room: "Room 1468", subject: "Special Education" },
+  { name: "Stellin, Elizabeth", room: "Room 1459", subject: "English" },
+  { name: "Steveson, Ethan", room: "Room 840", subject: "Social Science", class: "US History, AP Government" },
+  { name: "Talley, Robert", room: "Room 850", subject: "Social Science" },
+  { name: "Thren, Sydney", room: "Room 1464", subject: "English" },
+  { name: "Valoria, Daniel", room: "Room 715", subject: "Math" },
+  { name: "Velarde, Melissa", room: "Room 1412", subject: "Spanish" },
+  { name: "Velasquez, Max", room: "Room 610", subject: "NJROTC" },
+  { name: "Villegas, James", room: "Room 1310", subject: "Music", class: "Beginning Orchestra, Advanced Orchestra, Symphonic Band, Beginning Band, Jazz, Colorguard" },
+  { name: "West, Kara", room: "Room 1125", subject: "Science", class: "Biology" },
+  { name: "West, Kara", room: "P2", subject: "Science", class: "Biology" },
+  { name: "Wilkerson, Jermaine", room: "Room 620", subject: "NJROTC" },
+  { name: "Williams, Nicole", room: "Room 830", subject: "Social Science", class: "US History" },
+  { name: "Youngblood, David", room: "Room 1115", subject: "Science", class: "Earth Science, Chemistry" }
+];
+  function groupAndRenderTeachers() {
+      const grouped = {};
 
-    const teacherList = document.getElementById('teacherList');
-    const searchInput = document.getElementById('searchInput');
-    const searchButton = document.getElementById('searchButton');
-    const clearButton = document.getElementById('clearButton');
-    const subjectFilter = document.getElementById('subjectFilter');
-    const filterType = document.getElementById('filterType');
-    const sortAlphabetically = document.getElementById('sortAlphabetically');
-    const sortBySubject = document.getElementById('sortBySubject');
-
-    // Populate subject filter dropdown
-    const uniqueSubjects = [...new Set(teachers.map(t => t.subject).filter(s => s))].sort();
-    uniqueSubjects.forEach(subj => {
-      const option = document.createElement('option');
-      option.value = subj;
-      option.textContent = subj;
-      subjectFilter.appendChild(option);
-    });
-
-    function highlightMatch(text, query) {
-      if (!query || !text) return text || '';
-      const regex = new RegExp(`(${query})`, 'gi');
-      return text.replace(regex, '<span class="highlight">$1</span>');
-    }
-
-    function createTeacherCard(teacher, query = '') {
-      let { name, room, subject } = teacher;
-      if (query) {
-        name = highlightMatch(name, query);
-        room = highlightMatch(room, query);
-        subject = highlightMatch(subject, query);
-      }
-      
-      const div = document.createElement('div');
-      div.className = 'teacher-card';
-      div.innerHTML = `<strong>${name}</strong><br>${room}<br>${subject}`;
-      return div;
-    }
-
-    function displayTeachers(teachersToDisplay, query = '') {
-      teacherList.innerHTML = '';
-      
-      if (teachersToDisplay.length === 0) {
-        teacherList.innerHTML = '<div class="teacher-card">No teachers found matching your criteria.</div>';
-        return;
-      }
-      
-      // Check if we're in subject view
-      if (sortBySubject.classList.contains('active')) {
-        displayTeachersBySubject(teachersToDisplay, query);
-      } 
-      // Default alphabetical view
-      else {
-        teachersToDisplay.forEach(teacher => {
-          teacherList.appendChild(createTeacherCard(teacher, query));
-        });
-      }
-    }
-
-    function displayTeachersBySubject(teachersToDisplay, query = '') {
-      // Group teachers by subject
-      const subjectGroups = {};
-      
-      teachersToDisplay.forEach(teacher => {
-        const subject = teacher.subject || "Unspecified";
-        if (!subjectGroups[subject]) {
-          subjectGroups[subject] = [];
+      teachers.forEach(teacher => {
+        if (!grouped[teacher.subject]) {
+          grouped[teacher.subject] = { withClass: [], withoutClass: [] };
         }
-        subjectGroups[subject].push(teacher);
-      });
-      
-      // Create subject groups in DOM
-      Object.keys(subjectGroups).sort().forEach(subject => {
-        const subjectGroup = document.createElement('div');
-        subjectGroup.className = 'subject-group';
-        
-        const subjectHeader = document.createElement('div');
-        subjectHeader.className = 'subject-header';
-        subjectHeader.textContent = subject || "Unspecified Subject";
-        
-        const subjectContent = document.createElement('div');
-        subjectContent.className = 'subject-content';
-        
-        // Add teacher cards to this subject
-        subjectGroups[subject].sort((a, b) => a.name.localeCompare(b.name)).forEach(teacher => {
-          subjectContent.appendChild(createTeacherCard(teacher, query));
-        });
-        
-        subjectGroup.appendChild(subjectHeader);
-        subjectGroup.appendChild(subjectContent);
-        teacherList.appendChild(subjectGroup);
-      });
-    }
 
-    function filterTeachers() {
-      const query = searchInput.value.toLowerCase();
-      const subjectValue = subjectFilter.value;
-      const searchType = filterType.value;
-      
-      const filtered = teachers.filter(teacher => {
-        // Handle subject filter
-        const matchesSubject = !subjectValue || teacher.subject === subjectValue;
-        
-        // If no search query, just check subject
-        if (!query) return matchesSubject;
-        
-        // Otherwise apply search query based on filter type
-        let matchesSearch = false;
-        
-        switch (searchType) {
-          case 'name':
-            matchesSearch = teacher.name.toLowerCase().includes(query);
-            break;
-          case 'room':
-            matchesSearch = teacher.room.toLowerCase().includes(query);
-            break;
-          case 'subject':
-            matchesSearch = teacher.subject.toLowerCase().includes(query);
-            break;
-          case 'all':
-          default:
-            matchesSearch = teacher.name.toLowerCase().includes(query) ||
-                            teacher.room.toLowerCase().includes(query) ||
-                            teacher.subject.toLowerCase().includes(query);
+        if (teacher.class) {
+          grouped[teacher.subject].withClass.push(teacher);
+        } else {
+          grouped[teacher.subject].withoutClass.push(teacher);
         }
-        
-        return matchesSearch && matchesSubject;
       });
-      
-      return filtered;
+
+      const teacherList = document.getElementById('teacherList');
+      teacherList.innerHTML = "";
+
+      Object.keys(grouped).sort().forEach(subject => {
+        const group = grouped[subject];
+        const section = document.createElement('div');
+        section.className = 'subject-group';
+
+        const header = document.createElement('div');
+        header.className = 'subject-header';
+        header.textContent = subject;
+
+        const content = document.createElement('div');
+        content.className = 'subject-content';
+
+        [...group.withClass, ...group.withoutClass].forEach(teacher => {
+          const card = document.createElement('div');
+          card.className = 'teacher-card';
+          card.innerHTML = `<strong>${teacher.name}</strong><br>${teacher.room}<br>${teacher.class ?? ''}`;
+          content.appendChild(card);
+        });
+
+        section.appendChild(header);
+        section.appendChild(content);
+        teacherList.appendChild(section);
+      });
     }
 
-    function applyFiltersAndSort() {
-      let filtered = filterTeachers();
-      
-      // Default alphabetical sort if not in subject view
-      if (!sortBySubject.classList.contains('active')) {
-        filtered.sort((a, b) => a.name.localeCompare(b.name));
-      }
-      
-      displayTeachers(filtered, searchInput.value.toLowerCase());
-    }
-
-    // Event listeners
-    searchButton.addEventListener('click', applyFiltersAndSort);
-    
-    searchInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        applyFiltersAndSort();
-      }
+    window.addEventListener('DOMContentLoaded', () => {
+      groupAndRenderTeachers();
     });
-    
-    subjectFilter.addEventListener('change', applyFiltersAndSort);
-    filterType.addEventListener('change', applyFiltersAndSort);
-    
-    clearButton.addEventListener('click', () => {
-      searchInput.value = '';
-      subjectFilter.value = '';
-      filterType.value = 'all';
-      
-      // Reset to alphabetical sorting
-      setActiveSort(sortAlphabetically);
-      
-      // Display all teachers alphabetically
-      const sorted = [...teachers].sort((a, b) => a.name.localeCompare(b.name));
-      displayTeachers(sorted);
-    });
-
-    function setActiveSort(button) {
-      // Remove active class from all sort buttons
-      sortAlphabetically.classList.remove('active');
-      sortBySubject.classList.remove('active');
-      
-      // Add active class to clicked button
-      button.classList.add('active');
-    }
-
-    sortAlphabetically.addEventListener('click', () => {
-      setActiveSort(sortAlphabetically);
-      applyFiltersAndSort();
-    });
-
-    sortBySubject.addEventListener('click', () => {
-      setActiveSort(sortBySubject);
-      applyFiltersAndSort();
-    });
-
-    // Initial display - alphabetically sorted
-    const initialDisplay = [...teachers].sort((a, b) => a.name.localeCompare(b.name));
-    displayTeachers(initialDisplay);
   </script>
 </body>
+		<script src="/search/searchLogic.js" defer></script>
 </html>
