@@ -332,7 +332,8 @@ session_start();
   { name: "West, Kara", room: "P2", subject: "Science", class: "Biology" },
   { name: "Wilkerson, Jermaine", room: "Room 620", subject: "NJROTC" },
   { name: "Williams, Nicole", room: "Room 830", subject: "Social Science", class: "US History" },
-  { name: "Youngblood, David", room: "Room 1115", subject: "Science", class: "Earth Science, Chemistry" }
+  { name: "Youngblood, David", room: "Room 1115", subject: "Science", class: "Earth Science, Chemistry" },
+  { name: "Rivera, M", room: "Room 1461", subject: "English", class: "Study Skills" },
 ];
   function groupAndRenderTeachers() {
       const grouped = {};
