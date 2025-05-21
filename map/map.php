@@ -24,89 +24,161 @@ if (isset($_SESSION['uid'])) {
 
     if ($schedule) {
     // Define a mapping of rooms to buildings
+    // Define a mapping of rooms to buildings
     $roomToBuilding = [
-        // English building rooms
+        // English building rooms (1400 block)
         '1401' => 'English/1400',
         '1402' => 'English/1400',
         '1403' => 'English/1400',
         '1404' => 'English/1400',
         '1405' => 'English/1400',
         '1406' => 'English/1400',
+        '1407' => 'English/1400', // Spanish
+        '1408' => 'English/1400',
+        '1409' => 'English/1400', // Special Ed/Mental Health
+        '1411' => 'English/1400', // Spanish
+        '1412' => 'English/1400', // Spanish
+        '1413' => 'English/1400', // Spanish
+        '1414' => 'English/1400', // Spanish
+        '1416' => 'English/1400', // Special Ed
+        '1417' => 'English/1400', // Mental Health
+        '1419' => 'English/1400', // Special Ed/Transition
+        '1451' => 'English/1400',
+        '1452' => 'English/1400',
+        '1453' => 'English/1400',
+        '1454' => 'English/1400',
+        '1455' => 'English/1400', // ERHMS Therapist
+        '1456' => 'English/1400', // Special Ed
+        '1457' => 'English/1400',
+        '1458' => 'English/1400',
+        '1459' => 'English/1400',
+        '1461' => 'English/1400', // Special Ed
+        '1462' => 'English/1400',
+        '1463' => 'English/1400',
+        '1464' => 'English/1400',
+        '1466' => 'English/1400',
+        '1467' => 'English/1400',
+        '1468' => 'English/1400', // Special Ed
+        '1469' => 'English/1400', // Special Ed
         
-        // Art/Office building rooms
+        // Art/Office building rooms (200 block)
+        '200' => 'Art/Office/200', // Social Science/ASB
         '201' => 'Art/Office/200',
         '202' => 'Art/Office/200',
         '203' => 'Art/Office/200',
         '204' => 'Art/Office/200',
-        '205' => 'Art/Office/200',
+        '205' => 'Art/Office/200', // Metals
+        '210' => 'Art/Office/200', // Art
+        '220' => 'Art/Office/200', // Mental Health/Severely Handicapped
+        '225' => 'Art/Office/200', // Photo/Digital Arts
+        '230' => 'Art/Office/200', // Art
         
-        // Bio/Science building rooms
+        // Bio/Science building rooms (1100 block)
         '1101' => 'Bio/Science/1100',
         '1102' => 'Bio/Science/1100',
         '1103' => 'Bio/Science/1100',
         '1104' => 'Bio/Science/1100',
-        '1105' => 'Bio/Science/1100',
+        '1105' => 'Bio/Science/1100', // Science
+        '1110' => 'Bio/Science/1100', // Science
+        '1115' => 'Bio/Science/1100', // Science
+        '1120' => 'Bio/Science/1100', // Science
+        '1125' => 'Bio/Science/1100', // Biology/APES
+        '1130' => 'Bio/Science/1100', // Chemistry/Special Ed
+        '1135' => 'Bio/Science/1100', // Chemistry
+        '1140' => 'Bio/Science/1100', // PLTW-Engineering
+        '1145' => 'Bio/Science/1100', // Physics
+        '1150' => 'Bio/Science/1100', // Chemistry
         
-        // Math/Library building rooms
+        // Math/Library building rooms (600 block)
+        '550' => 'Math/Library/600', // Math/Special Ed
+        '555' => 'Math/Library/600', // Social Science
+        '560' => 'Math/Library/600', // Speech Language
         '601' => 'Math/Library/600',
         '602' => 'Math/Library/600',
         '603' => 'Math/Library/600',
         '604' => 'Math/Library/600',
         '605' => 'Math/Library/600',
+        '610' => 'Math/Library/600', // NJROTC
+        '620' => 'Math/Library/600', // NJROTC
         
-        // Math 2 building rooms
+        // Math 2 building rooms (700 block)
         '701' => 'Math 2/700',
         '702' => 'Math 2/700',
         '703' => 'Math 2/700',
         '704' => 'Math 2/700',
         '705' => 'Math 2/700',
+        '715' => 'Math 2/700', // Math
+        '720' => 'Math 2/700', // Math
+        '730' => 'Math 2/700', // Speech Language Pathologist
+        '745' => 'Math 2/700', // Math
+        '750' => 'Math 2/700', // Math/Algebra
+        '755' => 'Math 2/700', // Math
+        '760' => 'Math 2/700', // Math
+        '775' => 'Math 2/700', // Math
+        '780' => 'Math 2/700', // Math
         
-        // Geo building rooms
-        '801' => 'Geo/800',
-        '802' => 'Geo/800',
-        '803' => 'Geo/800',
-        '804' => 'Geo/800',
-        '805' => 'Geo/800',
+        // Geo building rooms (800 block)
+        '805' => 'Geo/800', // Social Science/Math/Athletic Director
+        '810' => 'Geo/800', // Math
+        '815' => 'Geo/800', // Math
+        '820' => 'Geo/800', // Math
+        '825' => 'Geo/800', // Social Science/GATE
+        '830' => 'Geo/800', // Social Science
+        '835' => 'Geo/800', // Geography
+        '840' => 'Geo/800', // Social Science
+        '845' => 'Geo/800', // Social Science
+        '850' => 'Geo/800', // Social Science
+        '855' => 'Geo/800', // Social Science
+        '860' => 'Geo/800', // Social Science
+        '865' => 'Geo/800', // Social Science
+        
+        // Social Sciences/Technology rooms (500 block)
+        '510' => 'Geo/800', // Special Ed Mod/Sev
+        '530' => 'Geo/800', // Social Science
+        '535' => 'Geo/800', // Comp Tech
+        '540' => 'Web Design', // Tech and Web Design
+        '545' => 'Geo/800', // Social Science
         
         // Autoshop building rooms
-        '101' => 'Autoshop',
-
+        '143' => 'Autoshop',
         
         // Athletic Facilities
-		
         // The New Gym building rooms
-        '1301' => 'The New Gym/1300',
+        '1300' => 'The New Gym/1300',
         
         // The Old Gym building rooms
-        '1302' => 'The Old Gym',
-        
-        // Field and Pool rooms removed as requested
+        '1301' => 'The Old Gym',
         
         // The Locker Room
         'LR01' => 'The Locker Room/1000',
-        'LR02' => 'The Locker Room/1000',
         
         // Dance
-        '301' => 'Dance',
-        '302' => 'Dance',
+        '300' => 'Dance',
         
         // Campus Services
-        // District Office and Daycare removed as requested
-        
         // Theater
-        '303' => 'Theater',
-        '304' => 'Theater',
+        '320' => 'Theater',
         
         // Cafeteria
         '401' => 'Cafeteria/400',
         
         // Portables
+        'P1' => 'Portables', // Math/Guitar Band
+        'P2' => 'Portables', // Science/Special Ed
+        'P3' => 'Portables', // English
+        'P4' => 'Portables', // EL/ELA Teacher
         'P101' => 'Portables',
         'P102' => 'Portables',
         'P103' => 'Portables',
-		
-		// Web Design
-        '540' => 'Web Design',
+        
+        // Special Program Rooms
+        '901' => 'Geo/800', // ROP Sports Med
+        
+        // Performing Arts
+        '350' => 'Theater', // Choir
+        '360' => 'Digital Arts',
+        '370' => 'Black Box', // Drama
+        '1310' => 'Band', // Music/Band/Guitar
         
         // Default to Math/Library if room can't be matched
         'default' => 'Math/Library/600'
@@ -291,8 +363,17 @@ include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
                 <button class="btn btn-outline-primary location-btn" data-lat="32.782639" data-lng="-116.986667">
                     Autoshop
                 </button>
-				<button class="btn btn-outline-success location-btn" data-lat="32.781138" data-lng="-116.986443">
+				<button class="btn btn-outline-primary location-btn" data-lat="32.781138" data-lng="-116.986443">
                     Web Design
+                </button>
+				<button class="btn btn-outline-primary location-btn" data-lat="32.782829630723114" data-lng="-116.98712183732681">
+                    Band
+                </button>
+					<button class="btn btn-outline-primary location-btn" data-lat="32.78086969510307" data-lng="-116.98742442765177">
+                    Digital Arts
+                </button>
+				<button class="btn btn-outline-primary location-btn" data-lat="32.78082279412269" data-lng="-116.987249630877">
+                    Black Box
                 </button>
             </div>
         </div>
@@ -330,19 +411,19 @@ include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
                 Campus Services
             </button>
             <div class="collapse location-list" id="campusServices">
-                <button class="btn btn-outline-info location-btn" data-lat="32.780806" data-lng="-116.987139">
+                <button class="btn btn-outline-primary location-btn" data-lat="32.780806" data-lng="-116.987139">
                     District Office
                 </button>
-                <button class="btn btn-outline-info location-btn" data-lat="32.780806" data-lng="-116.987139">
+                <button class="btn btn-outline-primary location-btn" data-lat="32.780806" data-lng="-116.987139">
                     Daycare/900
                 </button>
-                <button class="btn btn-outline-info location-btn" data-lat="32.780500" data-lng="-116.987250">
+                <button class="btn btn-outline-primary location-btn" data-lat="32.780500" data-lng="-116.987250">
                     Theater
                 </button>
-                <button class="btn btn-outline-info location-btn" data-lat="32.781556" data-lng="-116.987417">
+                <button class="btn btn-outline-primary location-btn" data-lat="32.781556" data-lng="-116.987417">
                     Cafeteria/400
                 </button>
-                <button class="btn btn-outline-info location-btn" data-lat="32.782889" data-lng="-116.986750">
+                <button class="btn btn-outline-primary location-btn" data-lat="32.782889" data-lng="-116.986750">
                     Portables
                 </button>
             </div>
@@ -404,7 +485,10 @@ include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
                 { name: "Dance", lat: 32.780667, lng: -116.987833, type: "athletic" },
                 { name: "Theater", lat: 32.780500, lng: -116.987250, type: "service" },
                 { name: "Cafeteria/400", lat: 32.781556, lng: -116.987417, type: "service" },
-				{ name: "Web Design", lat: 32.781138, lng: -116.986443 , type: "service" }
+				{ name: "Web Design", lat: 32.781138, lng: -116.986443 , type: "academic" },
+				{ name: "Band", lat: 32.782829630723114, lng: -116.98712183732681, type: "academic" },
+				{ name: "Digital Arts", lat: 32.78086969510307, lng: -116.98742442765177, type: "academic" },
+				{ name: "Black Box", lat: 32.78082279412269, lng: -116.987249630877, type: "academic" }
             ];
 
             // Create map markers
