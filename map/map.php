@@ -428,6 +428,30 @@ include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
                 </button>
             </div>
         </div>
+		
+		<!-- Exits Category -->
+        <div class="location-group">
+            <button class="btn btn-success category-button" type="button" data-bs-toggle="collapse" data-bs-target="#exitServices" aria-expanded="false" aria-controls="exitServices" style="background-color: #0D21A1; color: white;">
+                Exits 
+            </button>
+            <div class="collapse location-list" id="exitServices">
+                <button class="btn btn-info category-button" data-lat="32.780586" data-lng="-116.988004">
+                    Main Exit 
+                </button>
+                <button class="btn btn-info category-button" data-lat=" 32.782968" data-lng="-116.987067">
+                    Back Exit
+                </button>
+				<button class="btn btn-info category-button" data-lat="32.782113" data-lng="-116.986017">
+                    Back Exit 2
+                </button>
+                <button class="btn btn-info category-button" data-lat="32.781502" data-lng="-116.989140">
+                    Feild Exit 
+                </button>
+                <button class="btn btn-info category-button" data-lat="32.781600" data-lng=" -116.984848">
+                    Emergency Exit
+                </button>
+            </div>
+        </div>
         
         <!-- Location dropdown -->
         <div class="mt-4">
@@ -445,6 +469,68 @@ include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
     // Get user schedule from PHP
     const userSchedule = <?php echo $userScheduleJSON ?: '[]'; ?>;
     
+	const periodTimes = {
+    1: { start: "08:30", end: "09:25" },
+    2: { start: "09:30", end: "10:25" },
+    3: { start: "10:30", end: "11:25" },
+    4: { start: "11:30", end: "12:25" },
+    5: { start: "12:30", end: "13:25" },
+    6: { start: "13:30", end: "14:25" },
+    7: { start: "14:30", end: "15:25" }
+};
+
+	function getCurrentPeriod() {
+    const now = new Date();
+    const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+    for (const [period, time] of Object.entries(periodTimes)) {
+        if (currentTime >= time.start && currentTime <= time.end) {
+            return parseInt(period);
+        }
+    }
+    return null;
+}
+
+		function showCurrentClassBanner(classObj) {
+    const banner = document.createElement('div');
+    banner.className = 'alert alert-warning text-center';
+    banner.style.zIndex = '1050';
+    banner.style.position = 'fixed';
+    banner.style.top = '0';
+    banner.style.left = '0';
+    banner.style.right = '0';
+
+    banner.innerHTML = classObj
+        ? `You are currently in: <strong>Period ${classObj.period}: ${classObj.class}</strong> (Room ${classObj.room})`
+        : `You're not currently in a class period.`;
+
+    document.body.prepend(banner);
+}
+
+	function highlightCurrentClass() {
+    const currentPeriod = getCurrentPeriod();
+    console.log("🕒 Current Time:", new Date().toLocaleTimeString());
+    console.log("📚 Detected period:", currentPeriod);
+
+    if (!currentPeriod) {
+        showCurrentClassBanner(null);
+        return;
+    }
+
+   const currentClass = userSchedule.find(c => c.period === currentPeriod);
+    console.log("📍 Current class object:", currentClass);
+		
+		
+        if (currentClass) {
+        handleLocationClick(currentClass.building);
+        showCurrentClassBanner(currentClass);
+    } else {
+        showCurrentClassBanner(null);
+    }
+}
+
+		
+	
     document.addEventListener('DOMContentLoaded', function () {
         try {
             // Define map bounds
@@ -488,7 +574,12 @@ include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
 				{ name: "Web Design", lat: 32.781138, lng: -116.986443 , type: "academic" },
 				{ name: "Band", lat: 32.782829630723114, lng: -116.98712183732681, type: "academic" },
 				{ name: "Digital Arts", lat: 32.78086969510307, lng: -116.98742442765177, type: "academic" },
-				{ name: "Black Box", lat: 32.78082279412269, lng: -116.987249630877, type: "academic" }
+				{ name: "Black Box", lat: 32.78082279412269, lng: -116.987249630877, type: "academic" },
+				{ name: "Main Exit", lat: 32.780586, lng: -116.988004, type: "academic" },
+				{ name: "Back Exit", lat: 32.782968, lng: -116.987067, type: "academic" },
+				{ name: "Back Exit 2", lat: 32.782113, lng: -116.986017, type: "academic" },
+				{ name: "Feild Exit", lat: 32.781502, lng: -116.989140, type: "academic" },
+				{ name: "Emergency Exit", lat: 32.781600, lng:-116.984848, type: "academic" },
             ];
 
             // Create map markers
@@ -856,9 +947,13 @@ include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
                     });
                 })
                 .catch(error => console.error('Error fetching locations:', error));
+			highlightCurrentClass();
 
             console.log('Map initialized successfully with navigation features');
-        } catch (error) {
+			
+			
+        } 
+		catch (error) {
             console.error('Error initializing map:', error);
         }
     });
