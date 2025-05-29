@@ -407,23 +407,23 @@ include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
 
         <!-- Campus Services Category -->
         <div class="location-group">
-            <button class="btn btn-info category-button" type="button" data-bs-toggle="collapse" data-bs-target="#campusServices" aria-expanded="false" aria-controls="campusServices" style="background-color: #0D21A1; color: white;">
+            <button class="btn btn-success category-button" type="button" data-bs-toggle="collapse" data-bs-target="#campusServices" aria-expanded="false" aria-controls="campusServices" style="background-color: #0D21A1; color: white;">
                 Campus Services
             </button>
             <div class="collapse location-list" id="campusServices">
-                <button class="btn btn-outline-primary location-btn" data-lat="32.780806" data-lng="-116.987139">
+                <button class="btn btn-success category-button" data-lat="32.780806" data-lng="-116.987139">
                     District Office
                 </button>
-                <button class="btn btn-outline-primary location-btn" data-lat="32.780806" data-lng="-116.987139">
+                <button class="btn btn-success category-button" data-lat="32.780806" data-lng="-116.987139">
                     Daycare/900
                 </button>
-                <button class="btn btn-outline-primary location-btn" data-lat="32.780500" data-lng="-116.987250">
+                <button class="btn btn-success category-button" data-lat="32.780500" data-lng="-116.987250">
                     Theater
                 </button>
-                <button class="btn btn-outline-primary location-btn" data-lat="32.781556" data-lng="-116.987417">
+                <button class="btn btn-success category-button" data-lat="32.781556" data-lng="-116.987417">
                     Cafeteria/400
                 </button>
-                <button class="btn btn-outline-primary location-btn" data-lat="32.782889" data-lng="-116.986750">
+                <button class="btn btn-success category-button" data-lat="32.782889" data-lng="-116.986750">
                     Portables
                 </button>
             </div>
@@ -435,19 +435,19 @@ include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
                 Exits 
             </button>
             <div class="collapse location-list" id="exitServices">
-                <button class="btn btn-info category-button" data-lat="32.780586" data-lng="-116.988004">
+                <button class="btn btn-outline-success location-btn" data-lat="32.780586" data-lng="-116.988004">
                     Main Exit 
                 </button>
-                <button class="btn btn-info category-button" data-lat=" 32.782968" data-lng="-116.987067">
+                <button class="btn btn-outline-success location-btn" data-lat=" 32.782968" data-lng="-116.987067">
                     Back Exit
                 </button>
-				<button class="btn btn-info category-button" data-lat="32.782113" data-lng="-116.986017">
+				<button class="btn btn-outline-success location-btn" data-lat="32.782113" data-lng="-116.986017">
                     Back Exit 2
                 </button>
-                <button class="btn btn-info category-button" data-lat="32.781502" data-lng="-116.989140">
+                <button class="btn btn-outline-success location-btn" data-lat="32.781502" data-lng="-116.989140">
                     Feild Exit 
                 </button>
-                <button class="btn btn-info category-button" data-lat="32.781600" data-lng=" -116.984848">
+                <button class="btn btn-outline-success location-btn" data-lat="32.781600" data-lng=" -116.984848">
                     Emergency Exit
                 </button>
             </div>
@@ -468,7 +468,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
     <script>
     // Get user schedule from PHP
     const userSchedule = <?php echo $userScheduleJSON ?: '[]'; ?>;
-    
+    console.log("📋 Loaded userSchedule:", userSchedule);
+	
 	const periodTimes = {
     1: { start: "08:30", end: "09:25" },
     2: { start: "09:30", end: "10:25" },
@@ -496,7 +497,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
     banner.className = 'alert alert-warning text-center';
     banner.style.zIndex = '1050';
     banner.style.position = 'fixed';
-    banner.style.top = '0';
+const navHeight = document.getElementById('navigation')?.offsetHeight || 60;
+banner.style.top = `${navHeight}px`;
     banner.style.left = '0';
     banner.style.right = '0';
 
@@ -517,7 +519,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
         return;
     }
 
-   const currentClass = userSchedule.find(c => c.period === currentPeriod);
+  const currentClass = userSchedule.find(c => parseInt(c.period) === currentPeriod);
     console.log("📍 Current class object:", currentClass);
 		
 		
@@ -947,7 +949,11 @@ include $_SERVER['DOCUMENT_ROOT'] . '/access/nav.php';
                     });
                 })
                 .catch(error => console.error('Error fetching locations:', error));
-			highlightCurrentClass();
+		// Call once initially
+highlightCurrentClass();
+
+// Then repeat every minute
+setInterval(highlightCurrentClass, 60000);
 
             console.log('Map initialized successfully with navigation features');
 			
